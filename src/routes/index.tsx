@@ -330,18 +330,24 @@ function Landing() {
               >
                 <MapPin className="h-[16px] w-[16px]" /> Como Chegar
               </a>
+
+              <a
+                href="#stats"
+                aria-label="Ver mais"
+                className="reveal mt-3 inline-flex flex-col items-center gap-1 text-white/80 transition-colors hover:text-gold md:mt-4"
+                style={{ transitionDelay: "360ms" }}
+              >
+                <span className="text-[9px] font-medium uppercase tracking-[0.32em] md:text-[10px]">Ver mais</span>
+                <ChevronDown className="scroll-arrow h-4 w-4 text-gold" strokeWidth={1.4} />
+              </a>
             </div>
           </div>
         </div>
 
-        <div className="absolute inset-x-0 bottom-6 z-10 hidden flex-col items-center gap-1.5 text-white/80 md:flex">
-          <span className="eyebrow text-white/70">Descubra</span>
-          <ChevronDown className="scroll-arrow h-4 w-4 text-gold" />
-        </div>
       </section>
 
       {/* Stats */}
-      <section className="relative bg-gradient-to-b from-bege/30 via-background to-background">
+      <section id="stats" className="relative bg-gradient-to-b from-bege/30 via-background to-background">
         <div className="mx-auto grid max-w-5xl grid-cols-2 gap-3 px-5 py-10 sm:gap-5 md:gap-6 md:px-10 md:py-20">
           {[
             { icon: <Sparkles className="h-5 w-5 text-gold" strokeWidth={1.3} />, value: 300, suffix: "+", title: "Clientes transformadas", desc: "Confiança construída ao longo dos anos." },
@@ -369,7 +375,7 @@ function Landing() {
       </section>
 
       {/* Sobre */}
-      <section id="sobre" className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-32">
+      <section id="sobre" className="mx-auto max-w-7xl px-5 py-12 md:px-10 md:py-20">
         <div className="grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-20 md:items-center">
           <div className="reveal order-2 md:order-1">
             <div className="group relative overflow-hidden rounded-[32px] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)]">
@@ -405,7 +411,7 @@ function Landing() {
       </section>
 
       {/* Serviços */}
-      <section id="servicos" className="bg-bege/30 py-20 md:py-28">
+      <section id="servicos" className="bg-bege/30 py-12 md:py-20">
         <div className="mx-auto max-w-7xl px-5 md:px-10">
           <div className="reveal mx-auto max-w-2xl text-center">
             <span className="eyebrow"><span className="gold-line mr-3" />Serviços<span className="gold-line ml-3" /></span>
