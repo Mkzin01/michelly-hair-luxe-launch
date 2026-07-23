@@ -179,8 +179,11 @@ function Landing() {
 
             {/* Blur panel — bounded to the text column, never reaching the model */}
             <div
-              className="reveal mt-6 w-full rounded-sm bg-ink/85 px-5 py-6 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.6)] backdrop-blur-xl md:bg-black/35 md:shadow-none md:px-7 md:py-8"
-              style={{ transitionDelay: "120ms" }}
+              className="reveal mt-6 w-full rounded-sm px-5 py-6 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.55)] backdrop-blur-xl md:px-7 md:py-8"
+              style={{
+                transitionDelay: "120ms",
+                backgroundColor: "rgba(20, 18, 16, 0.82)",
+              }}
             >
               <h1 className="font-serif text-[2.5rem] leading-[1.02] text-white sm:text-5xl md:text-[3.4rem] lg:text-6xl">
                 Transformando cabelos,<br />
