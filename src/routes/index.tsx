@@ -399,30 +399,44 @@ function Landing() {
             </p>
           </div>
 
-          <div className="mt-10 flex flex-col gap-8 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-            {services.map((s, i) => (
-              <article
-                key={s.name}
-                className="reveal group relative w-full overflow-hidden rounded-3xl bg-card shadow-[0_10px_30px_-22px_rgba(0,0,0,0.2)] transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.28)]"
-                style={{ transitionDelay: `${i * 80}ms` }}
-              >
-                <div className="overflow-hidden rounded-t-3xl bg-bege/40">
-                  <img
-                    src={s.img}
-                    alt={s.name}
-                    loading="lazy"
-                    className="w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
-                    style={{ aspectRatio: "4 / 3" }}
-                  />
-                </div>
-                <div className="px-6 py-7 text-center sm:px-6 sm:py-5 sm:text-left">
-                  <h3 className="font-serif text-[1.5rem] tracking-tight text-ink sm:text-[1.3rem]">{s.name}</h3>
-                  <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground sm:mt-1.5 sm:text-[13.5px]">{s.desc}</p>
-                  <div className="mx-auto mt-4 h-px w-16 bg-gold/60 transition-all duration-500 group-hover:w-24 sm:mx-0 sm:mt-3 sm:w-8" />
-                </div>
-              </article>
-            ))}
+          <div className="mt-8 flex flex-col gap-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+            {services.map((s, i) => {
+              const hideOnMobile = i >= 3 && !showAllServices;
+              return (
+                <article
+                  key={s.name}
+                  className={`reveal group relative w-full overflow-hidden rounded-3xl bg-card shadow-[0_10px_30px_-22px_rgba(0,0,0,0.2)] transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.28)] ${hideOnMobile ? "hidden sm:block" : ""}`}
+                  style={{ transitionDelay: `${i * 80}ms` }}
+                >
+                  <div className="overflow-hidden rounded-t-3xl bg-bege/40">
+                    <img
+                      src={s.img}
+                      alt={s.name}
+                      loading="lazy"
+                      className="w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04] h-[240px] sm:h-auto"
+                      style={{ objectPosition: "center top" }}
+                    />
+                  </div>
+                  <div className="px-5 py-4 text-center sm:px-6 sm:py-5 sm:text-left">
+                    <h3 className="font-serif text-[1.15rem] tracking-tight text-ink sm:text-[1.3rem]">{s.name}</h3>
+                    <p className="mt-1 line-clamp-2 text-[13px] leading-snug text-muted-foreground sm:mt-1.5 sm:text-[13.5px]">{s.desc}</p>
+                    <div className="mx-auto mt-3 h-px w-12 bg-gold/60 transition-all duration-500 group-hover:w-20 sm:mx-0 sm:mt-3 sm:w-8" />
+                  </div>
+                </article>
+              );
+            })}
           </div>
+
+          {!showAllServices && (
+            <div className="mt-8 flex justify-center sm:hidden">
+              <button
+                onClick={() => setShowAllServices(true)}
+                className="inline-flex items-center gap-2 border-b border-gold pb-1 text-[11px] font-medium uppercase tracking-[0.3em] text-ink transition-opacity hover:opacity-70"
+              >
+                Ver todos os serviços <span aria-hidden>→</span>
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
