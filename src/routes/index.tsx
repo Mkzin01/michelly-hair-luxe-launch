@@ -140,31 +140,91 @@ function AnimatedNumber({ value, suffix = "", duration = 1600 }: { value: number
   return <span ref={ref}>{display}{suffix}</span>;
 }
 
-function BeforeAfterPair({ before, after, title }: { before: string; after: string; title: string }) {
+function Lightbox({
+  items,
+  index,
+  onClose,
+  onIndex,
+}: {
+  items: PortfolioItem[];
+  index: number;
+  onClose: () => void;
+  onIndex: (i: number) => void;
+}) {
+  const touchStart = useRef<number | null>(null);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight") onIndex((index + 1) % items.length);
+      if (e.key === "ArrowLeft") onIndex((index - 1 + items.length) % items.length);
+    };
+    window.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [index, items.length, onClose, onIndex]);
+
+  const current = items[index];
+  const go = (dir: 1 | -1) => onIndex((index + dir + items.length) % items.length);
+
   return (
-    <div className="reveal">
-      <p className="mb-5 text-center font-serif text-lg italic text-muted-foreground md:text-xl">— {title} —</p>
-      <div className="mx-auto grid max-w-4xl grid-cols-2 gap-3 md:gap-6">
-        {[
-          { src: before, label: "Antes", tone: "bg-black/70 text-white" },
-          { src: after, label: "Depois", tone: "bg-gold text-ink" },
-        ].map((it) => (
-          <figure key={it.label} className="group relative overflow-hidden rounded-2xl shadow-[0_16px_50px_-30px_rgba(0,0,0,0.35)] md:rounded-3xl">
-            <img
-              src={it.src}
-              alt={`${it.label} — ${title}`}
-              className="w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.03]"
-              style={{ aspectRatio: "3 / 4" }}
-              draggable={false}
-            />
-            <figcaption className="pointer-events-none absolute left-3 top-3 md:left-4 md:top-4">
-              <span className={`rounded-full px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.28em] backdrop-blur md:px-3 md:text-[10px] ${it.tone}`}>
-                {it.label}
-              </span>
-            </figcaption>
-          </figure>
-        ))}
-      </div>
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-md animate-[fadeIn_.25s_ease-out]"
+      style={{ animation: "fadeIn .25s ease-out" }}
+      onClick={onClose}
+    >
+      <button
+        aria-label="Fechar"
+        onClick={(e) => { e.stopPropagation(); onClose(); }}
+        className="absolute right-4 top-4 z-10 grid h-11 w-11 place-items-center rounded-full border border-white/25 bg-white/5 text-white backdrop-blur-md transition-all hover:bg-white/15 md:right-8 md:top-8"
+      >
+        <X className="h-4 w-4" />
+      </button>
+      <button
+        aria-label="Anterior"
+        onClick={(e) => { e.stopPropagation(); go(-1); }}
+        className="absolute left-3 z-10 hidden h-12 w-12 place-items-center rounded-full border border-white/25 bg-white/5 text-white backdrop-blur-md transition-all hover:bg-white/15 md:grid md:left-8"
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </button>
+      <button
+        aria-label="Próximo"
+        onClick={(e) => { e.stopPropagation(); go(1); }}
+        className="absolute right-3 z-10 hidden h-12 w-12 place-items-center rounded-full border border-white/25 bg-white/5 text-white backdrop-blur-md transition-all hover:bg-white/15 md:grid md:right-8"
+      >
+        <ChevronRight className="h-5 w-5" />
+      </button>
+
+      <figure
+        className="relative flex h-full w-full max-w-6xl flex-col items-center justify-center px-4 md:px-16"
+        onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => { touchStart.current = e.touches[0].clientX; }}
+        onTouchEnd={(e) => {
+          if (touchStart.current == null) return;
+          const dx = e.changedTouches[0].clientX - touchStart.current;
+          if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+          touchStart.current = null;
+        }}
+      >
+        <img
+          key={current.src}
+          src={current.src}
+          alt={current.title}
+          className="max-h-[82vh] w-auto max-w-full rounded-2xl object-contain shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)] animate-[fadeIn_.35s_ease-out]"
+          draggable={false}
+        />
+        <figcaption className="mt-5 text-center">
+          <div className="text-[10px] font-medium uppercase tracking-[0.32em] text-gold">{current.category}</div>
+          <div className="mt-2 font-serif text-2xl text-white md:text-3xl">{current.title}</div>
+          <div className="mt-1 text-[13px] text-white/70">{current.desc}</div>
+          <div className="mt-3 text-[10px] uppercase tracking-[0.28em] text-white/40">
+            {index + 1} / {items.length}
+          </div>
+        </figcaption>
+      </figure>
     </div>
   );
 }
