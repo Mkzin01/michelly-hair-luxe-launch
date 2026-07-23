@@ -164,45 +164,52 @@ function Landing() {
           <img
             src={heroDesktop.url}
             alt="Michelly Hair salão premium"
-            className="absolute inset-0 h-full w-full object-cover object-[70%_center] md:object-center"
+            className="absolute inset-0 h-full w-full object-cover object-[78%_center] md:object-[75%_center]"
           />
         </picture>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/50" />
+        {/* Directional wash — darker on the left where text lives, transparent over the model */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/60 via-black/25 to-transparent md:from-black/55 md:via-black/10" />
 
-        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-between px-5 pt-28 pb-10 md:px-10 md:pt-40 md:pb-16">
-          <div className="max-w-2xl">
-            <div className="reveal inline-flex items-center gap-3 rounded-full bg-black/25 px-4 py-2 backdrop-blur-sm">
+        <div className="relative z-10 mx-auto grid min-h-[100svh] w-full max-w-7xl grid-cols-1 items-center px-5 pt-28 pb-14 md:grid-cols-2 md:px-10 md:pt-32 md:pb-20">
+          <div className="w-full max-w-lg">
+            <div className="reveal inline-flex items-center gap-3 rounded-full border border-white/20 bg-black/30 px-4 py-2 backdrop-blur-md">
               <MapPin className="h-3.5 w-3.5 text-gold" />
               <span className="eyebrow text-white/90">Charneca da Caparica</span>
             </div>
 
-            <div className="reveal mt-6 inline-block rounded-sm bg-black/35 px-5 py-5 backdrop-blur-md md:px-7 md:py-7" style={{ transitionDelay: "120ms" }}>
-              <h1 className="font-serif text-4xl leading-[1.05] text-white sm:text-5xl md:text-6xl lg:text-7xl">
+            {/* Blur panel — bounded to the text column, never reaching the model */}
+            <div
+              className="reveal mt-6 w-full rounded-sm bg-black/35 px-5 py-6 backdrop-blur-md md:px-7 md:py-8"
+              style={{ transitionDelay: "120ms" }}
+            >
+              <h1 className="font-serif text-[2.5rem] leading-[1.02] text-white sm:text-5xl md:text-[3.4rem] lg:text-6xl">
                 Transformando cabelos,<br />
                 elevando<br />
                 <span className="italic text-gold">autoestima.</span>
               </h1>
+              <p className="mt-5 text-sm leading-relaxed text-white/85 md:text-[15px]">
+                Especialista em Balayage, Morena Iluminada, Alisamentos e tratamentos
+                personalizados para realçar a beleza natural de cada cliente.
+              </p>
             </div>
 
-            <p className="reveal mt-6 max-w-md text-sm leading-relaxed text-white/85 md:text-base" style={{ transitionDelay: "220ms" }}>
-              Especialista em Balayage, Morena Iluminada, Alisamentos e tratamentos personalizados
-              para realçar a beleza natural de cada cliente.
-            </p>
-
-            <div className="reveal mt-7 flex flex-wrap gap-2.5 md:gap-3" style={{ transitionDelay: "320ms" }}>
+            <div
+              className="reveal mt-6 flex flex-wrap items-center gap-2"
+              style={{ transitionDelay: "260ms" }}
+            >
               <a
                 href={WHATSAPP}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-sm bg-gold px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.22em] text-ink transition-all hover:bg-gold-soft md:px-7 md:py-3.5 md:text-xs md:tracking-[0.28em]"
+                className="inline-flex h-11 min-w-[150px] items-center justify-center gap-2 rounded-sm bg-gold px-5 text-[11px] font-medium uppercase tracking-[0.24em] text-ink transition-all hover:bg-gold-soft"
               >
-                <MessageCircle className="h-3.5 w-3.5" /> Agendar WhatsApp
+                <MessageCircle className="h-3.5 w-3.5" /> WhatsApp
               </a>
               <a
                 href={INSTAGRAM}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-sm border border-white/70 px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.22em] text-white transition-all hover:bg-white hover:text-ink md:px-7 md:py-3.5 md:text-xs md:tracking-[0.28em]"
+                className="inline-flex h-11 min-w-[150px] items-center justify-center gap-2 rounded-sm border border-white/70 px-5 text-[11px] font-medium uppercase tracking-[0.24em] text-white transition-all hover:bg-white hover:text-ink"
               >
                 <Instagram className="h-3.5 w-3.5" /> Instagram
               </a>
@@ -210,17 +217,17 @@ function Landing() {
                 href={MAPS}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-sm border border-white/40 px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.22em] text-white/90 transition-all hover:bg-white/10 md:px-7 md:py-3.5 md:text-xs md:tracking-[0.28em]"
+                className="inline-flex h-11 min-w-[150px] items-center justify-center gap-2 rounded-sm border border-white/40 px-5 text-[11px] font-medium uppercase tracking-[0.24em] text-white/90 transition-all hover:border-white hover:bg-white/10"
               >
                 <MapPin className="h-3.5 w-3.5" /> Localização
               </a>
             </div>
           </div>
+        </div>
 
-          <div className="mt-10 flex flex-col items-center gap-2 self-center text-white/80">
-            <span className="eyebrow text-white/70">Descubra</span>
-            <ChevronDown className="scroll-arrow h-5 w-5 text-gold" />
-          </div>
+        <div className="absolute inset-x-0 bottom-6 z-10 flex flex-col items-center gap-1.5 text-white/80">
+          <span className="eyebrow text-white/70">Descubra</span>
+          <ChevronDown className="scroll-arrow h-4 w-4 text-gold" />
         </div>
       </section>
 
