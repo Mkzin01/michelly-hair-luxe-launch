@@ -426,7 +426,7 @@ function Landing() {
           <div
             ref={servicesRef}
             className="no-scrollbar mt-10 flex snap-x snap-proximity gap-4 overflow-x-auto overscroll-x-contain px-1 pb-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3"
-            style={{ scrollBehavior: "smooth", touchAction: "pan-y pinch-zoom" }}
+            style={{ scrollBehavior: "smooth" }}
           >
             {services.map((s, i) => (
               <article
