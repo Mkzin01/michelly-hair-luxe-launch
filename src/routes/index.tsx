@@ -164,45 +164,55 @@ function Landing() {
           <img
             src={heroDesktop.url}
             alt="Michelly Hair salão premium"
-            className="absolute inset-0 h-full w-full object-cover object-[70%_center] md:object-center"
+            className="absolute inset-0 h-full w-full object-cover object-[center_top] md:object-[75%_center]"
           />
         </picture>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/50" />
+        {/* Directional wash — darker on the left where text lives, transparent over the model */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/50 md:bg-gradient-to-r md:from-black/55 md:via-black/10 md:to-transparent" />
 
-        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-between px-5 pt-28 pb-10 md:px-10 md:pt-40 md:pb-16">
-          <div className="max-w-2xl">
-            <div className="reveal inline-flex items-center gap-3 rounded-full bg-black/25 px-4 py-2 backdrop-blur-sm">
+        <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-7xl flex-col justify-end px-5 pt-28 pb-20 md:grid md:grid-cols-2 md:items-center md:px-10 md:pt-32 md:pb-16">
+          <div className="w-full max-w-lg">
+            <div className="reveal inline-flex items-center gap-3 rounded-full border border-white/20 bg-black/30 px-4 py-2 backdrop-blur-md">
               <MapPin className="h-3.5 w-3.5 text-gold" />
               <span className="eyebrow text-white/90">Charneca da Caparica</span>
             </div>
 
-            <div className="reveal mt-6 inline-block rounded-sm bg-black/35 px-5 py-5 backdrop-blur-md md:px-7 md:py-7" style={{ transitionDelay: "120ms" }}>
-              <h1 className="font-serif text-4xl leading-[1.05] text-white sm:text-5xl md:text-6xl lg:text-7xl">
+            {/* Blur panel — bounded to the text column, never reaching the model */}
+            <div
+              className="reveal mt-6 w-full rounded-sm px-5 py-6 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.55)] backdrop-blur-xl md:px-7 md:py-8"
+              style={{
+                transitionDelay: "120ms",
+                backgroundColor: "rgba(20, 18, 16, 0.82)",
+              }}
+            >
+              <h1 className="font-serif text-[2.5rem] leading-[1.02] text-white sm:text-5xl md:text-[3.4rem] lg:text-6xl">
                 Transformando cabelos,<br />
                 elevando<br />
                 <span className="italic text-gold">autoestima.</span>
               </h1>
+              <p className="mt-5 text-sm leading-relaxed text-white/85 md:text-[15px]">
+                Especialista em Balayage, Morena Iluminada, Alisamentos e tratamentos
+                personalizados para realçar a beleza natural de cada cliente.
+              </p>
             </div>
 
-            <p className="reveal mt-6 max-w-md text-sm leading-relaxed text-white/85 md:text-base" style={{ transitionDelay: "220ms" }}>
-              Especialista em Balayage, Morena Iluminada, Alisamentos e tratamentos personalizados
-              para realçar a beleza natural de cada cliente.
-            </p>
-
-            <div className="reveal mt-7 flex flex-wrap gap-2.5 md:gap-3" style={{ transitionDelay: "320ms" }}>
+            <div
+              className="reveal mt-6 flex flex-wrap items-center gap-2"
+              style={{ transitionDelay: "260ms" }}
+            >
               <a
                 href={WHATSAPP}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-sm bg-gold px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.22em] text-ink transition-all hover:bg-gold-soft md:px-7 md:py-3.5 md:text-xs md:tracking-[0.28em]"
+                className="inline-flex h-11 min-w-[150px] items-center justify-center gap-2 rounded-sm bg-gold px-5 text-[11px] font-medium uppercase tracking-[0.24em] text-ink transition-all hover:bg-gold-soft"
               >
-                <MessageCircle className="h-3.5 w-3.5" /> Agendar WhatsApp
+                <MessageCircle className="h-3.5 w-3.5" /> WhatsApp
               </a>
               <a
                 href={INSTAGRAM}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-sm border border-white/70 px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.22em] text-white transition-all hover:bg-white hover:text-ink md:px-7 md:py-3.5 md:text-xs md:tracking-[0.28em]"
+                className="inline-flex h-11 min-w-[150px] items-center justify-center gap-2 rounded-sm border border-white/70 px-5 text-[11px] font-medium uppercase tracking-[0.24em] text-white transition-all hover:bg-white hover:text-ink"
               >
                 <Instagram className="h-3.5 w-3.5" /> Instagram
               </a>
@@ -210,17 +220,17 @@ function Landing() {
                 href={MAPS}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-sm border border-white/40 px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.22em] text-white/90 transition-all hover:bg-white/10 md:px-7 md:py-3.5 md:text-xs md:tracking-[0.28em]"
+                className="inline-flex h-11 min-w-[150px] items-center justify-center gap-2 rounded-sm border border-white/40 px-5 text-[11px] font-medium uppercase tracking-[0.24em] text-white/90 transition-all hover:border-white hover:bg-white/10"
               >
                 <MapPin className="h-3.5 w-3.5" /> Localização
               </a>
             </div>
           </div>
+        </div>
 
-          <div className="mt-10 flex flex-col items-center gap-2 self-center text-white/80">
-            <span className="eyebrow text-white/70">Descubra</span>
-            <ChevronDown className="scroll-arrow h-5 w-5 text-gold" />
-          </div>
+        <div className="absolute inset-x-0 bottom-6 z-10 flex flex-col items-center gap-1.5 text-white/80">
+          <span className="eyebrow text-white/70">Descubra</span>
+          <ChevronDown className="scroll-arrow h-4 w-4 text-gold" />
         </div>
       </section>
 
@@ -242,14 +252,14 @@ function Landing() {
       </section>
 
       {/* Sobre */}
-      <section id="sobre" className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
-        <div className="grid gap-10 md:grid-cols-2 md:gap-16 md:items-center">
+      <section id="sobre" className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
+        <div className="grid gap-10 md:grid-cols-[0.9fr_1.1fr] md:gap-16 md:items-center">
           <div className="reveal order-2 md:order-1">
             <img
               src={especialista.url}
               alt="Michelly atendendo uma cliente"
-              className="w-full rounded-sm object-cover shadow-[0_20px_60px_-30px_rgba(0,0,0,0.35)]"
-              style={{ height: "clamp(280px, 52vw, 520px)" }}
+              className="w-full rounded-sm object-cover shadow-[0_20px_60px_-30px_rgba(0,0,0,0.3)]"
+              style={{ height: "clamp(230px, 40vw, 420px)" }}
             />
           </div>
           <div className="reveal order-1 md:order-2" style={{ transitionDelay: "120ms" }}>
@@ -257,11 +267,11 @@ function Landing() {
             <h2 className="mt-5 font-serif text-3xl leading-tight text-ink md:text-5xl">
               Atendimento pensado<br />para cada mulher.
             </h2>
-            <p className="mt-6 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+            <p className="mt-6 max-w-md text-[15px] leading-[1.8] text-muted-foreground">
               No Michelly Hair, cada visita é uma experiência exclusiva. Escuta atenta, técnica precisa
               e um cuidado artesanal com o cabelo — do primeiro diagnóstico ao último toque.
             </p>
-            <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+            <p className="mt-4 max-w-md text-[15px] leading-[1.8] text-muted-foreground">
               Especialista em coloração, iluminados e alisamentos, Michelly trabalha com produtos de alta
               performance e uma abordagem sob medida para valorizar o que cada mulher tem de mais autêntico.
             </p>
@@ -278,11 +288,11 @@ function Landing() {
       </section>
 
       {/* Serviços */}
-      <section id="servicos" className="bg-bege/30 py-20 md:py-28">
+      <section id="servicos" className="bg-bege/30 py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-5 md:px-10">
           <div className="reveal mx-auto max-w-2xl text-center">
             <span className="eyebrow"><span className="gold-line mr-3" />Serviços<span className="gold-line ml-3" /></span>
-            <h2 className="mt-5 font-serif text-3xl leading-tight text-ink md:text-5xl">
+            <h2 className="mt-5 font-serif text-3xl leading-tight text-ink md:text-[2.75rem]">
               Um cuidado para cada desejo.
             </h2>
             <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
@@ -290,24 +300,24 @@ function Landing() {
             </p>
           </div>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s, i) => (
               <article
                 key={s.name}
-                className="reveal group overflow-hidden rounded-sm bg-card shadow-[0_10px_40px_-24px_rgba(0,0,0,0.25)] transition-shadow duration-500 hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.35)]"
+                className="reveal group overflow-hidden rounded-sm bg-card shadow-[0_8px_28px_-18px_rgba(0,0,0,0.22)] transition-shadow duration-500 hover:shadow-[0_16px_44px_-20px_rgba(0,0,0,0.28)]"
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
                 <div className="overflow-hidden">
                   <img
                     src={s.img}
                     alt={s.name}
-                    className="h-56 w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105 md:h-64"
+                    className="h-44 w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105 md:h-52"
                   />
                 </div>
-                <div className="px-6 py-6">
-                  <h3 className="font-serif text-xl text-ink md:text-2xl">{s.name}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
-                  <div className="mt-4 h-px w-8 bg-gold/60 transition-all duration-500 group-hover:w-16" />
+                <div className="px-6 py-5">
+                  <h3 className="font-serif text-xl text-ink md:text-[1.35rem]">{s.name}</h3>
+                  <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted-foreground">{s.desc}</p>
+                  <div className="mt-3 h-px w-8 bg-gold/60 transition-all duration-500 group-hover:w-16" />
                 </div>
               </article>
             ))}
@@ -316,10 +326,10 @@ function Landing() {
       </section>
 
       {/* Portfolio Antes e Depois */}
-      <section id="portfolio" className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
+      <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
         <div className="reveal mx-auto max-w-2xl text-center">
           <span className="eyebrow"><span className="gold-line mr-3" />Portfólio<span className="gold-line ml-3" /></span>
-          <h2 className="mt-5 font-serif text-3xl leading-tight text-ink md:text-5xl">
+          <h2 className="mt-5 font-serif text-3xl leading-tight text-ink md:text-[2.75rem]">
             Antes &amp; Depois
           </h2>
           <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
@@ -327,39 +337,37 @@ function Landing() {
           </p>
         </div>
 
-        <div className="mt-16 space-y-16 md:space-y-24">
+        <div className="mt-12 space-y-12 md:space-y-16">
           {beforeAfter.map((t, i) => (
             <div key={i} className="reveal">
-              <p className="mb-6 text-center font-serif text-lg italic text-muted-foreground md:text-xl">
+              <p className="mb-5 text-center font-serif text-lg italic text-muted-foreground md:text-xl">
                 — {t.title} —
               </p>
-              <div className="grid gap-5 md:grid-cols-2 md:gap-8">
+              <div className="grid gap-4 md:grid-cols-2 md:gap-6">
                 <figure className="group">
-                  <div className="overflow-hidden rounded-sm shadow-[0_10px_40px_-24px_rgba(0,0,0,0.25)]">
+                  <div className="overflow-hidden rounded-sm shadow-[0_8px_28px_-18px_rgba(0,0,0,0.22)]">
                     <img
                       src={t.before}
                       alt={`Antes — ${t.title}`}
                       className="w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]"
-                      style={{ height: "clamp(260px, 42vw, 440px)" }}
+                      style={{ height: "clamp(210px, 34vw, 360px)" }}
                     />
                   </div>
-                  <figcaption className="mt-4 text-center">
+                  <figcaption className="mt-3 text-center">
                     <span className="eyebrow text-ink">Antes</span>
-                    <p className="mt-1 text-xs text-muted-foreground">Ponto de partida</p>
                   </figcaption>
                 </figure>
                 <figure className="group">
-                  <div className="overflow-hidden rounded-sm shadow-[0_10px_40px_-24px_rgba(0,0,0,0.25)]">
+                  <div className="overflow-hidden rounded-sm shadow-[0_8px_28px_-18px_rgba(0,0,0,0.22)]">
                     <img
                       src={t.after}
                       alt={`Depois — ${t.title}`}
                       className="w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]"
-                      style={{ height: "clamp(260px, 42vw, 440px)" }}
+                      style={{ height: "clamp(210px, 34vw, 360px)" }}
                     />
                   </div>
-                  <figcaption className="mt-4 text-center">
+                  <figcaption className="mt-3 text-center">
                     <span className="eyebrow text-gold">Depois</span>
-                    <p className="mt-1 text-xs text-muted-foreground">Resultado final</p>
                   </figcaption>
                 </figure>
               </div>
@@ -369,30 +377,30 @@ function Landing() {
       </section>
 
       {/* Avaliações */}
-      <section id="avaliacoes" className="bg-bege/30 py-20 md:py-28">
+      <section id="avaliacoes" className="bg-bege/30 py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-5 md:px-10">
           <div className="reveal text-center">
             <div className="flex items-center justify-center gap-1 text-gold">
-              {[0,1,2,3,4].map((i) => <Star key={i} className="h-5 w-5 fill-current" strokeWidth={0} />)}
+              {[0,1,2,3,4].map((i) => <Star key={i} className="h-4 w-4 fill-current" strokeWidth={0} />)}
             </div>
-            <div className="mt-3 font-serif text-4xl text-ink md:text-5xl">5.0</div>
-            <p className="eyebrow mt-3">Mais de 300 clientes satisfeitas</p>
+            <div className="mt-3 font-serif text-3xl text-ink md:text-4xl">5.0</div>
+            <p className="eyebrow mt-2">Mais de 300 clientes satisfeitas</p>
           </div>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
             {testimonials.map((t, i) => (
               <article
                 key={t.name}
-                className="reveal rounded-sm bg-card p-8 shadow-[0_10px_40px_-24px_rgba(0,0,0,0.2)] transition-shadow duration-500 hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.3)]"
+                className="reveal rounded-sm border border-border/60 bg-card p-6 shadow-[0_6px_24px_-18px_rgba(0,0,0,0.18)] transition-shadow duration-500 hover:shadow-[0_14px_40px_-22px_rgba(0,0,0,0.25)]"
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <Quote className="h-6 w-6 text-gold/70" strokeWidth={1.2} />
-                <p className="mt-4 text-[15px] leading-relaxed text-foreground/80">
+                <Quote className="h-5 w-5 text-gold/70" strokeWidth={1.2} />
+                <p className="mt-3 text-[14px] leading-[1.75] text-foreground/80">
                   {t.text}
                 </p>
-                <div className="mt-6 flex items-center gap-3">
+                <div className="mt-5 flex items-center gap-3">
                   <div className="h-px w-6 bg-gold/60" />
-                  <span className="eyebrow">{t.name}</span>
+                  <span className="eyebrow text-ink">{t.name}</span>
                 </div>
               </article>
             ))}
