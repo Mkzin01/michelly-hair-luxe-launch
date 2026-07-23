@@ -2,8 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Menu, X, MapPin, ChevronDown, Star, Quote, Heart, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 
-import heroDesktop from "@/assets/mh/hero-desktop.jpg.asset.json";
-import heroMobile from "@/assets/mh/hero-mobile.jpg.asset.json";
+import heroNovo from "@/assets/mh/hero-novo.png.asset.json";
 import especialista from "@/assets/mh/especialista.jpg.asset.json";
 import balayage from "@/assets/mh/balayage.jpg.asset.json";
 import morena from "@/assets/mh/morena-iluminada.jpg.asset.json";
@@ -13,11 +12,6 @@ import coloracao from "@/assets/mh/coloracao.jpg.asset.json";
 import tratamentos from "@/assets/mh/tratamentos.jpg.asset.json";
 import antes from "@/assets/mh/antes.jpg.asset.json";
 import depois from "@/assets/mh/depois.jpg.asset.json";
-import p2 from "@/assets/mh/portfolio-2.jpg.asset.json";
-import p3 from "@/assets/mh/portfolio-3.jpg.asset.json";
-import p4 from "@/assets/mh/portfolio-4.jpg.asset.json";
-import p5 from "@/assets/mh/portfolio-5.jpg.asset.json";
-import p6 from "@/assets/mh/portfolio-6.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,8 +20,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Especialista em Balayage, Morena Iluminada, Alisamentos e tratamentos personalizados. Atendimento exclusivo em Charneca da Caparica." },
       { property: "og:title", content: "Michelly Hair — Salão Premium" },
       { property: "og:description", content: "Transformando cabelos, elevando autoestima." },
-      { property: "og:image", content: heroDesktop.url },
-      { name: "twitter:image", content: heroDesktop.url },
+      { property: "og:image", content: heroNovo.url },
+      { name: "twitter:image", content: heroNovo.url },
     ],
   }),
   component: Landing,
@@ -47,9 +41,7 @@ const services = [
 ];
 
 const beforeAfter = [
-  { before: antes.url, after: depois.url, title: "Balayage Iluminada" },
-  { before: p2.url, after: p3.url, title: "Morena Iluminada" },
-  { before: p4.url, after: p5.url, title: "Coloração Personalizada" },
+  { before: antes.url, after: depois.url, title: "Transformação Real" },
 ];
 
 const testimonials = [
