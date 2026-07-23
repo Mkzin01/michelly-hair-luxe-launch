@@ -249,14 +249,14 @@ function Landing() {
       </section>
 
       {/* Sobre */}
-      <section id="sobre" className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
-        <div className="grid gap-10 md:grid-cols-2 md:gap-16 md:items-center">
+      <section id="sobre" className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
+        <div className="grid gap-10 md:grid-cols-[0.9fr_1.1fr] md:gap-16 md:items-center">
           <div className="reveal order-2 md:order-1">
             <img
               src={especialista.url}
               alt="Michelly atendendo uma cliente"
-              className="w-full rounded-sm object-cover shadow-[0_20px_60px_-30px_rgba(0,0,0,0.35)]"
-              style={{ height: "clamp(280px, 52vw, 520px)" }}
+              className="w-full rounded-sm object-cover shadow-[0_20px_60px_-30px_rgba(0,0,0,0.3)]"
+              style={{ height: "clamp(230px, 40vw, 420px)" }}
             />
           </div>
           <div className="reveal order-1 md:order-2" style={{ transitionDelay: "120ms" }}>
@@ -264,11 +264,11 @@ function Landing() {
             <h2 className="mt-5 font-serif text-3xl leading-tight text-ink md:text-5xl">
               Atendimento pensado<br />para cada mulher.
             </h2>
-            <p className="mt-6 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+            <p className="mt-6 max-w-md text-[15px] leading-[1.8] text-muted-foreground">
               No Michelly Hair, cada visita é uma experiência exclusiva. Escuta atenta, técnica precisa
               e um cuidado artesanal com o cabelo — do primeiro diagnóstico ao último toque.
             </p>
-            <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+            <p className="mt-4 max-w-md text-[15px] leading-[1.8] text-muted-foreground">
               Especialista em coloração, iluminados e alisamentos, Michelly trabalha com produtos de alta
               performance e uma abordagem sob medida para valorizar o que cada mulher tem de mais autêntico.
             </p>
@@ -285,11 +285,11 @@ function Landing() {
       </section>
 
       {/* Serviços */}
-      <section id="servicos" className="bg-bege/30 py-20 md:py-28">
+      <section id="servicos" className="bg-bege/30 py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-5 md:px-10">
           <div className="reveal mx-auto max-w-2xl text-center">
             <span className="eyebrow"><span className="gold-line mr-3" />Serviços<span className="gold-line ml-3" /></span>
-            <h2 className="mt-5 font-serif text-3xl leading-tight text-ink md:text-5xl">
+            <h2 className="mt-5 font-serif text-3xl leading-tight text-ink md:text-[2.75rem]">
               Um cuidado para cada desejo.
             </h2>
             <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
@@ -297,24 +297,24 @@ function Landing() {
             </p>
           </div>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s, i) => (
               <article
                 key={s.name}
-                className="reveal group overflow-hidden rounded-sm bg-card shadow-[0_10px_40px_-24px_rgba(0,0,0,0.25)] transition-shadow duration-500 hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.35)]"
+                className="reveal group overflow-hidden rounded-sm bg-card shadow-[0_8px_28px_-18px_rgba(0,0,0,0.22)] transition-shadow duration-500 hover:shadow-[0_16px_44px_-20px_rgba(0,0,0,0.28)]"
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
                 <div className="overflow-hidden">
                   <img
                     src={s.img}
                     alt={s.name}
-                    className="h-56 w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105 md:h-64"
+                    className="h-44 w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105 md:h-52"
                   />
                 </div>
-                <div className="px-6 py-6">
-                  <h3 className="font-serif text-xl text-ink md:text-2xl">{s.name}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
-                  <div className="mt-4 h-px w-8 bg-gold/60 transition-all duration-500 group-hover:w-16" />
+                <div className="px-6 py-5">
+                  <h3 className="font-serif text-xl text-ink md:text-[1.35rem]">{s.name}</h3>
+                  <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted-foreground">{s.desc}</p>
+                  <div className="mt-3 h-px w-8 bg-gold/60 transition-all duration-500 group-hover:w-16" />
                 </div>
               </article>
             ))}
@@ -323,10 +323,10 @@ function Landing() {
       </section>
 
       {/* Portfolio Antes e Depois */}
-      <section id="portfolio" className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
+      <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
         <div className="reveal mx-auto max-w-2xl text-center">
           <span className="eyebrow"><span className="gold-line mr-3" />Portfólio<span className="gold-line ml-3" /></span>
-          <h2 className="mt-5 font-serif text-3xl leading-tight text-ink md:text-5xl">
+          <h2 className="mt-5 font-serif text-3xl leading-tight text-ink md:text-[2.75rem]">
             Antes &amp; Depois
           </h2>
           <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
@@ -334,39 +334,37 @@ function Landing() {
           </p>
         </div>
 
-        <div className="mt-16 space-y-16 md:space-y-24">
+        <div className="mt-12 space-y-12 md:space-y-16">
           {beforeAfter.map((t, i) => (
             <div key={i} className="reveal">
-              <p className="mb-6 text-center font-serif text-lg italic text-muted-foreground md:text-xl">
+              <p className="mb-5 text-center font-serif text-lg italic text-muted-foreground md:text-xl">
                 — {t.title} —
               </p>
-              <div className="grid gap-5 md:grid-cols-2 md:gap-8">
+              <div className="grid gap-4 md:grid-cols-2 md:gap-6">
                 <figure className="group">
-                  <div className="overflow-hidden rounded-sm shadow-[0_10px_40px_-24px_rgba(0,0,0,0.25)]">
+                  <div className="overflow-hidden rounded-sm shadow-[0_8px_28px_-18px_rgba(0,0,0,0.22)]">
                     <img
                       src={t.before}
                       alt={`Antes — ${t.title}`}
                       className="w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]"
-                      style={{ height: "clamp(260px, 42vw, 440px)" }}
+                      style={{ height: "clamp(210px, 34vw, 360px)" }}
                     />
                   </div>
-                  <figcaption className="mt-4 text-center">
+                  <figcaption className="mt-3 text-center">
                     <span className="eyebrow text-ink">Antes</span>
-                    <p className="mt-1 text-xs text-muted-foreground">Ponto de partida</p>
                   </figcaption>
                 </figure>
                 <figure className="group">
-                  <div className="overflow-hidden rounded-sm shadow-[0_10px_40px_-24px_rgba(0,0,0,0.25)]">
+                  <div className="overflow-hidden rounded-sm shadow-[0_8px_28px_-18px_rgba(0,0,0,0.22)]">
                     <img
                       src={t.after}
                       alt={`Depois — ${t.title}`}
                       className="w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]"
-                      style={{ height: "clamp(260px, 42vw, 440px)" }}
+                      style={{ height: "clamp(210px, 34vw, 360px)" }}
                     />
                   </div>
-                  <figcaption className="mt-4 text-center">
+                  <figcaption className="mt-3 text-center">
                     <span className="eyebrow text-gold">Depois</span>
-                    <p className="mt-1 text-xs text-muted-foreground">Resultado final</p>
                   </figcaption>
                 </figure>
               </div>
@@ -376,30 +374,30 @@ function Landing() {
       </section>
 
       {/* Avaliações */}
-      <section id="avaliacoes" className="bg-bege/30 py-20 md:py-28">
+      <section id="avaliacoes" className="bg-bege/30 py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-5 md:px-10">
           <div className="reveal text-center">
             <div className="flex items-center justify-center gap-1 text-gold">
-              {[0,1,2,3,4].map((i) => <Star key={i} className="h-5 w-5 fill-current" strokeWidth={0} />)}
+              {[0,1,2,3,4].map((i) => <Star key={i} className="h-4 w-4 fill-current" strokeWidth={0} />)}
             </div>
-            <div className="mt-3 font-serif text-4xl text-ink md:text-5xl">5.0</div>
-            <p className="eyebrow mt-3">Mais de 300 clientes satisfeitas</p>
+            <div className="mt-3 font-serif text-3xl text-ink md:text-4xl">5.0</div>
+            <p className="eyebrow mt-2">Mais de 300 clientes satisfeitas</p>
           </div>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
             {testimonials.map((t, i) => (
               <article
                 key={t.name}
-                className="reveal rounded-sm bg-card p-8 shadow-[0_10px_40px_-24px_rgba(0,0,0,0.2)] transition-shadow duration-500 hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.3)]"
+                className="reveal rounded-sm border border-border/60 bg-card p-6 shadow-[0_6px_24px_-18px_rgba(0,0,0,0.18)] transition-shadow duration-500 hover:shadow-[0_14px_40px_-22px_rgba(0,0,0,0.25)]"
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <Quote className="h-6 w-6 text-gold/70" strokeWidth={1.2} />
-                <p className="mt-4 text-[15px] leading-relaxed text-foreground/80">
+                <Quote className="h-5 w-5 text-gold/70" strokeWidth={1.2} />
+                <p className="mt-3 text-[14px] leading-[1.75] text-foreground/80">
                   {t.text}
                 </p>
-                <div className="mt-6 flex items-center gap-3">
+                <div className="mt-5 flex items-center gap-3">
                   <div className="h-px w-6 bg-gold/60" />
-                  <span className="eyebrow">{t.name}</span>
+                  <span className="eyebrow text-ink">{t.name}</span>
                 </div>
               </article>
             ))}
