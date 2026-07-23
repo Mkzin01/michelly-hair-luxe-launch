@@ -179,7 +179,7 @@ function Landing() {
 
             {/* Blur panel — bounded to the text column, never reaching the model */}
             <div
-              className="reveal mt-6 w-full rounded-sm bg-black/55 px-5 py-6 backdrop-blur-lg md:bg-black/35 md:px-7 md:py-8"
+              className="reveal mt-6 w-full rounded-sm bg-ink/75 px-5 py-6 backdrop-blur-xl md:bg-black/35 md:px-7 md:py-8"
               style={{ transitionDelay: "120ms" }}
             >
               <h1 className="font-serif text-[2.5rem] leading-[1.02] text-white sm:text-5xl md:text-[3.4rem] lg:text-6xl">
