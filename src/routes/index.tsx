@@ -399,7 +399,7 @@ function Landing() {
             </p>
           </div>
 
-          <div className="mt-8 flex flex-col gap-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+          <div className="mt-6 flex flex-col gap-2.5 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {services.map((s, i) => {
               const hideOnMobile = i >= 3 && !showAllServices;
               return (
@@ -413,14 +413,14 @@ function Landing() {
                       src={s.img}
                       alt={s.name}
                       loading="lazy"
-                      className="w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04] h-[240px] sm:h-auto"
-                      style={{ objectPosition: "center top" }}
+                      className="w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04] h-[170px] sm:h-auto"
+                      style={{ objectPosition: "center 30%" }}
                     />
                   </div>
-                  <div className="px-5 py-4 text-center sm:px-6 sm:py-5 sm:text-left">
-                    <h3 className="font-serif text-[1.15rem] tracking-tight text-ink sm:text-[1.3rem]">{s.name}</h3>
-                    <p className="mt-1 line-clamp-2 text-[13px] leading-snug text-muted-foreground sm:mt-1.5 sm:text-[13.5px]">{s.desc}</p>
-                    <div className="mx-auto mt-3 h-px w-12 bg-gold/60 transition-all duration-500 group-hover:w-20 sm:mx-0 sm:mt-3 sm:w-8" />
+                  <div className="px-4 py-3 text-center sm:px-6 sm:py-5 sm:text-left">
+                    <h3 className="font-serif text-[1rem] tracking-tight text-ink sm:text-[1.3rem]">{s.name}</h3>
+                    <p className="mt-0.5 line-clamp-2 text-[12px] leading-snug text-muted-foreground sm:mt-1.5 sm:text-[13.5px]">{s.desc}</p>
+                    <div className="mx-auto mt-2 h-px w-10 bg-gold/60 transition-all duration-500 group-hover:w-16 sm:mx-0 sm:mt-3 sm:w-8" />
                   </div>
                 </article>
               );
@@ -428,7 +428,7 @@ function Landing() {
           </div>
 
           {!showAllServices && (
-            <div className="mt-8 flex justify-center sm:hidden">
+            <div className="mt-5 flex justify-center sm:hidden">
               <button
                 onClick={() => setShowAllServices(true)}
                 className="inline-flex items-center gap-2 border-b border-gold pb-1 text-[11px] font-medium uppercase tracking-[0.3em] text-ink transition-opacity hover:opacity-70"
