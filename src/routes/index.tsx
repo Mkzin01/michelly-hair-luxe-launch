@@ -154,44 +154,6 @@ function Landing() {
   const [scrolled, setScrolled] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
   const testimonialsRef = useRef<HTMLDivElement>(null);
-  const servicesRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = servicesRef.current;
-    if (!el) return;
-    if (window.matchMedia("(min-width: 640px)").matches) return;
-    let paused = false;
-    const onDown = () => { paused = true; };
-    const onUp = () => { setTimeout(() => (paused = false), 2500); };
-    el.addEventListener("pointerdown", onDown);
-    el.addEventListener("pointerup", onUp);
-    el.addEventListener("pointercancel", onUp);
-    // Premium easing for autoplay (cubic-bezier-like ease-out)
-    const easeOutExpo = (t: number) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
-    const smoothTo = (target: number, duration = 900) => {
-      const start = el.scrollLeft;
-      const delta = target - start;
-      const t0 = performance.now();
-      const step = (now: number) => {
-        const p = Math.min(1, (now - t0) / duration);
-        el.scrollLeft = start + delta * easeOutExpo(p);
-        if (p < 1 && !paused) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    };
-    const id = window.setInterval(() => {
-      if (paused || !el) return;
-      const max = el.scrollWidth - el.clientWidth - 2;
-      const next = el.scrollLeft + el.clientWidth * 0.72;
-      smoothTo(next >= max ? 0 : next);
-    }, 4600);
-    return () => {
-      window.clearInterval(id);
-      el.removeEventListener("pointerdown", onDown);
-      el.removeEventListener("pointerup", onUp);
-      el.removeEventListener("pointercancel", onUp);
-    };
-  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
