@@ -398,15 +398,11 @@ function Landing() {
             </p>
           </div>
 
-          <div
-            ref={servicesRef}
-            className="no-scrollbar mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain px-1 pb-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3"
-            style={{ scrollBehavior: "smooth", touchAction: "pan-x", WebkitOverflowScrolling: "touch" }}
-          >
+          <div className="mt-10 flex flex-col gap-8 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {services.map((s, i) => (
               <article
                 key={s.name}
-                className="reveal group relative w-[70%] shrink-0 snap-center overflow-hidden rounded-3xl bg-card shadow-[0_10px_30px_-22px_rgba(0,0,0,0.2)] transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.28)] sm:w-auto"
+                className="reveal group relative w-full overflow-hidden rounded-3xl bg-card shadow-[0_10px_30px_-22px_rgba(0,0,0,0.2)] transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.28)]"
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
                 <div className="overflow-hidden rounded-t-3xl bg-bege/40">
@@ -414,21 +410,16 @@ function Landing() {
                     src={s.img}
                     alt={s.name}
                     loading="lazy"
-                    className="w-full object-contain transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04] sm:object-cover"
-                    style={{ aspectRatio: "5 / 5.2" }}
+                    className="w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
+                    style={{ aspectRatio: "4 / 3" }}
                   />
                 </div>
-                <div className="px-4 py-3.5 sm:px-6 sm:py-5">
-                  <h3 className="font-serif text-[1.1rem] tracking-tight text-ink sm:text-[1.3rem]">{s.name}</h3>
-                  <p className="mt-1 text-[12.5px] leading-snug text-muted-foreground sm:mt-1.5 sm:text-[13.5px]">{s.desc}</p>
-                  <div className="mt-2.5 h-px w-8 bg-gold/60 transition-all duration-500 group-hover:w-16 sm:mt-3" />
+                <div className="px-6 py-7 text-center sm:px-6 sm:py-5 sm:text-left">
+                  <h3 className="font-serif text-[1.5rem] tracking-tight text-ink sm:text-[1.3rem]">{s.name}</h3>
+                  <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground sm:mt-1.5 sm:text-[13.5px]">{s.desc}</p>
+                  <div className="mx-auto mt-4 h-px w-16 bg-gold/60 transition-all duration-500 group-hover:w-24 sm:mx-0 sm:mt-3 sm:w-8" />
                 </div>
               </article>
-            ))}
-          </div>
-          <div className="mt-4 flex justify-center gap-1.5 sm:hidden" aria-hidden>
-            {services.map((_, i) => (
-              <span key={i} className="h-1 w-6 rounded-full bg-ink/15 first:bg-gold/60" />
             ))}
           </div>
         </div>
