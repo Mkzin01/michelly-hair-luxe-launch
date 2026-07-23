@@ -45,10 +45,6 @@ const services = [
   { name: "Tratamentos Capilares", img: tratamentos.url, desc: "Rituais restauradores de alta performance." },
 ];
 
-const beforeAfter = [
-  { before: antes.url, after: depois.url, title: "Transformação Real" },
-];
-
 type PortfolioItem = { src: string; category: string; title: string; desc: string };
 const portfolio: PortfolioItem[] = [
   { src: balayage.url,   category: "Balayage",         title: "Balayage",         desc: "Reflexos naturais e luminosidade sob medida." },
