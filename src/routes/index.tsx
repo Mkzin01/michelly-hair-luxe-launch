@@ -164,11 +164,11 @@ function Landing() {
           <img
             src={heroDesktop.url}
             alt="Michelly Hair salão premium"
-            className="absolute inset-0 h-full w-full object-cover object-[78%_center] md:object-[75%_center]"
+            className="absolute inset-0 h-full w-full object-cover object-[center_85%] md:object-[75%_center]"
           />
         </picture>
         {/* Directional wash — darker on the left where text lives, transparent over the model */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/60 via-black/25 to-transparent md:from-black/55 md:via-black/10" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/50 md:bg-gradient-to-r md:from-black/55 md:via-black/10 md:to-transparent" />
 
         <div className="relative z-10 mx-auto grid min-h-[100svh] w-full max-w-7xl grid-cols-1 items-center px-5 pt-28 pb-14 md:grid-cols-2 md:px-10 md:pt-32 md:pb-20">
           <div className="w-full max-w-lg">
@@ -179,7 +179,7 @@ function Landing() {
 
             {/* Blur panel — bounded to the text column, never reaching the model */}
             <div
-              className="reveal mt-6 w-full rounded-sm bg-black/35 px-5 py-6 backdrop-blur-md md:px-7 md:py-8"
+              className="reveal mt-6 w-full rounded-sm bg-black/55 px-5 py-6 backdrop-blur-lg md:bg-black/35 md:px-7 md:py-8"
               style={{ transitionDelay: "120ms" }}
             >
               <h1 className="font-serif text-[2.5rem] leading-[1.02] text-white sm:text-5xl md:text-[3.4rem] lg:text-6xl">
