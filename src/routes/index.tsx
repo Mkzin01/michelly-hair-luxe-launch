@@ -233,6 +233,8 @@ function Landing() {
   useReveal();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("Todos");
   const heroRef = useRef<HTMLElement>(null);
   const testimonialsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -537,23 +539,93 @@ function Landing() {
       </section>
 
       {/* Portfolio Antes e Depois */}
-      <section id="portfolio" className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
-        <div className="reveal mx-auto max-w-2xl text-center">
-          <span className="eyebrow"><span className="gold-line mr-3" />Portfólio<span className="gold-line ml-3" /></span>
-          <h2 className="mt-5 font-serif text-4xl leading-tight tracking-[-0.015em] text-ink md:text-[3rem]">
-            Antes &amp; Depois
-          </h2>
-          <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
-            Transformações reais assinadas por Michelly Hair.
-          </p>
-        </div>
+      <section id="portfolio" className="py-16 md:py-24">
+        <div className="mx-auto max-w-[1600px] px-3 md:px-6">
+          <div className="reveal mx-auto max-w-2xl text-center">
+            <span className="eyebrow"><span className="gold-line mr-3" />Portfólio<span className="gold-line ml-3" /></span>
+            <h2 className="mt-5 font-serif text-4xl leading-tight tracking-[-0.015em] text-ink md:text-[3rem]">
+              Trabalhos assinados <span className="italic text-gold">Michelly Hair</span>
+            </h2>
+            <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
+              Uma seleção editorial de transformações reais.
+            </p>
+          </div>
 
-        <div className="mt-14 space-y-14 md:mt-16 md:space-y-20">
-          {beforeAfter.map((t, i) => (
-            <BeforeAfterPair key={i} before={t.before} after={t.after} title={t.title} />
-          ))}
+          {/* Categorias */}
+          {(() => {
+            const categories = ["Todos", ...Array.from(new Set(portfolio.map((p) => p.category)))];
+            return (
+              <div className="reveal mt-10 flex flex-wrap items-center justify-center gap-2 md:mt-14 md:gap-3">
+                {categories.map((c) => {
+                  const active = activeCategory === c;
+                  return (
+                    <button
+                      key={c}
+                      onClick={() => setActiveCategory(c)}
+                      className={`rounded-full border px-3.5 py-1.5 text-[10px] font-medium uppercase tracking-[0.24em] transition-all duration-500 md:px-5 md:py-2 md:text-[11px] md:tracking-[0.28em] ${
+                        active
+                          ? "border-ink bg-ink text-white shadow-[0_10px_30px_-14px_rgba(0,0,0,0.5)]"
+                          : "border-border bg-transparent text-muted-foreground hover:border-gold hover:text-ink"
+                      }`}
+                    >
+                      {c}
+                    </button>
+                  );
+                })}
+              </div>
+            );
+          })()}
+
+          {/* Galeria */}
+          <div className="mt-8 grid grid-cols-2 gap-2 sm:gap-3 md:mt-12 md:grid-cols-3 md:gap-4">
+            {portfolio
+              .map((item, i) => ({ item, i }))
+              .filter(({ item }) => activeCategory === "Todos" || item.category === activeCategory)
+              .map(({ item, i }) => (
+                <button
+                  key={`${item.src}-${i}`}
+                  onClick={() => setLightboxIndex(i)}
+                  aria-label={`Abrir ${item.title}`}
+                  className="reveal group relative block w-full overflow-hidden rounded-[16px] bg-bege/40 shadow-[0_10px_30px_-22px_rgba(0,0,0,0.25)] transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_24px_60px_-24px_rgba(0,0,0,0.35)] md:rounded-[20px]"
+                  style={{ aspectRatio: "3 / 4", transitionDelay: `${(i % 6) * 60}ms` }}
+                >
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.06]"
+                    draggable={false}
+                  />
+                  {/* Degradê inferior discreto */}
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[42%] bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+                  {/* Ring interno sutil */}
+                  <div className="pointer-events-none absolute inset-0 rounded-[16px] ring-1 ring-inset ring-white/10 md:rounded-[20px]" />
+                  {/* Legenda sobre a foto */}
+                  <figcaption className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-0.5 p-3 text-left md:p-5">
+                    <span className="text-[8px] font-medium uppercase tracking-[0.28em] text-gold/95 md:text-[10px] md:tracking-[0.32em]">
+                      {item.category}
+                    </span>
+                    <span className="font-serif text-[15px] leading-tight text-white md:text-[22px]">
+                      {item.title}
+                    </span>
+                    <span className="hidden text-[12px] leading-snug text-white/80 md:block">
+                      {item.desc}
+                    </span>
+                  </figcaption>
+                </button>
+              ))}
+          </div>
         </div>
       </section>
+
+      {lightboxIndex !== null && (
+        <Lightbox
+          items={portfolio}
+          index={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onIndex={setLightboxIndex}
+        />
+      )}
 
       {/* Avaliações */}
       <section id="avaliacoes" className="bg-bege/30 py-20 md:py-28">
