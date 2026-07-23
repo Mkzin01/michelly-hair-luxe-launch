@@ -12,6 +12,11 @@ import coloracao from "@/assets/mh/coloracao.jpg.asset.json";
 import tratamentos from "@/assets/mh/tratamentos.jpg.asset.json";
 import antes from "@/assets/mh/antes.jpg.asset.json";
 import depois from "@/assets/mh/depois.jpg.asset.json";
+import portfolio2 from "@/assets/mh/portfolio-2.jpg.asset.json";
+import portfolio3 from "@/assets/mh/portfolio-3.jpg.asset.json";
+import portfolio4 from "@/assets/mh/portfolio-4.jpg.asset.json";
+import portfolio5 from "@/assets/mh/portfolio-5.jpg.asset.json";
+import portfolio6 from "@/assets/mh/portfolio-6.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -42,6 +47,22 @@ const services = [
 
 const beforeAfter = [
   { before: antes.url, after: depois.url, title: "Transformação Real" },
+];
+
+type PortfolioItem = { src: string; category: string; title: string; desc: string };
+const portfolio: PortfolioItem[] = [
+  { src: balayage.url,   category: "Balayage",         title: "Balayage",         desc: "Reflexos naturais e luminosidade sob medida." },
+  { src: morena.url,     category: "Morena Iluminada", title: "Morena Iluminada", desc: "Iluminação discreta que valoriza o tom natural." },
+  { src: depois.url,     category: "Alisamento",       title: "Alisamento",       desc: "Fios lisos, saudáveis e com movimento." },
+  { src: portfolio2.url, category: "Coloração",        title: "Coloração",        desc: "Cor personalizada com pigmentos premium." },
+  { src: madeixas.url,   category: "Madeixas",         title: "Madeixas",         desc: "Nuances precisas para um resultado refinado." },
+  { src: portfolio3.url, category: "Balayage",         title: "Balayage Dourado", desc: "Reflexos suaves com acabamento acetinado." },
+  { src: tratamentos.url,category: "Tratamentos",      title: "Ritual Restaurador", desc: "Brilho, hidratação e vitalidade profunda." },
+  { src: portfolio4.url, category: "Morena Iluminada", title: "Morena Luminosa",  desc: "Iluminado sob medida para tons quentes." },
+  { src: portfolio5.url, category: "Coloração",        title: "Coloração Premium", desc: "Cobertura precisa com resultado natural." },
+  { src: coloracao.url,  category: "Coloração",        title: "Cor Sob Medida",   desc: "Nuances personalizadas para cada cliente." },
+  { src: portfolio6.url, category: "Alisamento",       title: "Alisamento Espelhado", desc: "Fios alinhados, brilho e leveza." },
+  { src: antes.url,      category: "Transformação",    title: "Transformação Real", desc: "Um antes e depois assinado pela Michelly." },
 ];
 
 const testimonials = [
