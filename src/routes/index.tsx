@@ -237,17 +237,28 @@ function Landing() {
 
       {/* Hero */}
       <section id="top" ref={heroRef} className="relative min-h-[100svh] w-full overflow-hidden">
-        <img
-          src={heroNovo.url}
-          alt="Michelly Hair salão premium"
-          className="absolute inset-0 h-full w-full object-cover object-[30%_center] md:object-[70%_center] scale-105"
+        <div className="absolute inset-0 overflow-hidden">
+          <img
+            src={heroNovo.url}
+            alt="Michelly Hair salão premium"
+            className="ken-burns absolute inset-0 h-full w-full object-cover object-[30%_center] md:object-[70%_center]"
+            draggable={false}
+          />
+        </div>
+        {/* Premium layered overlay — dark top/bottom, transparent center, subtle side wash on desktop */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.18) 62%, rgba(0,0,0,0.55) 100%)",
+          }}
         />
-        {/* Soft directional wash — never covers the model */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/45 md:bg-gradient-to-r md:from-black/45 md:via-transparent md:to-transparent" />
+        <div className="pointer-events-none absolute inset-0 hidden md:block bg-gradient-to-r from-black/45 via-transparent to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,0.35)_100%)]" />
 
         <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-7xl flex-col justify-end px-5 pt-28 pb-24 md:grid md:grid-cols-12 md:items-center md:px-10 md:pt-32 md:pb-20">
           <div className="w-full md:col-span-6 lg:col-span-5">
-            <div className="reveal inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 backdrop-blur-xl md:gap-3 md:px-4 md:py-2">
+            <div className="hero-rise inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 backdrop-blur-xl md:gap-3 md:px-4 md:py-2" style={{ animationDelay: "80ms" }}>
               <MapPin className="h-3 w-3 text-gold md:h-3.5 md:w-3.5" />
               <span className="text-[9px] font-medium uppercase tracking-[0.28em] text-white/95 md:text-[0.72rem] md:tracking-[0.35em]">
                 Charneca da Caparica · Margem Sul
@@ -256,35 +267,35 @@ function Landing() {
 
             {/* Glassmorphism panel — soft, bounded to text only */}
             <div
-              className="reveal relative mt-5 w-full rounded-[24px] px-5 py-6 md:mt-6 md:rounded-[28px] md:px-9 md:py-10"
+              className="hero-rise relative mt-5 w-full rounded-[24px] px-5 py-6 md:mt-6 md:rounded-[28px] md:px-9 md:py-10"
               style={{
-                transitionDelay: "120ms",
-                background: "linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))",
-                backdropFilter: "blur(14px) saturate(140%)",
-                border: "1px solid rgba(255,255,255,0.18)",
-                boxShadow: "0 30px 80px -40px rgba(0,0,0,0.6)",
+                animationDelay: "220ms",
+                background: "linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03))",
+                backdropFilter: "blur(18px) saturate(150%)",
+                border: "1px solid rgba(255,255,255,0.14)",
+                boxShadow: "0 40px 90px -50px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08)",
               }}
             >
-              <h1 className="font-serif text-[1.9rem] leading-[1.05] tracking-[-0.015em] text-white sm:text-5xl md:text-[3.4rem] lg:text-[3.75rem]">
+              <h1 className="hero-rise font-serif text-[1.9rem] leading-[1.05] tracking-[-0.015em] text-white sm:text-5xl md:text-[3.4rem] lg:text-[3.75rem]" style={{ animationDelay: "320ms" }}>
                 Transformando cabelos,<br />
                 elevando<br />
                 <span className="italic font-light text-gold">autoestima.</span>
               </h1>
-              <p className="mt-4 max-w-md text-[12.5px] leading-[1.7] text-white/85 md:mt-6 md:text-[15px] md:leading-[1.8]">
+              <p className="hero-rise mt-4 max-w-md text-[12.5px] leading-[1.7] text-white/85 md:mt-6 md:text-[15px] md:leading-[1.8]" style={{ animationDelay: "520ms" }}>
                 Balayage, Morena Iluminada, alisamentos e tratamentos personalizados
                 para realçar a beleza natural de cada cliente.
               </p>
             </div>
 
             <div
-              className="reveal mt-5 flex flex-col items-center gap-2.5 md:mt-8 md:items-start md:gap-3"
-              style={{ transitionDelay: "260ms" }}
+              className="mt-5 flex flex-col items-center gap-2.5 md:mt-8 md:items-start md:gap-3"
             >
               <a
                 href={WHATSAPP}
                 target="_blank"
                 rel="noreferrer"
-                className="btn-pill h-11 text-[10px] tracking-[0.24em] md:h-[3.25rem] md:text-[0.72rem] md:tracking-[0.28em] bg-gold text-ink shadow-[0_18px_40px_-18px_rgba(184,144,80,0.7)] hover:bg-gold-soft hover:shadow-[0_22px_50px_-18px_rgba(184,144,80,0.85)]"
+                className="btn-pill btn-premium hero-rise h-11 text-[10px] tracking-[0.24em] md:h-[3.25rem] md:text-[0.72rem] md:tracking-[0.28em] bg-gold text-ink shadow-[0_18px_40px_-18px_rgba(184,144,80,0.7)] hover:bg-gold-soft hover:shadow-[0_22px_50px_-18px_rgba(184,144,80,0.85)]"
+                style={{ animationDelay: "700ms" }}
               >
                 <WhatsAppIcon className="h-4 w-4" /> Agendar no WhatsApp
               </a>
@@ -292,7 +303,8 @@ function Landing() {
                 href={INSTAGRAM}
                 target="_blank"
                 rel="noreferrer"
-                className="btn-pill h-11 text-[10px] tracking-[0.24em] md:h-[3.25rem] md:text-[0.72rem] md:tracking-[0.28em] border border-white/70 bg-white/5 text-white backdrop-blur-md hover:bg-white hover:text-ink"
+                className="btn-pill btn-premium hero-rise h-11 text-[10px] tracking-[0.24em] md:h-[3.25rem] md:text-[0.72rem] md:tracking-[0.28em] border border-white/70 bg-white/5 text-white backdrop-blur-md hover:bg-white hover:text-ink"
+                style={{ animationDelay: "820ms" }}
               >
                 <InstagramIcon className="h-[16px] w-[16px]" /> Ver Instagram
               </a>
@@ -300,19 +312,25 @@ function Landing() {
                 href={MAPS}
                 target="_blank"
                 rel="noreferrer"
-                className="btn-pill h-11 text-[10px] tracking-[0.24em] md:h-[3.25rem] md:text-[0.72rem] md:tracking-[0.28em] border border-white/40 bg-white/5 text-white/95 backdrop-blur-md hover:border-white hover:bg-white/15"
+                className="btn-pill btn-premium hero-rise h-11 text-[10px] tracking-[0.24em] md:h-[3.25rem] md:text-[0.72rem] md:tracking-[0.28em] border border-white/40 bg-white/5 text-white/95 backdrop-blur-md hover:border-white hover:bg-white/15"
+                style={{ animationDelay: "940ms" }}
               >
                 <MapPin className="h-[16px] w-[16px]" /> Como Chegar
               </a>
 
               <a
                 href="#stats"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const target = document.getElementById("stats");
+                  if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
                 aria-label="Ver mais"
-                className="reveal mt-3 inline-flex flex-col items-center gap-1 text-white/80 transition-colors hover:text-gold md:mt-4"
-                style={{ transitionDelay: "360ms" }}
+                className="hero-rise mt-3 inline-flex flex-col items-center gap-1 text-white/80 transition-colors hover:text-gold md:mt-4"
+                style={{ animationDelay: "1120ms" }}
               >
                 <span className="text-[9px] font-medium uppercase tracking-[0.32em] md:text-[10px]">Ver mais</span>
-                <ChevronDown className="scroll-arrow h-4 w-4 text-gold" strokeWidth={1.4} />
+                <ChevronDown className="arrow-float h-4 w-4 text-gold" strokeWidth={1.4} />
               </a>
             </div>
           </div>
