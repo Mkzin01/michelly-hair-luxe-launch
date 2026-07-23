@@ -116,3 +116,51 @@
   50% { transform: translateY(10px); opacity: 1; }
 }
 @utility scroll-arrow { animation: mhBounce 2s ease-in-out infinite; }
+
+@utility glass-panel {
+  background: color-mix(in oklab, white 12%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid color-mix(in oklab, white 22%, transparent);
+}
+@utility glass-card {
+  background: color-mix(in oklab, white 70%, transparent);
+  backdrop-filter: blur(14px) saturate(130%);
+  border: 1px solid color-mix(in oklab, var(--gold) 18%, transparent);
+}
+@utility btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  height: 3.25rem;
+  width: 100%;
+  max-width: 20rem;
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease, background-color 0.4s ease, color 0.4s ease;
+  will-change: transform;
+  &:hover { transform: translateY(-2px); }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@keyframes mhShine {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(220%); }
+}
+.shine-once::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, color-mix(in oklab, var(--gold) 40%, transparent) 50%, transparent 70%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+.reveal-in .shine-once::before {
+  animation: mhShine 1.8s ease-out 0.4s 1 forwards;
+}
