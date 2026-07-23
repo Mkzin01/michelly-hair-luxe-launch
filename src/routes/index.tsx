@@ -12,6 +12,11 @@ import coloracao from "@/assets/mh/coloracao.jpg.asset.json";
 import tratamentos from "@/assets/mh/tratamentos.jpg.asset.json";
 import antes from "@/assets/mh/antes.jpg.asset.json";
 import depois from "@/assets/mh/depois.jpg.asset.json";
+import portfolio2 from "@/assets/mh/portfolio-2.jpg.asset.json";
+import portfolio3 from "@/assets/mh/portfolio-3.jpg.asset.json";
+import portfolio4 from "@/assets/mh/portfolio-4.jpg.asset.json";
+import portfolio5 from "@/assets/mh/portfolio-5.jpg.asset.json";
+import portfolio6 from "@/assets/mh/portfolio-6.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -40,8 +45,20 @@ const services = [
   { name: "Tratamentos Capilares", img: tratamentos.url, desc: "Rituais restauradores de alta performance." },
 ];
 
-const beforeAfter = [
-  { before: antes.url, after: depois.url, title: "Transformação Real" },
+type PortfolioItem = { src: string; category: string; title: string; desc: string };
+const portfolio: PortfolioItem[] = [
+  { src: balayage.url,   category: "Balayage",         title: "Balayage",         desc: "Reflexos naturais e luminosidade sob medida." },
+  { src: morena.url,     category: "Morena Iluminada", title: "Morena Iluminada", desc: "Iluminação discreta que valoriza o tom natural." },
+  { src: depois.url,     category: "Alisamento",       title: "Alisamento",       desc: "Fios lisos, saudáveis e com movimento." },
+  { src: portfolio2.url, category: "Coloração",        title: "Coloração",        desc: "Cor personalizada com pigmentos premium." },
+  { src: madeixas.url,   category: "Madeixas",         title: "Madeixas",         desc: "Nuances precisas para um resultado refinado." },
+  { src: portfolio3.url, category: "Balayage",         title: "Balayage Dourado", desc: "Reflexos suaves com acabamento acetinado." },
+  { src: tratamentos.url,category: "Tratamentos",      title: "Ritual Restaurador", desc: "Brilho, hidratação e vitalidade profunda." },
+  { src: portfolio4.url, category: "Morena Iluminada", title: "Morena Luminosa",  desc: "Iluminado sob medida para tons quentes." },
+  { src: portfolio5.url, category: "Coloração",        title: "Coloração Premium", desc: "Cobertura precisa com resultado natural." },
+  { src: coloracao.url,  category: "Coloração",        title: "Cor Sob Medida",   desc: "Nuances personalizadas para cada cliente." },
+  { src: portfolio6.url, category: "Alisamento",       title: "Alisamento Espelhado", desc: "Fios alinhados, brilho e leveza." },
+  { src: antes.url,      category: "Transformação",    title: "Transformação Real", desc: "Um antes e depois assinado pela Michelly." },
 ];
 
 const testimonials = [
@@ -119,31 +136,91 @@ function AnimatedNumber({ value, suffix = "", duration = 1600 }: { value: number
   return <span ref={ref}>{display}{suffix}</span>;
 }
 
-function BeforeAfterPair({ before, after, title }: { before: string; after: string; title: string }) {
+function Lightbox({
+  items,
+  index,
+  onClose,
+  onIndex,
+}: {
+  items: PortfolioItem[];
+  index: number;
+  onClose: () => void;
+  onIndex: (i: number) => void;
+}) {
+  const touchStart = useRef<number | null>(null);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight") onIndex((index + 1) % items.length);
+      if (e.key === "ArrowLeft") onIndex((index - 1 + items.length) % items.length);
+    };
+    window.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [index, items.length, onClose, onIndex]);
+
+  const current = items[index];
+  const go = (dir: 1 | -1) => onIndex((index + dir + items.length) % items.length);
+
   return (
-    <div className="reveal">
-      <p className="mb-5 text-center font-serif text-lg italic text-muted-foreground md:text-xl">— {title} —</p>
-      <div className="mx-auto grid max-w-4xl grid-cols-2 gap-3 md:gap-6">
-        {[
-          { src: before, label: "Antes", tone: "bg-black/70 text-white" },
-          { src: after, label: "Depois", tone: "bg-gold text-ink" },
-        ].map((it) => (
-          <figure key={it.label} className="group relative overflow-hidden rounded-2xl shadow-[0_16px_50px_-30px_rgba(0,0,0,0.35)] md:rounded-3xl">
-            <img
-              src={it.src}
-              alt={`${it.label} — ${title}`}
-              className="w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.03]"
-              style={{ aspectRatio: "3 / 4" }}
-              draggable={false}
-            />
-            <figcaption className="pointer-events-none absolute left-3 top-3 md:left-4 md:top-4">
-              <span className={`rounded-full px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.28em] backdrop-blur md:px-3 md:text-[10px] ${it.tone}`}>
-                {it.label}
-              </span>
-            </figcaption>
-          </figure>
-        ))}
-      </div>
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-md animate-[fadeIn_.25s_ease-out]"
+      style={{ animation: "fadeIn .25s ease-out" }}
+      onClick={onClose}
+    >
+      <button
+        aria-label="Fechar"
+        onClick={(e) => { e.stopPropagation(); onClose(); }}
+        className="absolute right-4 top-4 z-10 grid h-11 w-11 place-items-center rounded-full border border-white/25 bg-white/5 text-white backdrop-blur-md transition-all hover:bg-white/15 md:right-8 md:top-8"
+      >
+        <X className="h-4 w-4" />
+      </button>
+      <button
+        aria-label="Anterior"
+        onClick={(e) => { e.stopPropagation(); go(-1); }}
+        className="absolute left-3 z-10 hidden h-12 w-12 place-items-center rounded-full border border-white/25 bg-white/5 text-white backdrop-blur-md transition-all hover:bg-white/15 md:grid md:left-8"
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </button>
+      <button
+        aria-label="Próximo"
+        onClick={(e) => { e.stopPropagation(); go(1); }}
+        className="absolute right-3 z-10 hidden h-12 w-12 place-items-center rounded-full border border-white/25 bg-white/5 text-white backdrop-blur-md transition-all hover:bg-white/15 md:grid md:right-8"
+      >
+        <ChevronRight className="h-5 w-5" />
+      </button>
+
+      <figure
+        className="relative flex h-full w-full max-w-6xl flex-col items-center justify-center px-4 md:px-16"
+        onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => { touchStart.current = e.touches[0].clientX; }}
+        onTouchEnd={(e) => {
+          if (touchStart.current == null) return;
+          const dx = e.changedTouches[0].clientX - touchStart.current;
+          if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+          touchStart.current = null;
+        }}
+      >
+        <img
+          key={current.src}
+          src={current.src}
+          alt={current.title}
+          className="max-h-[82vh] w-auto max-w-full rounded-2xl object-contain shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)] animate-[fadeIn_.35s_ease-out]"
+          draggable={false}
+        />
+        <figcaption className="mt-5 text-center">
+          <div className="text-[10px] font-medium uppercase tracking-[0.32em] text-gold">{current.category}</div>
+          <div className="mt-2 font-serif text-2xl text-white md:text-3xl">{current.title}</div>
+          <div className="mt-1 text-[13px] text-white/70">{current.desc}</div>
+          <div className="mt-3 text-[10px] uppercase tracking-[0.28em] text-white/40">
+            {index + 1} / {items.length}
+          </div>
+        </figcaption>
+      </figure>
     </div>
   );
 }
@@ -152,6 +229,8 @@ function Landing() {
   useReveal();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("Todos");
   const heroRef = useRef<HTMLElement>(null);
   const testimonialsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -456,23 +535,93 @@ function Landing() {
       </section>
 
       {/* Portfolio Antes e Depois */}
-      <section id="portfolio" className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
-        <div className="reveal mx-auto max-w-2xl text-center">
-          <span className="eyebrow"><span className="gold-line mr-3" />Portfólio<span className="gold-line ml-3" /></span>
-          <h2 className="mt-5 font-serif text-4xl leading-tight tracking-[-0.015em] text-ink md:text-[3rem]">
-            Antes &amp; Depois
-          </h2>
-          <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
-            Transformações reais assinadas por Michelly Hair.
-          </p>
-        </div>
+      <section id="portfolio" className="py-16 md:py-24">
+        <div className="mx-auto max-w-[1600px] px-3 md:px-6">
+          <div className="reveal mx-auto max-w-2xl text-center">
+            <span className="eyebrow"><span className="gold-line mr-3" />Portfólio<span className="gold-line ml-3" /></span>
+            <h2 className="mt-5 font-serif text-4xl leading-tight tracking-[-0.015em] text-ink md:text-[3rem]">
+              Trabalhos assinados <span className="italic text-gold">Michelly Hair</span>
+            </h2>
+            <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
+              Uma seleção editorial de transformações reais.
+            </p>
+          </div>
 
-        <div className="mt-14 space-y-14 md:mt-16 md:space-y-20">
-          {beforeAfter.map((t, i) => (
-            <BeforeAfterPair key={i} before={t.before} after={t.after} title={t.title} />
-          ))}
+          {/* Categorias */}
+          {(() => {
+            const categories = ["Todos", ...Array.from(new Set(portfolio.map((p) => p.category)))];
+            return (
+              <div className="reveal mt-10 flex flex-wrap items-center justify-center gap-2 md:mt-14 md:gap-3">
+                {categories.map((c) => {
+                  const active = activeCategory === c;
+                  return (
+                    <button
+                      key={c}
+                      onClick={() => setActiveCategory(c)}
+                      className={`rounded-full border px-3.5 py-1.5 text-[10px] font-medium uppercase tracking-[0.24em] transition-all duration-500 md:px-5 md:py-2 md:text-[11px] md:tracking-[0.28em] ${
+                        active
+                          ? "border-ink bg-ink text-white shadow-[0_10px_30px_-14px_rgba(0,0,0,0.5)]"
+                          : "border-border bg-transparent text-muted-foreground hover:border-gold hover:text-ink"
+                      }`}
+                    >
+                      {c}
+                    </button>
+                  );
+                })}
+              </div>
+            );
+          })()}
+
+          {/* Galeria */}
+          <div className="mt-8 grid grid-cols-2 gap-2 sm:gap-3 md:mt-12 md:grid-cols-3 md:gap-4">
+            {portfolio
+              .map((item, i) => ({ item, i }))
+              .filter(({ item }) => activeCategory === "Todos" || item.category === activeCategory)
+              .map(({ item, i }) => (
+                <button
+                  key={`${item.src}-${i}`}
+                  onClick={() => setLightboxIndex(i)}
+                  aria-label={`Abrir ${item.title}`}
+                  className="reveal group relative block w-full overflow-hidden rounded-[16px] bg-bege/40 shadow-[0_10px_30px_-22px_rgba(0,0,0,0.25)] transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_24px_60px_-24px_rgba(0,0,0,0.35)] md:rounded-[20px]"
+                  style={{ aspectRatio: "3 / 4", transitionDelay: `${(i % 6) * 60}ms` }}
+                >
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.06]"
+                    draggable={false}
+                  />
+                  {/* Degradê inferior discreto */}
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[42%] bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+                  {/* Ring interno sutil */}
+                  <div className="pointer-events-none absolute inset-0 rounded-[16px] ring-1 ring-inset ring-white/10 md:rounded-[20px]" />
+                  {/* Legenda sobre a foto */}
+                  <figcaption className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-0.5 p-3 text-left md:p-5">
+                    <span className="text-[8px] font-medium uppercase tracking-[0.28em] text-gold/95 md:text-[10px] md:tracking-[0.32em]">
+                      {item.category}
+                    </span>
+                    <span className="font-serif text-[15px] leading-tight text-white md:text-[22px]">
+                      {item.title}
+                    </span>
+                    <span className="hidden text-[12px] leading-snug text-white/80 md:block">
+                      {item.desc}
+                    </span>
+                  </figcaption>
+                </button>
+              ))}
+          </div>
         </div>
       </section>
+
+      {lightboxIndex !== null && (
+        <Lightbox
+          items={portfolio}
+          index={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onIndex={setLightboxIndex}
+        />
+      )}
 
       {/* Avaliações */}
       <section id="avaliacoes" className="bg-bege/30 py-20 md:py-28">
