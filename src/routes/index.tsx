@@ -263,14 +263,11 @@ function Landing() {
 
       {/* Hero */}
       <section id="top" ref={heroRef} className="relative min-h-[100svh] w-full overflow-hidden">
-        <picture>
-          <source media="(max-width: 767px)" srcSet={heroMobile.url} />
-          <img
-            src={heroDesktop.url}
-            alt="Michelly Hair salão premium"
-            className="absolute inset-0 h-full w-full object-cover object-[68%_center] md:object-[75%_center] scale-105"
-          />
-        </picture>
+        <img
+          src={heroNovo.url}
+          alt="Michelly Hair salão premium"
+          className="absolute inset-0 h-full w-full object-cover object-[30%_center] md:object-[70%_center] scale-105"
+        />
         {/* Soft directional wash — never covers the model */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/45 md:bg-gradient-to-r md:from-black/45 md:via-transparent md:to-transparent" />
 
