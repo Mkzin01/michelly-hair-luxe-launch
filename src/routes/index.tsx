@@ -166,12 +166,25 @@ function Landing() {
     el.addEventListener("pointerdown", onDown);
     el.addEventListener("pointerup", onUp);
     el.addEventListener("pointercancel", onUp);
+    // Premium easing for autoplay (cubic-bezier-like ease-out)
+    const easeOutExpo = (t: number) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
+    const smoothTo = (target: number, duration = 900) => {
+      const start = el.scrollLeft;
+      const delta = target - start;
+      const t0 = performance.now();
+      const step = (now: number) => {
+        const p = Math.min(1, (now - t0) / duration);
+        el.scrollLeft = start + delta * easeOutExpo(p);
+        if (p < 1 && !paused) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
     const id = window.setInterval(() => {
       if (paused || !el) return;
       const max = el.scrollWidth - el.clientWidth - 2;
-      const next = el.scrollLeft + el.clientWidth * 0.7;
-      el.scrollTo({ left: next >= max ? 0 : next, behavior: "smooth" });
-    }, 4200);
+      const next = el.scrollLeft + el.clientWidth * 0.72;
+      smoothTo(next >= max ? 0 : next);
+    }, 4600);
     return () => {
       window.clearInterval(id);
       el.removeEventListener("pointerdown", onDown);
@@ -425,13 +438,13 @@ function Landing() {
 
           <div
             ref={servicesRef}
-            className="no-scrollbar mt-10 flex snap-x snap-proximity gap-4 overflow-x-auto overscroll-x-contain px-1 pb-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3"
-            style={{ scrollBehavior: "smooth" }}
+            className="no-scrollbar mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain px-1 pb-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3"
+            style={{ scrollBehavior: "smooth", touchAction: "pan-x", WebkitOverflowScrolling: "touch" }}
           >
             {services.map((s, i) => (
               <article
                 key={s.name}
-                className="reveal group relative w-[72%] shrink-0 snap-center overflow-hidden rounded-3xl bg-card shadow-[0_12px_36px_-22px_rgba(0,0,0,0.22)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.28)] sm:w-auto"
+                className="reveal group relative w-[70%] shrink-0 snap-center overflow-hidden rounded-3xl bg-card shadow-[0_10px_30px_-22px_rgba(0,0,0,0.2)] transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.28)] sm:w-auto"
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
                 <div className="overflow-hidden rounded-t-3xl bg-bege/40">
@@ -440,13 +453,13 @@ function Landing() {
                     alt={s.name}
                     loading="lazy"
                     className="w-full object-contain transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04] sm:object-cover"
-                    style={{ aspectRatio: "4 / 5" }}
+                    style={{ aspectRatio: "5 / 5.2" }}
                   />
                 </div>
-                <div className="px-5 py-5 sm:px-7 sm:py-6">
-                  <h3 className="font-serif text-[1.2rem] tracking-tight text-ink sm:text-[1.4rem]">{s.name}</h3>
-                  <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground sm:mt-2 sm:text-[14px]">{s.desc}</p>
-                  <div className="mt-3 h-px w-10 bg-gold/60 transition-all duration-500 group-hover:w-20 sm:mt-4" />
+                <div className="px-4 py-3.5 sm:px-6 sm:py-5">
+                  <h3 className="font-serif text-[1.1rem] tracking-tight text-ink sm:text-[1.3rem]">{s.name}</h3>
+                  <p className="mt-1 text-[12.5px] leading-snug text-muted-foreground sm:mt-1.5 sm:text-[13.5px]">{s.desc}</p>
+                  <div className="mt-2.5 h-px w-8 bg-gold/60 transition-all duration-500 group-hover:w-16 sm:mt-3" />
                 </div>
               </article>
             ))}
@@ -549,16 +562,16 @@ function Landing() {
             background: "radial-gradient(ellipse at 20% 30%, rgba(184,144,80,0.35), transparent 55%), radial-gradient(ellipse at 80% 70%, rgba(184,144,80,0.2), transparent 55%)",
           }}
         />
-        <div className="relative mx-auto max-w-4xl px-5 py-28 text-center md:px-10 md:py-36">
+        <div className="relative mx-auto max-w-4xl px-5 py-16 text-center md:px-10 md:py-20">
           <div className="reveal">
             <span className="eyebrow text-white/60"><span className="gold-line mr-3" />Agende agora<span className="gold-line ml-3" /></span>
-            <h2 className="mt-6 font-serif text-5xl leading-[1.02] tracking-[-0.02em] text-white md:text-[4rem]">
+            <h2 className="mt-5 font-serif text-4xl leading-[1.02] tracking-[-0.02em] text-white md:text-[3.4rem]">
               A sua próxima<br /><span className="italic text-gold">transformação</span> começa aqui.
             </h2>
-            <p className="mx-auto mt-6 max-w-lg text-[15px] leading-relaxed text-white/70">
+            <p className="mx-auto mt-4 max-w-lg text-[14px] leading-relaxed text-white/70">
               Reserve o seu horário e descubra o cuidado exclusivo do Michelly Hair.
             </p>
-            <div className="mt-12 flex justify-center">
+            <div className="mt-7 flex justify-center">
               <a
                 href={WHATSAPP}
                 target="_blank"
@@ -575,31 +588,31 @@ function Landing() {
 
       {/* Footer */}
       <footer id="contacto" className="bg-background">
-        <div className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-24">
-          <div className="grid gap-12 md:grid-cols-[1.1fr_1fr_1fr]">
+        <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-20">
+          <div className="grid gap-10 md:grid-cols-[1.1fr_1fr_1fr]">
             <div>
-              <div className="font-serif text-2xl text-ink">
+              <div className="font-serif text-xl text-ink">
                 Michelly<span className="text-gold"> Hair</span>
               </div>
-              <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-3 max-w-xs text-[12.5px] leading-relaxed text-muted-foreground">
                 Salão premium especializado em coloração, iluminados, alisamentos e tratamentos exclusivos.
               </p>
-              <div className="mt-6 flex gap-3">
-                <a href={WHATSAPP} target="_blank" rel="noreferrer" aria-label="WhatsApp" className="grid h-11 w-11 place-items-center rounded-full border border-border text-ink transition-all hover:-translate-y-0.5 hover:border-gold hover:text-gold">
-                  <WhatsAppIcon className="h-[18px] w-[18px]" />
+              <div className="mt-5 flex gap-2.5">
+                <a href={WHATSAPP} target="_blank" rel="noreferrer" aria-label="WhatsApp" className="grid h-9 w-9 place-items-center rounded-full border border-border text-ink transition-all hover:-translate-y-0.5 hover:border-gold hover:text-gold">
+                  <WhatsAppIcon className="h-4 w-4" />
                 </a>
-                <a href={INSTAGRAM} target="_blank" rel="noreferrer" aria-label="Instagram" className="grid h-11 w-11 place-items-center rounded-full border border-border text-ink transition-all hover:-translate-y-0.5 hover:border-gold hover:text-gold">
-                  <InstagramIcon className="h-[18px] w-[18px]" />
+                <a href={INSTAGRAM} target="_blank" rel="noreferrer" aria-label="Instagram" className="grid h-9 w-9 place-items-center rounded-full border border-border text-ink transition-all hover:-translate-y-0.5 hover:border-gold hover:text-gold">
+                  <InstagramIcon className="h-4 w-4" />
                 </a>
-                <a href={MAPS} target="_blank" rel="noreferrer" aria-label="Localização" className="grid h-11 w-11 place-items-center rounded-full border border-border text-ink transition-all hover:-translate-y-0.5 hover:border-gold hover:text-gold">
-                  <MapPin className="h-4 w-4" />
+                <a href={MAPS} target="_blank" rel="noreferrer" aria-label="Localização" className="grid h-9 w-9 place-items-center rounded-full border border-border text-ink transition-all hover:-translate-y-0.5 hover:border-gold hover:text-gold">
+                  <MapPin className="h-[14px] w-[14px]" />
                 </a>
               </div>
             </div>
 
             <div>
-              <span className="eyebrow">Contacto</span>
-              <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
+              <span className="eyebrow text-[0.62rem]">Contacto</span>
+              <ul className="mt-4 space-y-2.5 text-[12.5px] text-muted-foreground">
                 <li>Largo Fernanda Alves 4A</li>
                 <li>Charneca da Caparica, Portugal</li>
                 <li><a className="hover:text-gold" href={WHATSAPP} target="_blank" rel="noreferrer">+351 920 810 339</a></li>
@@ -608,12 +621,12 @@ function Landing() {
             </div>
 
             <div>
-              <span className="eyebrow">Localização</span>
-              <div className="mt-5 overflow-hidden rounded-2xl border border-border shadow-[0_10px_30px_-20px_rgba(0,0,0,0.2)]">
+              <span className="eyebrow text-[0.62rem]">Localização</span>
+              <div className="mt-4 overflow-hidden rounded-2xl border border-border shadow-[0_10px_30px_-20px_rgba(0,0,0,0.2)]">
                 <iframe
                   title="Mapa Michelly Hair"
                   src="https://www.google.com/maps?q=Largo+Fernanda+Alves+4A,+Charneca+da+Caparica&output=embed"
-                  className="h-56 w-full"
+                  className="h-48 w-full"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
@@ -621,9 +634,9 @@ function Landing() {
             </div>
           </div>
 
-          <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
+          <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border pt-5 text-[10.5px] text-muted-foreground md:flex-row">
             <p>© {new Date().getFullYear()} Michelly Hair. Todos os direitos reservados.</p>
-            <p className="eyebrow">Charneca da Caparica</p>
+            <p className="eyebrow text-[0.6rem]">Charneca da Caparica</p>
           </div>
         </div>
       </footer>
