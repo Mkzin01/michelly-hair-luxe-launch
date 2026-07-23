@@ -127,53 +127,30 @@ function AnimatedNumber({ value, suffix = "", duration = 1600 }: { value: number
   return <span ref={ref}>{display}{suffix}</span>;
 }
 
-function BeforeAfter({ before, after, title }: { before: string; after: string; title: string }) {
-  const [pos, setPos] = useState(50);
+function BeforeAfterPair({ before, after, title }: { before: string; after: string; title: string }) {
   return (
     <div className="reveal">
       <p className="mb-5 text-center font-serif text-lg italic text-muted-foreground md:text-xl">— {title} —</p>
-      <div
-        className="relative mx-auto w-full overflow-hidden rounded-3xl shadow-[0_20px_60px_-32px_rgba(0,0,0,0.35)] select-none"
-        style={{ aspectRatio: "4 / 3", maxWidth: "780px" }}
-      >
-        <img src={after} alt={`Depois — ${title}`} className="absolute inset-0 h-full w-full object-cover" draggable={false} />
-        <div
-          className="absolute inset-y-0 left-0 overflow-hidden"
-          style={{ width: `${pos}%` }}
-        >
-          <img
-            src={before}
-            alt={`Antes — ${title}`}
-            className="absolute inset-y-0 left-0 h-full object-cover"
-            style={{ width: `${(100 / pos) * 100}%`, minWidth: "100%" }}
-            draggable={false}
-          />
-        </div>
-        <div className="pointer-events-none absolute left-4 top-4">
-          <span className="rounded-full bg-black/50 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.28em] text-white backdrop-blur">Antes</span>
-        </div>
-        <div className="pointer-events-none absolute right-4 top-4">
-          <span className="rounded-full bg-gold/95 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.28em] text-ink backdrop-blur">Depois</span>
-        </div>
-        <div
-          className="pointer-events-none absolute inset-y-0"
-          style={{ left: `${pos}%`, transform: "translateX(-50%)" }}
-        >
-          <div className="h-full w-px bg-white/80 shadow-[0_0_20px_rgba(0,0,0,0.4)]" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 grid h-11 w-11 place-items-center rounded-full bg-white text-ink shadow-[0_10px_25px_-8px_rgba(0,0,0,0.4)]">
-            <ChevronLeft className="h-3.5 w-3.5" />
-            <ChevronRight className="h-3.5 w-3.5 -ml-1" />
-          </div>
-        </div>
-        <input
-          type="range"
-          min={0}
-          max={100}
-          value={pos}
-          onChange={(e) => setPos(Number(e.target.value))}
-          aria-label={`Comparar antes e depois — ${title}`}
-          className="absolute inset-0 h-full w-full cursor-ew-resize opacity-0"
-        />
+      <div className="mx-auto grid max-w-4xl grid-cols-2 gap-3 md:gap-6">
+        {[
+          { src: before, label: "Antes", tone: "bg-black/70 text-white" },
+          { src: after, label: "Depois", tone: "bg-gold text-ink" },
+        ].map((it) => (
+          <figure key={it.label} className="group relative overflow-hidden rounded-2xl shadow-[0_16px_50px_-30px_rgba(0,0,0,0.35)] md:rounded-3xl">
+            <img
+              src={it.src}
+              alt={`${it.label} — ${title}`}
+              className="w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.03]"
+              style={{ aspectRatio: "3 / 4" }}
+              draggable={false}
+            />
+            <figcaption className="pointer-events-none absolute left-3 top-3 md:left-4 md:top-4">
+              <span className={`rounded-full px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.28em] backdrop-blur md:px-3 md:text-[10px] ${it.tone}`}>
+                {it.label}
+              </span>
+            </figcaption>
+          </figure>
+        ))}
       </div>
     </div>
   );
@@ -185,6 +162,31 @@ function Landing() {
   const [scrolled, setScrolled] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
   const testimonialsRef = useRef<HTMLDivElement>(null);
+  const servicesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = servicesRef.current;
+    if (!el) return;
+    if (window.matchMedia("(min-width: 640px)").matches) return;
+    let paused = false;
+    const onDown = () => { paused = true; };
+    const onUp = () => { setTimeout(() => (paused = false), 2500); };
+    el.addEventListener("pointerdown", onDown);
+    el.addEventListener("pointerup", onUp);
+    el.addEventListener("pointercancel", onUp);
+    const id = window.setInterval(() => {
+      if (paused || !el) return;
+      const max = el.scrollWidth - el.clientWidth - 2;
+      const next = el.scrollLeft + el.clientWidth * 0.7;
+      el.scrollTo({ left: next >= max ? 0 : next, behavior: "smooth" });
+    }, 4200);
+    return () => {
+      window.clearInterval(id);
+      el.removeEventListener("pointerdown", onDown);
+      el.removeEventListener("pointerup", onUp);
+      el.removeEventListener("pointercancel", onUp);
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -282,14 +284,16 @@ function Landing() {
 
         <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-7xl flex-col justify-end px-5 pt-28 pb-24 md:grid md:grid-cols-12 md:items-center md:px-10 md:pt-32 md:pb-20">
           <div className="w-full md:col-span-6 lg:col-span-5">
-            <div className="reveal inline-flex items-center gap-3 rounded-full border border-white/25 bg-white/10 px-4 py-2 backdrop-blur-xl">
-              <MapPin className="h-3.5 w-3.5 text-gold" />
-              <span className="eyebrow text-white/95">Charneca da Caparica</span>
+            <div className="reveal inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 backdrop-blur-xl md:gap-3 md:px-4 md:py-2">
+              <MapPin className="h-3 w-3 text-gold md:h-3.5 md:w-3.5" />
+              <span className="text-[9px] font-medium uppercase tracking-[0.28em] text-white/95 md:text-[0.72rem] md:tracking-[0.35em]">
+                Charneca da Caparica · Margem Sul
+              </span>
             </div>
 
             {/* Glassmorphism panel — soft, bounded to text only */}
             <div
-              className="reveal relative mt-6 w-full rounded-[28px] px-6 py-8 md:px-9 md:py-10"
+              className="reveal relative mt-5 w-full rounded-[24px] px-5 py-6 md:mt-6 md:rounded-[28px] md:px-9 md:py-10"
               style={{
                 transitionDelay: "120ms",
                 background: "linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))",
@@ -298,50 +302,50 @@ function Landing() {
                 boxShadow: "0 30px 80px -40px rgba(0,0,0,0.6)",
               }}
             >
-              <h1 className="font-serif text-[2.6rem] leading-[1.02] tracking-[-0.015em] text-white sm:text-5xl md:text-[3.4rem] lg:text-[3.75rem]">
+              <h1 className="font-serif text-[1.9rem] leading-[1.05] tracking-[-0.015em] text-white sm:text-5xl md:text-[3.4rem] lg:text-[3.75rem]">
                 Transformando cabelos,<br />
                 elevando<br />
                 <span className="italic font-light text-gold">autoestima.</span>
               </h1>
-              <p className="mt-6 max-w-md text-[14px] leading-[1.8] text-white/85 md:text-[15px]">
+              <p className="mt-4 max-w-md text-[12.5px] leading-[1.7] text-white/85 md:mt-6 md:text-[15px] md:leading-[1.8]">
                 Balayage, Morena Iluminada, alisamentos e tratamentos personalizados
                 para realçar a beleza natural de cada cliente.
               </p>
             </div>
 
             <div
-              className="reveal mt-8 flex flex-col items-start gap-3"
+              className="reveal mt-5 flex flex-col items-center gap-2.5 md:mt-8 md:items-start md:gap-3"
               style={{ transitionDelay: "260ms" }}
             >
               <a
                 href={WHATSAPP}
                 target="_blank"
                 rel="noreferrer"
-                className="btn-pill bg-gold text-ink shadow-[0_18px_40px_-18px_rgba(184,144,80,0.7)] hover:bg-gold-soft hover:shadow-[0_22px_50px_-18px_rgba(184,144,80,0.85)]"
+                className="btn-pill h-11 text-[10px] tracking-[0.24em] md:h-[3.25rem] md:text-[0.72rem] md:tracking-[0.28em] bg-gold text-ink shadow-[0_18px_40px_-18px_rgba(184,144,80,0.7)] hover:bg-gold-soft hover:shadow-[0_22px_50px_-18px_rgba(184,144,80,0.85)]"
               >
-                <WhatsAppIcon className="h-4 w-4" /> WhatsApp
+                <WhatsAppIcon className="h-4 w-4" /> Agendar no WhatsApp
               </a>
               <a
                 href={INSTAGRAM}
                 target="_blank"
                 rel="noreferrer"
-                className="btn-pill border border-white/70 bg-white/5 text-white backdrop-blur-md hover:bg-white hover:text-ink"
+                className="btn-pill h-11 text-[10px] tracking-[0.24em] md:h-[3.25rem] md:text-[0.72rem] md:tracking-[0.28em] border border-white/70 bg-white/5 text-white backdrop-blur-md hover:bg-white hover:text-ink"
               >
-                <InstagramIcon className="h-[18px] w-[18px]" /> Instagram
+                <InstagramIcon className="h-[16px] w-[16px]" /> Ver Instagram
               </a>
               <a
                 href={MAPS}
                 target="_blank"
                 rel="noreferrer"
-                className="btn-pill border border-white/40 bg-white/5 text-white/95 backdrop-blur-md hover:border-white hover:bg-white/15"
+                className="btn-pill h-11 text-[10px] tracking-[0.24em] md:h-[3.25rem] md:text-[0.72rem] md:tracking-[0.28em] border border-white/40 bg-white/5 text-white/95 backdrop-blur-md hover:border-white hover:bg-white/15"
               >
-                <MapPin className="h-[18px] w-[18px]" /> Localização
+                <MapPin className="h-[16px] w-[16px]" /> Como Chegar
               </a>
             </div>
           </div>
         </div>
 
-        <div className="absolute inset-x-0 bottom-6 z-10 flex flex-col items-center gap-1.5 text-white/80">
+        <div className="absolute inset-x-0 bottom-6 z-10 hidden flex-col items-center gap-1.5 text-white/80 md:flex">
           <span className="eyebrow text-white/70">Descubra</span>
           <ChevronDown className="scroll-arrow h-4 w-4 text-gold" />
         </div>
@@ -349,26 +353,26 @@ function Landing() {
 
       {/* Stats */}
       <section className="relative bg-gradient-to-b from-bege/30 via-background to-background">
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-5 px-5 py-14 sm:grid-cols-2 md:gap-6 md:px-10 md:py-20">
+        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-3 px-5 py-10 sm:gap-5 md:gap-6 md:px-10 md:py-20">
           {[
             { icon: <Sparkles className="h-5 w-5 text-gold" strokeWidth={1.3} />, value: 300, suffix: "+", title: "Clientes transformadas", desc: "Confiança construída ao longo dos anos." },
             { icon: <Heart className="h-5 w-5 text-gold" strokeWidth={1.3} />, value: 100, suffix: "%", title: "Atendimento personalizado", desc: "Cada consulta pensada individualmente." },
           ].map((s, i) => (
             <div
               key={s.title}
-              className="reveal group relative overflow-hidden rounded-3xl border border-border/60 bg-card/70 p-8 backdrop-blur-md shadow-[0_10px_40px_-24px_rgba(0,0,0,0.18)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.24)] md:p-10 shine-once"
+              className="reveal group relative overflow-hidden rounded-2xl border border-border/60 bg-card/70 p-4 backdrop-blur-md shadow-[0_10px_40px_-24px_rgba(0,0,0,0.18)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.24)] sm:p-8 md:rounded-3xl md:p-10 shine-once"
               style={{ transitionDelay: `${i * 140}ms` }}
             >
-              <div className="flex items-center gap-3">
-                <div className="grid h-11 w-11 place-items-center rounded-full border border-gold/30 bg-gold/5">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="grid h-8 w-8 place-items-center rounded-full border border-gold/30 bg-gold/5 md:h-11 md:w-11">
                   {s.icon}
                 </div>
-                <div className="eyebrow">{s.title}</div>
+                <div className="eyebrow text-[9px] tracking-[0.22em] md:text-[0.72rem] md:tracking-[0.35em]">{s.title}</div>
               </div>
-              <div className="mt-6 font-serif text-5xl leading-none tracking-tight text-ink md:text-6xl">
+              <div className="mt-4 font-serif text-3xl leading-none tracking-tight text-ink sm:text-5xl md:mt-6 md:text-6xl">
                 <AnimatedNumber value={s.value} suffix={s.suffix} />
               </div>
-              <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
+              <p className="mt-2 hidden max-w-xs text-sm leading-relaxed text-muted-foreground sm:mt-4 sm:block">{s.desc}</p>
               <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gold/10 blur-3xl transition-opacity duration-700 group-hover:opacity-80" />
             </div>
           ))}
@@ -424,27 +428,37 @@ function Landing() {
             </p>
           </div>
 
-          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div
+            ref={servicesRef}
+            className="no-scrollbar mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-1 pb-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3"
+            style={{ scrollBehavior: "smooth" }}
+          >
             {services.map((s, i) => (
               <article
                 key={s.name}
-                className="reveal group overflow-hidden rounded-3xl bg-card shadow-[0_12px_36px_-22px_rgba(0,0,0,0.22)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.28)]"
+                className="reveal group relative w-[72%] shrink-0 snap-center overflow-hidden rounded-3xl bg-card shadow-[0_12px_36px_-22px_rgba(0,0,0,0.22)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.28)] sm:w-auto"
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
-                <div className="overflow-hidden rounded-t-3xl">
+                <div className="overflow-hidden rounded-t-3xl bg-bege/40">
                   <img
                     src={s.img}
                     alt={s.name}
-                    className="w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.06]"
-                    style={{ aspectRatio: "4 / 3" }}
+                    loading="lazy"
+                    className="w-full object-contain transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04] sm:object-cover"
+                    style={{ aspectRatio: "4 / 5" }}
                   />
                 </div>
-                <div className="px-7 py-6">
-                  <h3 className="font-serif text-[1.4rem] tracking-tight text-ink">{s.name}</h3>
-                  <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">{s.desc}</p>
-                  <div className="mt-4 h-px w-10 bg-gold/60 transition-all duration-500 group-hover:w-20" />
+                <div className="px-5 py-5 sm:px-7 sm:py-6">
+                  <h3 className="font-serif text-[1.2rem] tracking-tight text-ink sm:text-[1.4rem]">{s.name}</h3>
+                  <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground sm:mt-2 sm:text-[14px]">{s.desc}</p>
+                  <div className="mt-3 h-px w-10 bg-gold/60 transition-all duration-500 group-hover:w-20 sm:mt-4" />
                 </div>
               </article>
+            ))}
+          </div>
+          <div className="mt-4 flex justify-center gap-1.5 sm:hidden" aria-hidden>
+            {services.map((_, i) => (
+              <span key={i} className="h-1 w-6 rounded-full bg-ink/15 first:bg-gold/60" />
             ))}
           </div>
         </div>
@@ -458,13 +472,13 @@ function Landing() {
             Antes &amp; Depois
           </h2>
           <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
-            Deslize o comparador para revelar cada transformação.
+            Transformações reais assinadas por Michelly Hair.
           </p>
         </div>
 
-        <div className="mt-16 space-y-16 md:space-y-24">
+        <div className="mt-14 space-y-14 md:mt-16 md:space-y-20">
           {beforeAfter.map((t, i) => (
-            <BeforeAfter key={i} before={t.before} after={t.after} title={t.title} />
+            <BeforeAfterPair key={i} before={t.before} after={t.after} title={t.title} />
           ))}
         </div>
       </section>
@@ -473,11 +487,17 @@ function Landing() {
       <section id="avaliacoes" className="bg-bege/30 py-20 md:py-28">
         <div className="mx-auto max-w-7xl">
           <div className="reveal text-center">
-            <div className="flex items-center justify-center gap-1 text-gold">
-              {[0,1,2,3,4].map((i) => <Star key={i} className="h-4 w-4 fill-current" strokeWidth={0} />)}
+            <span className="eyebrow"><span className="gold-line mr-3" />Avaliações<span className="gold-line ml-3" /></span>
+            <div className="mt-5 flex items-center justify-center gap-1.5 text-gold">
+              {[0,1,2,3,4].map((i) => <Star key={i} className="h-5 w-5 fill-current md:h-6 md:w-6" strokeWidth={0} />)}
             </div>
-            <div className="mt-3 font-serif text-3xl text-ink md:text-4xl">5.0</div>
-            <p className="eyebrow mt-2">Mais de 300 clientes satisfeitas</p>
+            <div className="mt-4 flex items-baseline justify-center gap-3">
+              <span className="font-serif text-5xl leading-none tracking-tight text-ink md:text-6xl">5.0</span>
+              <span className="eyebrow text-ink/70">Google Reviews</span>
+            </div>
+            <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground md:text-[15px]">
+              Mais de <span className="text-ink">300 clientes satisfeitas</span> ao longo dos anos.
+            </p>
           </div>
 
           <div className="reveal relative mt-14">
