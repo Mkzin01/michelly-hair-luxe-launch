@@ -34,8 +34,8 @@ const MAPS = "https://google.com/maps/place/Largo+Fernanda+Alves+4A/@38.6292462,
 const services = [
   { name: "Balayage", img: balayage.url, desc: "Reflexos naturais, luminosidade sob medida." },
   { name: "Morena Iluminada", img: morena.url, desc: "Iluminação discreta que valoriza o tom natural." },
-  { name: "Madeixas", img: madeixas.url, desc: "Nuances precisas para um resultado refinado." },
   { name: "Alisamento", img: alisamento.url, desc: "Fios lisos, saudáveis e com movimento." },
+  { name: "Madeixas", img: madeixas.url, desc: "Nuances precisas para um resultado refinado." },
   { name: "Coloração", img: coloracao.url, desc: "Cor personalizada com pigmentos premium." },
   { name: "Tratamentos Capilares", img: tratamentos.url, desc: "Rituais restauradores de alta performance." },
 ];
