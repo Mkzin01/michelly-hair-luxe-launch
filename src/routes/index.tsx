@@ -164,7 +164,7 @@ function Landing() {
           <img
             src={heroDesktop.url}
             alt="Michelly Hair salão premium"
-            className="absolute inset-0 h-full w-full object-cover object-[center_85%] md:object-[75%_center]"
+            className="absolute inset-0 h-full w-full object-cover object-[center_top] md:object-[75%_center]"
           />
         </picture>
         {/* Directional wash — darker on the left where text lives, transparent over the model */}
