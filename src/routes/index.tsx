@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Menu, X, MapPin, ChevronDown, Star, Quote, Heart, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -154,8 +154,6 @@ function Landing() {
   const [scrolled, setScrolled] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
   const testimonialsRef = useRef<HTMLDivElement>(null);
-  const [showAllServices, setShowAllServices] = useState(false);
-
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
@@ -399,44 +397,43 @@ function Landing() {
             </p>
           </div>
 
-          <div className="mt-6 flex flex-col gap-2.5 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+          <div className="mt-6 flex flex-col gap-3 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {services.map((s, i) => {
-              const hideOnMobile = i >= 3 && !showAllServices;
+              const hideOnMobile = i >= 3;
               return (
                 <article
                   key={s.name}
-                  className={`reveal group relative w-full overflow-hidden rounded-3xl bg-card shadow-[0_10px_30px_-22px_rgba(0,0,0,0.2)] transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.28)] ${hideOnMobile ? "hidden sm:block" : ""}`}
+                  className={`reveal group relative w-full overflow-hidden rounded-2xl bg-card shadow-[0_10px_30px_-22px_rgba(0,0,0,0.2)] transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.28)] sm:rounded-3xl ${hideOnMobile ? "hidden sm:block" : ""}`}
                   style={{ transitionDelay: `${i * 80}ms` }}
                 >
-                  <div className="overflow-hidden rounded-t-3xl bg-bege/40">
+                  {/* Mobile: contain (mostra cabelo inteiro). Desktop: cover. */}
+                  <div className="flex items-center justify-center overflow-hidden rounded-t-2xl bg-bege/40 sm:rounded-t-3xl">
                     <img
                       src={s.img}
                       alt={s.name}
                       loading="lazy"
-                      className="w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04] h-[170px] sm:h-auto"
-                      style={{ objectPosition: "center 30%" }}
+                      className="h-[140px] w-full object-contain object-center transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04] sm:h-auto sm:object-cover"
+                      style={{ objectPosition: "center" }}
                     />
                   </div>
-                  <div className="px-4 py-3 text-center sm:px-6 sm:py-5 sm:text-left">
-                    <h3 className="font-serif text-[1rem] tracking-tight text-ink sm:text-[1.3rem]">{s.name}</h3>
-                    <p className="mt-0.5 line-clamp-2 text-[12px] leading-snug text-muted-foreground sm:mt-1.5 sm:text-[13.5px]">{s.desc}</p>
-                    <div className="mx-auto mt-2 h-px w-10 bg-gold/60 transition-all duration-500 group-hover:w-16 sm:mx-0 sm:mt-3 sm:w-8" />
+                  <div className="px-4 py-2.5 text-center sm:px-6 sm:py-5 sm:text-left">
+                    <h3 className="font-serif text-[0.95rem] leading-tight tracking-tight text-ink sm:text-[1.3rem]">{s.name}</h3>
+                    <p className="mt-0.5 line-clamp-2 text-[11.5px] leading-snug text-muted-foreground sm:mt-1.5 sm:text-[13.5px]">{s.desc}</p>
+                    <div className="mx-auto mt-1.5 h-px w-10 bg-gold/60 transition-all duration-500 group-hover:w-16 sm:mx-0 sm:mt-3 sm:w-8" />
                   </div>
                 </article>
               );
             })}
           </div>
 
-          {!showAllServices && (
-            <div className="mt-5 flex justify-center sm:hidden">
-              <button
-                onClick={() => setShowAllServices(true)}
-                className="inline-flex items-center gap-2 border-b border-gold pb-1 text-[11px] font-medium uppercase tracking-[0.3em] text-ink transition-opacity hover:opacity-70"
-              >
-                Ver todos os serviços <span aria-hidden>→</span>
-              </button>
-            </div>
-          )}
+          <div className="mt-6 flex justify-center sm:hidden">
+            <Link
+              to="/servicos"
+              className="inline-flex items-center gap-2 border-b border-gold pb-1 text-[11px] font-medium uppercase tracking-[0.3em] text-ink transition-opacity hover:opacity-70"
+            >
+              Ver todos os serviços <span aria-hidden>→</span>
+            </Link>
+          </div>
         </div>
       </section>
 
