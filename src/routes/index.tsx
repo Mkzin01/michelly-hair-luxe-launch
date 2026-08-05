@@ -528,7 +528,7 @@ function Landing() {
           <div className="reveal mx-auto max-w-2xl text-center">
             <span className="eyebrow"><span className="gold-line mr-3" />Portfólio<span className="gold-line ml-3" /></span>
             <h2 className="mt-5 font-serif text-4xl leading-tight tracking-[-0.015em] text-ink md:text-[3rem]">
-              Trabalhos assinados <span className="italic text-gold">Michelly Hair</span>
+              Alguns dos trabalhos assinados por <span className="italic text-gold">Michelly Hair</span>
             </h2>
             <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
               Uma seleção editorial de transformações reais.
