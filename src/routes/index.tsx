@@ -475,7 +475,7 @@ function Landing() {
               rel="noreferrer"
               className="mt-10 inline-flex items-center gap-3 border-b border-gold pb-1 text-xs font-medium uppercase tracking-[0.3em] text-ink transition-opacity hover:opacity-70"
             >
-              Agende a sua consulta
+              Agende a sua avaliação
             </a>
           </div>
         </div>
