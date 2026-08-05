@@ -12,8 +12,8 @@ import tratamentos from "@/assets/mh/tratamentos.jpg.asset.json";
 export const Route = createFileRoute("/servicos")({
   head: () => ({
     meta: [
-      { title: "Serviços — Michelly Hair | Salão Premium" },
-      { name: "description", content: "Conheça todos os serviços do Michelly Hair: Balayage, Morena Iluminada, Alisamento, Madeixas, Coloração e Tratamentos capilares." },
+      { title: "Serviços de Cabeleireira na Charneca da Caparica | Michelly Hair" },
+      { name: "description", content: "Conheça os serviços premium de cabeleireira na Charneca da Caparica: Balayage, Morena Iluminada, Alisamento e tratamentos capilares na Margem Sul." },
       { property: "og:title", content: "Serviços — Michelly Hair" },
       { property: "og:description", content: "Balayage, Morena Iluminada, Alisamentos, Coloração e Tratamentos exclusivos." },
     ],
