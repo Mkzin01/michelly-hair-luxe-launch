@@ -115,7 +115,7 @@ async function waitForServer(baseUrl, proc) {
 }
 
 async function prerenderRoutes() {
-  const proc = spawn("bunx", ["wrangler", "dev", "--config", "dist/server/wrangler.json", "--local", "--port", String(PORT)], {
+  const proc = spawn("bunx", ["wrangler", "dev", "--config", "dist/server/wrangler.json", "--local", "--port", String(PORT), "--compatibility-date", "2026-07-28"], {
     cwd: ROOT,
     stdio: ["ignore", "pipe", "pipe"],
     env: { ...process.env, NO_COLOR: "1" },
