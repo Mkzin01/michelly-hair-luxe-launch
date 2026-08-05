@@ -21,8 +21,8 @@ import portfolio6 from "@/assets/mh/portfolio-6.jpg.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Michelly Hair — Salão Premium | Charneca da Caparica" },
-      { name: "description", content: "Especialista em Balayage, Morena Iluminada, Alisamentos e tratamentos personalizados. Atendimento exclusivo em Charneca da Caparica." },
+      { title: "Michelly Hair — Cabeleireira Charneca da Caparica | Salão de Beleza Margem Sul" },
+      { name: "description", content: "Procura cabeleireira na Charneca da Caparica? Michelly Hair é o seu salão de beleza premium na Margem Sul. Especialista em Balayage e Morena Iluminada." },
       { property: "og:title", content: "Michelly Hair — Salão Premium" },
       { property: "og:description", content: "Transformando cabelos, elevando autoestima." },
       { property: "og:image", content: heroNovo.url },
