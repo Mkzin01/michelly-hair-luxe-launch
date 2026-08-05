@@ -496,7 +496,7 @@ function Landing() {
 
           <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {services.map((s, i) => {
-              const hideOnMobile = i >= 3;
+              const hideOnMobile = i >= 4;
               return (
                 <article
                   key={s.name}
