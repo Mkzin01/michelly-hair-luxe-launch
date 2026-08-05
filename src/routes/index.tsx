@@ -55,10 +55,10 @@ const portfolio: PortfolioItem[] = [
   { src: portfolio3.url, category: "Balayage",         title: "Balayage Dourado", desc: "Reflexos suaves com acabamento acetinado." },
   { src: tratamentos.url,category: "Tratamentos",      title: "Ritual Restaurador", desc: "Brilho, hidratação e vitalidade profunda." },
   { src: portfolio4.url, category: "Morena Iluminada", title: "Morena Luminosa",  desc: "Iluminado sob medida para tons quentes." },
-  { src: portfolio5.url, category: "Coloração",        title: "Coloração Premium", desc: "Cobertura precisa com resultado natural." },
-  { src: coloracao.url,  category: "Coloração",        title: "Cor Sob Medida",   desc: "Nuances personalizadas para cada cliente." },
-  { src: portfolio6.url, category: "Alisamento",       title: "Alisamento Espelhado", desc: "Fios alinhados, brilho e leveza." },
-  { src: antes.url,      category: "Transformação",    title: "Transformação Real", desc: "Um antes e depois assinado pela Michelly." },
+  { src: portfolio5.url, category: "Coloração",        title: "Coloração",        desc: "Cobertura precisa com resultado natural." },
+  { src: coloracao.url,  category: "Coloração",        title: "Coloração",        desc: "Nuances personalizadas para cada cliente." },
+  { src: portfolio6.url, category: "Alisamento",       title: "Alisamento",       desc: "Fios alinhados, brilho e leveza." },
+  { src: antes.url,      category: "Balayage",         title: "Balayage",         desc: "Um antes e depois assinado pela Michelly." },
 ];
 
 const testimonials = [
