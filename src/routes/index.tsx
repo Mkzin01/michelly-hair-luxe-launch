@@ -55,10 +55,10 @@ const portfolio: PortfolioItem[] = [
   { src: portfolio3.url, category: "Balayage",         title: "Balayage Dourado", desc: "Reflexos suaves com acabamento acetinado." },
   { src: tratamentos.url,category: "Tratamentos",      title: "Ritual Restaurador", desc: "Brilho, hidratação e vitalidade profunda." },
   { src: portfolio4.url, category: "Morena Iluminada", title: "Morena Luminosa",  desc: "Iluminado sob medida para tons quentes." },
-  { src: portfolio5.url, category: "Coloração",        title: "Coloração Premium", desc: "Cobertura precisa com resultado natural." },
-  { src: coloracao.url,  category: "Coloração",        title: "Cor Sob Medida",   desc: "Nuances personalizadas para cada cliente." },
-  { src: portfolio6.url, category: "Alisamento",       title: "Alisamento Espelhado", desc: "Fios alinhados, brilho e leveza." },
-  { src: antes.url,      category: "Transformação",    title: "Transformação Real", desc: "Um antes e depois assinado pela Michelly." },
+  { src: portfolio5.url, category: "Coloração",        title: "Coloração",        desc: "Cobertura precisa com resultado natural." },
+  { src: coloracao.url,  category: "Coloração",        title: "Coloração",        desc: "Nuances personalizadas para cada cliente." },
+  { src: portfolio6.url, category: "Alisamento",       title: "Alisamento",       desc: "Fios alinhados, brilho e leveza." },
+  { src: antes.url,      category: "Balayage",         title: "Balayage",         desc: "Um antes e depois assinado pela Michelly." },
 ];
 
 const testimonials = [
@@ -528,7 +528,7 @@ function Landing() {
           <div className="reveal mx-auto max-w-2xl text-center">
             <span className="eyebrow"><span className="gold-line mr-3" />Portfólio<span className="gold-line ml-3" /></span>
             <h2 className="mt-5 font-serif text-4xl leading-tight tracking-[-0.015em] text-ink md:text-[3rem]">
-              Trabalhos assinados <span className="italic text-gold">Michelly Hair</span>
+              Alguns dos trabalhos assinados por <span className="italic text-gold">Michelly Hair</span>
             </h2>
             <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
               Uma seleção editorial de transformações reais.
