@@ -449,14 +449,14 @@ function Landing() {
       <section id="sobre" className="mx-auto max-w-7xl px-5 py-12 md:px-10 md:py-20">
         <div className="grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-20 md:items-center">
           <div className="reveal order-2 md:order-1">
-            <div className="group relative overflow-hidden rounded-[32px] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)]">
+            <div className="group relative overflow-hidden rounded-[24px] md:rounded-[32px] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)]">
               <img
                 src={especialista.url}
                 alt="Michelly atendendo uma cliente"
                 className="w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
-                style={{ height: "clamp(340px, 46vw, 520px)" }}
+                style={{ height: "clamp(260px, 46vw, 520px)" }}
               />
-              <div className="pointer-events-none absolute inset-0 rounded-[32px] ring-1 ring-inset ring-white/20" />
+              <div className="pointer-events-none absolute inset-0 rounded-[24px] md:rounded-[32px] ring-1 ring-inset ring-white/20" />
             </div>
           </div>
           <div className="reveal order-1 md:order-2" style={{ transitionDelay: "120ms" }}>
@@ -475,7 +475,7 @@ function Landing() {
               rel="noreferrer"
               className="mt-10 inline-flex items-center gap-3 border-b border-gold pb-1 text-xs font-medium uppercase tracking-[0.3em] text-ink transition-opacity hover:opacity-70"
             >
-              Agende a sua consulta
+              Agende a sua avaliação
             </a>
           </div>
         </div>
