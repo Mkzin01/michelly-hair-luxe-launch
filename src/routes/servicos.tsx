@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { useEffect } from "react";
 
-import logoFull from "@/assets/mh/logo-mh-final.png.asset.json";
+import logoFull from "@/assets/mh/logo-mh-fixed.png.asset.json";
 import balayage from "@/assets/mh/balayage.jpg.asset.json";
 import morena from "@/assets/mh/morena-iluminada.jpg.asset.json";
 import madeixas from "@/assets/mh/madeixas.jpg.asset.json";
