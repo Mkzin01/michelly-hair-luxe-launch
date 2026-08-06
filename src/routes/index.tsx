@@ -370,9 +370,8 @@ function Landing() {
               }}
             >
               <h1 className="hero-rise font-serif text-[1.9rem] leading-[1.05] tracking-[-0.015em] text-white sm:text-5xl md:text-[3.4rem] lg:text-[3.75rem]" style={{ animationDelay: "320ms" }}>
-                Transformando cabelos,<br />
-                elevando<br />
-                <span className="italic font-light text-gold">autoestima.</span>
+                Michelly Hair: Salão de Beleza<br />
+                <span className="italic font-light text-gold text-[1.4rem] sm:text-4xl md:text-[2.8rem] lg:text-[3.2rem]">na Charneca da Caparica</span>
               </h1>
               <p className="hero-rise mt-4 max-w-md text-[12.5px] leading-[1.7] text-white/85 md:mt-6 md:text-[15px] md:leading-[1.8]" style={{ animationDelay: "520ms" }}>
                 Balayage, Morena Iluminada, alisamentos e tratamentos personalizados
