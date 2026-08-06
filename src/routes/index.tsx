@@ -229,11 +229,11 @@ function Lightbox({
 }
 
 function Landing() {
-  useReveal();
+  const [activeCategory, setActiveCategory] = useState<string>("Todos");
+  useReveal(activeCategory);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [activeCategory, setActiveCategory] = useState<string>("Todos");
   const heroRef = useRef<HTMLElement>(null);
   const testimonialsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
