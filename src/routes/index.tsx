@@ -154,7 +154,7 @@ function ComparisonSlider({ before, after }: { before: string; after: string }) 
   return (
     <div 
       ref={containerRef}
-      className="group relative h-[450px] w-full cursor-col-resize overflow-hidden rounded-[24px] shadow-2xl md:h-[600px] md:rounded-[32px]"
+      className="group relative h-[380px] w-full cursor-col-resize overflow-hidden rounded-[24px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.15)] md:h-[600px] md:rounded-[32px]"
       onMouseMove={(e) => handleMove(e.clientX)}
       onTouchMove={(e) => {
         handleMove(e.touches[0].clientX);
@@ -166,33 +166,37 @@ function ComparisonSlider({ before, after }: { before: string; after: string }) 
       
       {/* Before Image (Clipped) */}
       <div 
-        className="absolute inset-0 h-full overflow-hidden" 
+        className="absolute inset-0 h-full overflow-hidden border-r border-white/40" 
         style={{ width: `${sliderPos}%` }}
       >
         <img 
           src={before} 
           alt="Antes" 
-          className="absolute inset-0 h-[450px] w-full object-cover md:h-[600px]" 
+          className="absolute inset-0 h-[380px] w-full object-cover md:h-[600px]" 
           style={{ width: containerRef.current?.offsetWidth || "100%" }}
           draggable={false} 
         />
       </div>
 
-      {/* Slider Divider */}
+      {/* Slider Divider Handle */}
       <div 
-        className="absolute bottom-0 top-0 z-10 w-1 bg-white shadow-[0_0_15px_rgba(0,0,0,0.3)] transition-transform duration-100"
-        style={{ left: `calc(${sliderPos}% - 2px)` }}
+        className="absolute bottom-0 top-0 z-10 w-0.5 bg-white shadow-[0_0_15px_rgba(0,0,0,0.3)]"
+        style={{ left: `${sliderPos}%` }}
       >
-        <div className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-gold/90 text-white shadow-xl backdrop-blur-sm transition-transform group-hover:scale-110">
-          <Sparkles className="h-5 w-5" />
+        <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/20 text-white shadow-xl backdrop-blur-md transition-transform group-hover:scale-110">
+          <div className="flex gap-1">
+            <div className="h-1 w-1 rounded-full bg-white" />
+            <div className="h-1 w-1 rounded-full bg-white" />
+            <div className="h-1 w-1 rounded-full bg-white" />
+          </div>
         </div>
       </div>
 
       {/* Labels */}
-      <div className="pointer-events-none absolute bottom-6 left-6 z-20 rounded-full bg-black/40 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-white backdrop-blur-md transition-opacity group-hover:opacity-0">
+      <div className="pointer-events-none absolute top-4 left-4 z-20 rounded-lg bg-black/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md">
         Antes
       </div>
-      <div className="pointer-events-none absolute bottom-6 right-6 z-20 rounded-full bg-gold/80 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-white backdrop-blur-md transition-opacity group-hover:opacity-0">
+      <div className="pointer-events-none absolute top-4 right-4 z-20 rounded-lg bg-gold/60 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md">
         Depois
       </div>
     </div>
@@ -676,15 +680,15 @@ function Landing() {
       </section>
 
       {/* Seção Antes e Depois Interativa */}
-      <section className="bg-ink py-20 text-white md:py-28">
+      <section className="bg-background py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-10">
           <div className="mb-12 flex flex-col items-center text-center md:mb-16">
-            <span className="eyebrow text-gold/80"><span className="gold-line mr-3 border-gold/40" />Transformação Real<span className="gold-line ml-3 border-gold/40" /></span>
-            <h2 className="mt-5 font-serif text-4xl leading-tight tracking-tight md:text-5xl">
+            <span className="eyebrow"><span className="gold-line mr-3" />Transformação Real<span className="gold-line ml-3" /></span>
+            <h2 className="mt-5 font-serif text-4xl leading-tight tracking-tight text-ink md:text-5xl">
               Toque e arraste para ver a <span className="italic text-gold">mágica</span>
             </h2>
-            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/60">
-              Arraste o cursor para comparar o estado inicial e o resultado final de um dos nossos procedimentos exclusivos.
+            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+              Compare o estado inicial e o resultado final de um dos nossos procedimentos exclusivos.
             </p>
           </div>
 
