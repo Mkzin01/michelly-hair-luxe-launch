@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { useEffect } from "react";
 
+import logoFull from "@/assets/mh/logo-mh-full.png.asset.json";
 import balayage from "@/assets/mh/balayage.jpg.asset.json";
 import morena from "@/assets/mh/morena-iluminada.jpg.asset.json";
 import madeixas from "@/assets/mh/madeixas.jpg.asset.json";
@@ -37,9 +38,9 @@ function ServicosPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 md:px-10 md:py-7">
-        <Link to="/" className="font-serif text-xl tracking-[0.02em] text-ink md:text-2xl">
-          Michelly<span className="text-gold"> Hair</span>
+      <header className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 md:px-10 md:py-4">
+        <Link to="/" className="transition-transform duration-300 hover:scale-[1.02] active:scale-95">
+          <img src={logoFull.url} alt="Michelly Hair" className="h-8 w-auto md:h-10 brightness-0" />
         </Link>
         <Link
           to="/"
