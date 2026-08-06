@@ -500,10 +500,10 @@ function Landing() {
           <div className="reveal mx-auto max-w-2xl text-center">
             <span className="eyebrow"><span className="gold-line mr-3" />Serviços<span className="gold-line ml-3" /></span>
             <h2 className="mt-5 font-serif text-4xl leading-tight tracking-[-0.015em] text-ink md:text-[3rem]">
-              Um cuidado para cada desejo.
+              Especialista em Alisamentos e Madeixas.
             </h2>
             <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
-              Serviços exclusivos, executados com técnica refinada e produtos premium.
+              Técnicas premium de Balayage e Morena Iluminada na Margem Sul.
             </p>
           </div>
 
