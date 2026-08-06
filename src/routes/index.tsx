@@ -680,15 +680,15 @@ function Landing() {
       </section>
 
       {/* Seção Antes e Depois Interativa */}
-      <section className="bg-ink py-20 text-white md:py-28">
+      <section className="bg-background py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-10">
           <div className="mb-12 flex flex-col items-center text-center md:mb-16">
-            <span className="eyebrow text-gold/80"><span className="gold-line mr-3 border-gold/40" />Transformação Real<span className="gold-line ml-3 border-gold/40" /></span>
-            <h2 className="mt-5 font-serif text-4xl leading-tight tracking-tight md:text-5xl">
+            <span className="eyebrow"><span className="gold-line mr-3" />Transformação Real<span className="gold-line ml-3" /></span>
+            <h2 className="mt-5 font-serif text-4xl leading-tight tracking-tight text-ink md:text-5xl">
               Toque e arraste para ver a <span className="italic text-gold">mágica</span>
             </h2>
-            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/60">
-              Arraste o cursor para comparar o estado inicial e o resultado final de um dos nossos procedimentos exclusivos.
+            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+              Compare o estado inicial e o resultado final de um dos nossos procedimentos exclusivos.
             </p>
           </div>
 
