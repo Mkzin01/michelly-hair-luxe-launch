@@ -17,6 +17,10 @@ import portfolio3 from "@/assets/mh/portfolio-3.jpg.asset.json";
 import portfolio4 from "@/assets/mh/portfolio-4.jpg.asset.json";
 import portfolio5 from "@/assets/mh/portfolio-5.jpg.asset.json";
 import portfolio6 from "@/assets/mh/portfolio-6.jpg.asset.json";
+import portfolioBalayage from "@/assets/mh/balayage-portfolio.png.asset.json";
+import portfolioMorena from "@/assets/mh/morena-iluminada-portfolio.png.asset.json";
+import portfolioMadeixas from "@/assets/mh/madeixas-portfolio.png.asset.json";
+import portfolioProgressiva from "@/assets/mh/progressiva-portfolio.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
