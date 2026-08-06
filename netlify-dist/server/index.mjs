@@ -18,42 +18,42 @@ var public_assets_data_default = {
 	"/favicon.png": {
 		"type": "image/png",
 		"etag": "\"93e-wNrdmTgdACY44ZrYraVcPXoUmZI\"",
-		"mtime": "2026-08-06T18:51:42.903Z",
+		"mtime": "2026-08-06T18:56:44.563Z",
 		"size": 2366,
 		"path": "../client/favicon.png"
 	},
-	"/assets/index-DsuN1hss.js": {
+	"/assets/routes-xan1PMfs.js": {
 		"type": "text/javascript; charset=utf-8",
-		"etag": "\"547c1-HkTbUygZeMiHbbfQIIROOtz5NSs\"",
-		"mtime": "2026-08-06T18:51:42.335Z",
+		"etag": "\"87bf-poMXeuEaxewHLgPnMD8Zrym2NE0\"",
+		"mtime": "2026-08-06T18:56:43.879Z",
+		"size": 34751,
+		"path": "../client/assets/routes-xan1PMfs.js"
+	},
+	"/assets/index-Ccyh_FH7.js": {
+		"type": "text/javascript; charset=utf-8",
+		"etag": "\"547c1-OJCa+vparifOsi9JkzU1Ij7MA5U\"",
+		"mtime": "2026-08-06T18:56:43.879Z",
 		"size": 346049,
-		"path": "../client/assets/index-DsuN1hss.js"
+		"path": "../client/assets/index-Ccyh_FH7.js"
 	},
-	"/assets/routes-B5RvbW9G.js": {
+	"/assets/tratamentos.jpg.asset-BugwcHv1.js": {
 		"type": "text/javascript; charset=utf-8",
-		"etag": "\"8795-pDKxdvMX2ayscfGLU6qAFtUUVIk\"",
-		"mtime": "2026-08-06T18:51:42.335Z",
-		"size": 34709,
-		"path": "../client/assets/routes-B5RvbW9G.js"
-	},
-	"/assets/servicos-D2hP0S2u.js": {
-		"type": "text/javascript; charset=utf-8",
-		"etag": "\"fb2-yBSO9CoTFj23A3r5N7sy3M4gBiI\"",
-		"mtime": "2026-08-06T18:51:42.336Z",
-		"size": 4018,
-		"path": "../client/assets/servicos-D2hP0S2u.js"
-	},
-	"/assets/tratamentos.jpg.asset-CJSkiQcN.js": {
-		"type": "text/javascript; charset=utf-8",
-		"etag": "\"e23-tDtoqM74K6bMH+OedJBHIlja9iI\"",
-		"mtime": "2026-08-06T18:51:42.336Z",
+		"etag": "\"e23-uoIlArSTO3gU+1XiF6MEHPJLA7s\"",
+		"mtime": "2026-08-06T18:56:43.879Z",
 		"size": 3619,
-		"path": "../client/assets/tratamentos.jpg.asset-CJSkiQcN.js"
+		"path": "../client/assets/tratamentos.jpg.asset-BugwcHv1.js"
+	},
+	"/assets/servicos-DFNkKzuE.js": {
+		"type": "text/javascript; charset=utf-8",
+		"etag": "\"fb2-OG7qtnXKsEjNLqceAo/f3sPee50\"",
+		"mtime": "2026-08-06T18:56:43.879Z",
+		"size": 4018,
+		"path": "../client/assets/servicos-DFNkKzuE.js"
 	},
 	"/assets/styles-DtWgU3d8.css": {
 		"type": "text/css; charset=utf-8",
 		"etag": "\"18931-p6osu10f+RzWDKbziFZeMxY+1vE\"",
-		"mtime": "2026-08-06T18:51:42.336Z",
+		"mtime": "2026-08-06T18:56:43.879Z",
 		"size": 100657,
 		"path": "../client/assets/styles-DtWgU3d8.css"
 	}
