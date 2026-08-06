@@ -39,8 +39,10 @@ function ServicosPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 md:px-10 md:py-4">
-        <Link to="/" className="transition-transform duration-300 hover:scale-[1.02] active:scale-95">
-          <img src={logoFull.url} alt="Michelly Hair" className="h-8 w-auto md:h-10" />
+        <Link to="/" className="group flex items-center transition-all duration-300">
+          <span className="font-serif text-[22px] tracking-[-0.02em] text-ink md:text-2xl">
+            Michelly Hair
+          </span>
         </Link>
         <Link
           to="/"
