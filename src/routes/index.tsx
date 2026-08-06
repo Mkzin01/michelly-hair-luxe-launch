@@ -143,6 +143,7 @@ function AnimatedNumber({ value, suffix = "", duration = 1600 }: { value: number
 function ComparisonSlider({ before, after }: { before: string; after: string }) {
   const [sliderPos, setSliderPos] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleMove = (clientX: number) => {
     if (!containerRef.current) return;
@@ -151,15 +152,32 @@ function ComparisonSlider({ before, after }: { before: string; after: string }) 
     setSliderPos((x / rect.width) * 100);
   };
 
+  useEffect(() => {
+    const onMove = (e: MouseEvent | TouchEvent) => {
+      if (!isDragging) return;
+      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      handleMove(clientX);
+    };
+    const onEnd = () => setIsDragging(false);
+
+    if (isDragging) {
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onEnd);
+      window.addEventListener('touchmove', onMove, { passive: false });
+      window.addEventListener('touchend', onEnd);
+    }
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onEnd);
+      window.removeEventListener('touchmove', onMove);
+      window.removeEventListener('touchend', onEnd);
+    };
+  }, [isDragging]);
+
   return (
     <div 
       ref={containerRef}
-      className="group relative h-[380px] w-full cursor-col-resize overflow-hidden rounded-[24px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.15)] md:h-[600px] md:rounded-[32px]"
-      onMouseMove={(e) => handleMove(e.clientX)}
-      onTouchMove={(e) => {
-        handleMove(e.touches[0].clientX);
-      }}
-      style={{ touchAction: "pan-y" }}
+      className="group relative h-[380px] w-full overflow-hidden rounded-[24px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.15)] md:h-[600px] md:rounded-[32px]"
     >
       {/* After Image (Full background) */}
       <img src={after} alt="Depois" className="absolute inset-0 h-full w-full object-cover" draggable={false} />
@@ -178,12 +196,15 @@ function ComparisonSlider({ before, after }: { before: string; after: string }) 
         />
       </div>
 
-      {/* Slider Divider Handle */}
+      {/* Slider Divider Handle (Clickable Area) */}
       <div 
-        className="absolute bottom-0 top-0 z-10 w-0.5 bg-white shadow-[0_0_15px_rgba(0,0,0,0.3)]"
-        style={{ left: `${sliderPos}%` }}
+        className="absolute bottom-0 top-0 z-30 cursor-col-resize"
+        style={{ left: `calc(${sliderPos}% - 20px)`, width: '40px' }}
+        onMouseDown={() => setIsDragging(true)}
+        onTouchStart={() => setIsDragging(true)}
       >
-        <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/20 text-white shadow-xl backdrop-blur-md transition-transform group-hover:scale-110">
+        <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-white shadow-[0_0_15px_rgba(0,0,0,0.3)]" />
+        <div className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/20 text-white shadow-xl backdrop-blur-md transition-transform group-hover:scale-110">
           <div className="flex gap-1">
             <div className="h-1 w-1 rounded-full bg-white" />
             <div className="h-1 w-1 rounded-full bg-white" />
