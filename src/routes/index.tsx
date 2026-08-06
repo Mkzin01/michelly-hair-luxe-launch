@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Menu, X, MapPin, ChevronDown, Star, Quote, Heart, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 
+import logoFull from "@/assets/mh/logo-mh-full.png.asset.json";
 import heroNovo from "@/assets/mh/hero-novo.png.asset.json";
 import especialista from "@/assets/mh/especialista.jpg.asset.json";
 import balayage from "@/assets/mh/balayage.jpg.asset.json";
@@ -258,9 +259,13 @@ function Landing() {
           scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border/50" : "bg-transparent"
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-10 md:py-6">
-          <a href="#top" className={`font-serif text-xl md:text-2xl tracking-[0.02em] transition-colors ${scrolled ? "text-ink" : "text-white"}`}>
-            Michelly<span className="text-gold"> Hair</span>
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 md:px-10 md:py-4">
+          <a href="#top" className="transition-transform duration-300 hover:scale-[1.02] active:scale-95">
+            <img 
+              src={logoFull.url} 
+              alt="Michelly Hair" 
+              className={`h-8 w-auto md:h-10 transition-all duration-500 ${scrolled ? "brightness-0" : "brightness-0 invert"}`} 
+            />
           </a>
           <button
             aria-label="Abrir menu"
@@ -284,10 +289,8 @@ function Landing() {
           backdropFilter: "blur(28px) saturate(140%)",
         }}
       >
-        <div className="flex items-center justify-between px-5 py-4 md:px-10 md:py-6">
-          <span className="font-serif text-xl text-white tracking-wide">
-            Michelly<span className="text-gold"> Hair</span>
-          </span>
+        <div className="flex items-center justify-between px-5 py-3 md:px-10 md:py-4">
+          <img src={logoFull.url} alt="Michelly Hair" className="h-8 w-auto md:h-10 brightness-0 invert" />
           <button
             aria-label="Fechar menu"
             onClick={() => setMenuOpen(false)}
