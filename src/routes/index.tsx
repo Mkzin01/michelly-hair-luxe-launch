@@ -88,6 +88,10 @@ function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>(".reveal");
     const io = new IntersectionObserver(
+function useReveal(dependency?: any) {
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) {
@@ -98,9 +102,16 @@ function useReveal() {
       },
       { threshold: 0.12 }
     );
-    els.forEach((el) => io.observe(el));
+    els.forEach((el) => {
+      // Se já tiver a classe reveal-in (devido a uma renderização anterior),
+      // garantimos que ela permaneça visível se o Observer for reiniciado
+      if (el.classList.contains("reveal-in")) {
+        // Opcional: não observar se já revelado, ou deixar observar
+      }
+      io.observe(el);
+    });
     return () => io.disconnect();
-  }, []);
+  }, [dependency]);
 }
 
 function AnimatedNumber({ value, suffix = "", duration = 1600 }: { value: number; suffix?: string; duration?: number }) {
