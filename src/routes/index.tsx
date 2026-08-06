@@ -260,12 +260,14 @@ function Landing() {
         }`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 md:px-10 md:py-4">
-          <a href="#top" className="transition-transform duration-300 hover:scale-[1.02] active:scale-95">
-            <img 
-              src={logoFull.url} 
-              alt="Michelly Hair" 
-              className="h-8 w-auto md:h-10 transition-all duration-500" 
-            />
+          <a href="#top" className="group flex items-center transition-all duration-300">
+            <span 
+              className={`font-serif text-[22px] tracking-[-0.02em] transition-all duration-500 md:text-2xl ${
+                scrolled ? "text-ink" : "text-white"
+              }`}
+            >
+              Michelly Hair
+            </span>
           </a>
           <button
             aria-label="Abrir menu"
@@ -290,7 +292,7 @@ function Landing() {
         }}
       >
         <div className="flex items-center justify-between px-5 py-3 md:px-10 md:py-4">
-          <img src={logoFull.url} alt="Michelly Hair" className="h-8 w-auto md:h-10" />
+          <span className="font-serif text-[22px] tracking-[-0.02em] text-white">Michelly Hair</span>
           <button
             aria-label="Fechar menu"
             onClick={() => setMenuOpen(false)}
