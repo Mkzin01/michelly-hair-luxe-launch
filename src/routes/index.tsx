@@ -248,6 +248,7 @@ function Landing() {
     { label: "Serviços", href: "#servicos" },
     { label: "Portfólio", href: "#portfolio" },
     { label: "Avaliações", href: "#avaliacoes" },
+    { label: "FAQ", href: "#faq" },
     { label: "Contacto", href: "#contacto" },
   ];
 
