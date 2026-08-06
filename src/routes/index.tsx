@@ -264,7 +264,7 @@ function Landing() {
             <img 
               src={logoFull.url} 
               alt="Michelly Hair" 
-              className={`h-8 w-auto md:h-10 transition-all duration-500 ${scrolled ? "brightness-0" : "brightness-0 invert"}`} 
+              className={`h-8 w-auto md:h-10 transition-all duration-500 ${scrolled ? "" : "brightness-0 invert"}`} 
             />
           </a>
           <button
@@ -290,7 +290,7 @@ function Landing() {
         }}
       >
         <div className="flex items-center justify-between px-5 py-3 md:px-10 md:py-4">
-          <img src={logoFull.url} alt="Michelly Hair" className="h-8 w-auto md:h-10 brightness-0 invert" />
+          <img src={logoFull.url} alt="Michelly Hair" className="h-8 w-auto md:h-10" />
           <button
             aria-label="Fechar menu"
             onClick={() => setMenuOpen(false)}
