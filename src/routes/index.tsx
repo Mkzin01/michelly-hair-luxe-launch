@@ -17,6 +17,10 @@ import portfolio3 from "@/assets/mh/portfolio-3.jpg.asset.json";
 import portfolio4 from "@/assets/mh/portfolio-4.jpg.asset.json";
 import portfolio5 from "@/assets/mh/portfolio-5.jpg.asset.json";
 import portfolio6 from "@/assets/mh/portfolio-6.jpg.asset.json";
+import portfolioBalayage from "@/assets/mh/balayage-portfolio.png.asset.json";
+import portfolioMorena from "@/assets/mh/morena-iluminada-portfolio.png.asset.json";
+import portfolioMadeixas from "@/assets/mh/madeixas-portfolio.png.asset.json";
+import portfolioProgressiva from "@/assets/mh/progressiva-portfolio.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -47,18 +51,10 @@ const services = [
 
 type PortfolioItem = { src: string; category: string; title: string; desc: string };
 const portfolio: PortfolioItem[] = [
-  { src: balayage.url,   category: "Balayage",         title: "Balayage",         desc: "Reflexos naturais e luminosidade sob medida." },
-  { src: morena.url,     category: "Morena Iluminada", title: "Morena Iluminada", desc: "Iluminação discreta que valoriza o tom natural." },
-  { src: depois.url,     category: "Alisamento",       title: "Alisamento",       desc: "Fios lisos, saudáveis e com movimento." },
-  { src: portfolio2.url, category: "Coloração",        title: "Coloração",        desc: "Cor personalizada com pigmentos premium." },
-  { src: madeixas.url,   category: "Madeixas",         title: "Madeixas",         desc: "Nuances precisas para um resultado refinado." },
-  { src: portfolio3.url, category: "Balayage",         title: "Balayage Dourado", desc: "Reflexos suaves com acabamento acetinado." },
-  { src: tratamentos.url,category: "Tratamentos",      title: "Ritual Restaurador", desc: "Brilho, hidratação e vitalidade profunda." },
-  { src: portfolio4.url, category: "Morena Iluminada", title: "Morena Luminosa",  desc: "Iluminado sob medida para tons quentes." },
-  { src: portfolio5.url, category: "Coloração",        title: "Coloração",        desc: "Cobertura precisa com resultado natural." },
-  { src: coloracao.url,  category: "Coloração",        title: "Coloração",        desc: "Nuances personalizadas para cada cliente." },
-  { src: portfolio6.url, category: "Alisamento",       title: "Alisamento",       desc: "Fios alinhados, brilho e leveza." },
-  { src: antes.url,      category: "Balayage",         title: "Balayage",         desc: "Um antes e depois assinado pela Michelly." },
+  { src: portfolioBalayage.url,   category: "Balayage",         title: "Balayage",         desc: "Luminosidade e naturalidade em cada fio." },
+  { src: portfolioMorena.url,     category: "Morena Iluminada", title: "Morena Iluminada", desc: "Contraste perfeito para realçar o seu tom." },
+  { src: portfolioMadeixas.url,   category: "Madeixas",         title: "Madeixas",         desc: "Técnica precisa para um resultado sofisticado." },
+  { src: portfolioProgressiva.url, category: "Alisamento",       title: "Alisamento",       desc: "Liso impecável com brilho e saúde." },
 ];
 
 const testimonials = [
