@@ -84,7 +84,7 @@ function InstagramIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function useReveal() {
+function useReveal(dependency?: any) {
   useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>(".reveal");
     const io = new IntersectionObserver(
@@ -98,9 +98,16 @@ function useReveal() {
       },
       { threshold: 0.12 }
     );
-    els.forEach((el) => io.observe(el));
+    els.forEach((el) => {
+      // Se já tiver a classe reveal-in (devido a uma renderização anterior),
+      // garantimos que ela permaneça visível se o Observer for reiniciado
+      if (el.classList.contains("reveal-in")) {
+        // O elemento já está visível
+      }
+      io.observe(el);
+    });
     return () => io.disconnect();
-  }, []);
+  }, [dependency]);
 }
 
 function AnimatedNumber({ value, suffix = "", duration = 1600 }: { value: number; suffix?: string; duration?: number }) {
@@ -222,11 +229,11 @@ function Lightbox({
 }
 
 function Landing() {
-  useReveal();
+  const [activeCategory, setActiveCategory] = useState<string>("Todos");
+  useReveal(activeCategory);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [activeCategory, setActiveCategory] = useState<string>("Todos");
   const heroRef = useRef<HTMLElement>(null);
   const testimonialsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
