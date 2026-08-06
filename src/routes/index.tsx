@@ -686,6 +686,52 @@ function Landing() {
           </div>
         </div>
       </section>
+      
+      {/* FAQ */}
+      <section id="faq" className="mx-auto max-w-4xl px-5 py-20 md:px-10 md:py-28">
+        <div className="reveal text-center">
+          <span className="eyebrow"><span className="gold-line mr-3" />FAQ<span className="gold-line ml-3" /></span>
+          <h2 className="mt-5 font-serif text-4xl leading-tight tracking-[-0.015em] text-ink md:text-[3rem]">
+            Dúvidas Frequentes
+          </h2>
+          <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
+            Tudo o que precisa de saber para a sua próxima visita.
+          </p>
+        </div>
+
+        <div className="mt-12 space-y-4">
+          {[
+            { 
+              q: "Preciso de fazer uma avaliação antes de agendar?", 
+              a: "Para serviços de Madeixas, Balayage ou Alisamentos, recomendamos sempre uma consulta de avaliação para analisarmos a saúde do fio e definirmos o melhor caminho." 
+            },
+            { 
+              q: "Quais os métodos de pagamento aceites?", 
+              a: "Aceitamos pagamentos em Numerário, MB Way e Transferência Bancária." 
+            },
+            { 
+              q: "Onde se localiza o salão?", 
+              a: "Estamos localizados na Charneca da Caparica, no Largo Fernanda Alves 4A. Temos estacionamento fácil na zona." 
+            },
+            { 
+              q: "Quanto tempo demora um serviço de Alisamento?", 
+              a: "Dependendo do comprimento e densidade do cabelo, o serviço de Alisamento pode demorar entre 3 a 5 horas para garantir um resultado impecável." 
+            }
+          ].map((item, i) => (
+            <div 
+              key={i} 
+              className="reveal rounded-2xl border border-border/50 bg-card/40 p-6 backdrop-blur-sm transition-all hover:border-gold/30 md:p-8"
+              style={{ transitionDelay: `${i * 100}ms` }}
+            >
+              <h3 className="font-serif text-lg text-ink md:text-xl">{item.q}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+                {item.a}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
 
       {/* CTA Final */}
       <section className="relative overflow-hidden bg-ink text-white">
