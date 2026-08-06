@@ -140,6 +140,65 @@ function AnimatedNumber({ value, suffix = "", duration = 1600 }: { value: number
   return <span ref={ref}>{display}{suffix}</span>;
 }
 
+function ComparisonSlider({ before, after }: { before: string; after: string }) {
+  const [sliderPos, setSliderPos] = useState(50);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMove = (clientX: number) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    setSliderPos((x / rect.width) * 100);
+  };
+
+  return (
+    <div 
+      ref={containerRef}
+      className="group relative h-[450px] w-full cursor-col-resize overflow-hidden rounded-[24px] shadow-2xl md:h-[600px] md:rounded-[32px]"
+      onMouseMove={(e) => handleMove(e.clientX)}
+      onTouchMove={(e) => {
+        handleMove(e.touches[0].clientX);
+      }}
+      style={{ touchAction: "none" }}
+    >
+      {/* After Image (Full background) */}
+      <img src={after} alt="Depois" className="absolute inset-0 h-full w-full object-cover" draggable={false} />
+      
+      {/* Before Image (Clipped) */}
+      <div 
+        className="absolute inset-0 h-full overflow-hidden" 
+        style={{ width: `${sliderPos}%` }}
+      >
+        <img 
+          src={before} 
+          alt="Antes" 
+          className="absolute inset-0 h-[450px] w-full object-cover md:h-[600px]" 
+          style={{ width: containerRef.current?.offsetWidth || "100%" }}
+          draggable={false} 
+        />
+      </div>
+
+      {/* Slider Divider */}
+      <div 
+        className="absolute bottom-0 top-0 z-10 w-1 bg-white shadow-[0_0_15px_rgba(0,0,0,0.3)] transition-transform duration-100"
+        style={{ left: `calc(${sliderPos}% - 2px)` }}
+      >
+        <div className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-gold/90 text-white shadow-xl backdrop-blur-sm transition-transform group-hover:scale-110">
+          <Sparkles className="h-5 w-5" />
+        </div>
+      </div>
+
+      {/* Labels */}
+      <div className="pointer-events-none absolute bottom-6 left-6 z-20 rounded-full bg-black/40 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-white backdrop-blur-md transition-opacity group-hover:opacity-0">
+        Antes
+      </div>
+      <div className="pointer-events-none absolute bottom-6 right-6 z-20 rounded-full bg-gold/80 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-white backdrop-blur-md transition-opacity group-hover:opacity-0">
+        Depois
+      </div>
+    </div>
+  );
+}
+
 function Lightbox({
   items,
   index,
