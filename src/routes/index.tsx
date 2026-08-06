@@ -84,10 +84,6 @@ function InstagramIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function useReveal() {
-  useEffect(() => {
-    const els = document.querySelectorAll<HTMLElement>(".reveal");
-    const io = new IntersectionObserver(
 function useReveal(dependency?: any) {
   useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>(".reveal");
@@ -106,7 +102,7 @@ function useReveal(dependency?: any) {
       // Se já tiver a classe reveal-in (devido a uma renderização anterior),
       // garantimos que ela permaneça visível se o Observer for reiniciado
       if (el.classList.contains("reveal-in")) {
-        // Opcional: não observar se já revelado, ou deixar observar
+        // O elemento já está visível
       }
       io.observe(el);
     });
