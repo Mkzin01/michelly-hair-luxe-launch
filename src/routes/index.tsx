@@ -292,7 +292,7 @@ function Landing() {
         }}
       >
         <div className="flex items-center justify-between px-5 py-3 md:px-10 md:py-4">
-          <span className="font-serif text-[22px] tracking-[-0.02em] text-white">Michelly Hair</span>
+          <span className="font-serif text-[22px] tracking-[-0.02em] text-white md:text-2xl">Michelly Hair</span>
           <button
             aria-label="Fechar menu"
             onClick={() => setMenuOpen(false)}
