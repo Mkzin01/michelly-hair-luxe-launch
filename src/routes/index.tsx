@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Menu, X, MapPin, ChevronDown, Star, Quote, Heart, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 
-import logoFull from "@/assets/mh/logo-mh-new.png.asset.json";
+import logoFull from "@/assets/mh/logo-mh-final.png.asset.json";
 import heroNovo from "@/assets/mh/hero-novo.png.asset.json";
 import especialista from "@/assets/mh/especialista.jpg.asset.json";
 import balayage from "@/assets/mh/balayage.jpg.asset.json";
