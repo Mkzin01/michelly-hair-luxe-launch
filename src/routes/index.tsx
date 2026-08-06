@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Menu, X, MapPin, ChevronDown, Star, Quote, Heart, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 
-import logoFull from "@/assets/mh/logo-mh-full.png.asset.json";
+import logoFull from "@/assets/mh/logo-mh-new.png.asset.json";
 import heroNovo from "@/assets/mh/hero-novo.png.asset.json";
 import especialista from "@/assets/mh/especialista.jpg.asset.json";
 import balayage from "@/assets/mh/balayage.jpg.asset.json";
@@ -264,7 +264,7 @@ function Landing() {
             <img 
               src={logoFull.url} 
               alt="Michelly Hair" 
-              className={`h-8 w-auto md:h-10 transition-all duration-500 ${scrolled ? "" : "brightness-0 invert"}`} 
+              className="h-8 w-auto md:h-10 transition-all duration-500" 
             />
           </a>
           <button
