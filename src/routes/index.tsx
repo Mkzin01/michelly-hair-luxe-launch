@@ -354,7 +354,7 @@ function Landing() {
                 <span className="text-[9px] font-bold text-white md:text-[0.72rem]">5.0</span>
               </div>
               <MapPin className="h-3 w-3 text-gold md:h-3.5 md:w-3.5" />
-              <span className="text-[9px] font-medium uppercase tracking-[0.28em] text-white/95 md:text-[0.72rem] md:tracking-[0.35em]">
+              <span className="whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.28em] text-white/95 md:text-[0.72rem] md:tracking-[0.35em]">
                 Charneca da Caparica · Margem Sul
               </span>
             </div>
