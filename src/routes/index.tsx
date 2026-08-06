@@ -159,7 +159,7 @@ function ComparisonSlider({ before, after }: { before: string; after: string }) 
       onTouchMove={(e) => {
         handleMove(e.touches[0].clientX);
       }}
-      style={{ touchAction: "none" }}
+      style={{ touchAction: "pan-y" }}
     >
       {/* After Image (Full background) */}
       <img src={after} alt="Depois" className="absolute inset-0 h-full w-full object-cover" draggable={false} />
