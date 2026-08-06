@@ -328,6 +328,8 @@ function Landing() {
           <img
             src={heroNovo.url}
             alt="Michelly Hair salão premium"
+            fetchPriority="high"
+            loading="eager"
             className="ken-burns absolute inset-0 h-full w-full object-cover object-[30%_center] md:object-[70%_center]"
             draggable={false}
           />
@@ -346,6 +348,10 @@ function Landing() {
         <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-7xl flex-col justify-end px-5 pt-28 pb-24 md:grid md:grid-cols-12 md:items-center md:px-10 md:pt-32 md:pb-20">
           <div className="w-full md:col-span-6 lg:col-span-5">
             <div className="hero-rise inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 backdrop-blur-xl md:gap-3 md:px-4 md:py-2" style={{ animationDelay: "80ms" }}>
+              <div className="flex items-center gap-1.5 border-r border-white/20 pr-2.5 md:gap-2 md:pr-3">
+                <Star className="h-3 w-3 fill-gold text-gold md:h-3.5 md:w-3.5" strokeWidth={0} />
+                <span className="text-[9px] font-bold text-white md:text-[0.72rem]">5.0</span>
+              </div>
               <MapPin className="h-3 w-3 text-gold md:h-3.5 md:w-3.5" />
               <span className="text-[9px] font-medium uppercase tracking-[0.28em] text-white/95 md:text-[0.72rem] md:tracking-[0.35em]">
                 Charneca da Caparica · Margem Sul
@@ -364,9 +370,8 @@ function Landing() {
               }}
             >
               <h1 className="hero-rise font-serif text-[1.9rem] leading-[1.05] tracking-[-0.015em] text-white sm:text-5xl md:text-[3.4rem] lg:text-[3.75rem]" style={{ animationDelay: "320ms" }}>
-                Transformando cabelos,<br />
-                elevando<br />
-                <span className="italic font-light text-gold">autoestima.</span>
+                Michelly Hair: Salão de Beleza<br />
+                <span className="italic font-light text-gold text-[1.4rem] sm:text-4xl md:text-[2.8rem] lg:text-[3.2rem]">na Charneca da Caparica</span>
               </h1>
               <p className="hero-rise mt-4 max-w-md text-[12.5px] leading-[1.7] text-white/85 md:mt-6 md:text-[15px] md:leading-[1.8]" style={{ animationDelay: "520ms" }}>
                 Balayage, Morena Iluminada, alisamentos e tratamentos personalizados
@@ -495,10 +500,10 @@ function Landing() {
           <div className="reveal mx-auto max-w-2xl text-center">
             <span className="eyebrow"><span className="gold-line mr-3" />Serviços<span className="gold-line ml-3" /></span>
             <h2 className="mt-5 font-serif text-4xl leading-tight tracking-[-0.015em] text-ink md:text-[3rem]">
-              Um cuidado para cada desejo.
+              Especialista em Alisamentos e Madeixas.
             </h2>
             <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
-              Serviços exclusivos, executados com técnica refinada e produtos premium.
+              Técnicas premium de Balayage e Morena Iluminada na Margem Sul.
             </p>
           </div>
 
@@ -768,6 +773,20 @@ function Landing() {
           </div>
         </div>
       </footer>
+      {/* WhatsApp Floating Button */}
+      <a
+        href={WHATSAPP}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Agendar via WhatsApp"
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_10px_30px_-5px_rgba(37,211,102,0.4)] transition-all duration-300 hover:scale-110 hover:shadow-[0_15px_40px_-5px_rgba(37,211,102,0.55)] md:bottom-8 md:right-8"
+      >
+        <WhatsAppIcon className="h-7 w-7" />
+        <span className="absolute -top-1 -right-1 flex h-4 w-4">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"></span>
+          <span className="relative inline-flex h-4 w-4 rounded-full bg-white text-[8px] font-bold text-[#25D366] items-center justify-center">1</span>
+        </span>
+      </a>
     </div>
   );
 }
