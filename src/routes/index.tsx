@@ -264,7 +264,7 @@ function Landing() {
             <img 
               src={logoFull.url} 
               alt="Michelly Hair" 
-              className="h-10 w-auto md:h-14 transition-all duration-500" 
+              className="h-10 w-auto md:h-16 transition-all duration-500" 
             />
           </a>
           <button
@@ -290,7 +290,7 @@ function Landing() {
         }}
       >
         <div className="flex items-center justify-between px-5 py-3 md:px-10 md:py-4">
-          <img src={logoFull.url} alt="Michelly Hair" className="h-10 w-auto md:h-14" />
+          <img src={logoFull.url} alt="Michelly Hair" className="h-10 w-auto md:h-16" />
           <button
             aria-label="Fechar menu"
             onClick={() => setMenuOpen(false)}
