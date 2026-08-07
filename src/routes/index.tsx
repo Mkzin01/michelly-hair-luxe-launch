@@ -953,11 +953,19 @@ function Landing() {
 
             <div>
               <span className="eyebrow text-[0.62rem]">Contacto</span>
-              <ul className="mt-4 space-y-2.5 text-[12.5px] text-muted-foreground">
-                <li>Largo Fernanda Alves 4A</li>
-                <li>Charneca da Caparica, Portugal</li>
-                <li><a className="hover:text-gold" href={WHATSAPP} target="_blank" rel="noreferrer">+351 920 810 339</a></li>
-                <li><a className="hover:text-gold" href={INSTAGRAM} target="_blank" rel="noreferrer">@michellyhair.pt</a></li>
+              <ul className="mt-4 space-y-3 text-[12.5px] text-muted-foreground">
+                <li className="flex items-start gap-3">
+                  <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold/70" />
+                  <span>Largo Fernanda Alves 4A<br />Charneca da Caparica, Portugal</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <WhatsAppIcon className="h-3.5 w-3.5 shrink-0 text-gold/70" />
+                  <a className="hover:text-gold" href={WHATSAPP} target="_blank" rel="noreferrer">+351 920 810 339</a>
+                </li>
+                <li className="flex items-center gap-3">
+                  <InstagramIcon className="h-3.5 w-3.5 shrink-0 text-gold/70" />
+                  <a className="hover:text-gold" href={INSTAGRAM} target="_blank" rel="noreferrer">@michellyhair.pt</a>
+                </li>
               </ul>
             </div>
 
