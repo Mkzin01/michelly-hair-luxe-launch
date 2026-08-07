@@ -92,7 +92,7 @@ function ServicosPage() {
 
         <div className="mt-14 flex justify-center">
           <a
-            href="https://wa.me/351920810339"
+            href={getWA("Olá Michelly! Gostaria de agendar um dos seus serviços exclusivos que vi no site.")}
             target="_blank"
             rel="noreferrer"
             className="btn-pill bg-gold text-ink shadow-[0_18px_50px_-14px_rgba(184,144,80,0.7)] hover:bg-gold-soft"
