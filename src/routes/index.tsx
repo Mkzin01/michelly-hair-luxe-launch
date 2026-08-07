@@ -351,10 +351,35 @@ function Landing() {
               Michelly Hair
             </span>
           </a>
+          <nav className="hidden items-center gap-8 md:flex">
+            {nav.filter(n => n.label !== "FAQ").map((n) => (
+              <a
+                key={n.href}
+                href={n.href}
+                className={`text-[10px] font-medium uppercase tracking-[0.25em] transition-all duration-300 hover:text-gold ${
+                  scrolled ? "text-ink/70" : "text-white/80"
+                }`}
+              >
+                {n.label}
+              </a>
+            ))}
+            <a
+              href={WHATSAPP}
+              target="_blank"
+              rel="noreferrer"
+              className={`btn-pill h-10 w-auto px-6 text-[9px] transition-all duration-300 ${
+                scrolled 
+                  ? "bg-gold text-ink shadow-lg shadow-gold/20 hover:bg-gold-soft" 
+                  : "border border-white/30 bg-white/10 text-white backdrop-blur-md hover:bg-white hover:text-ink"
+              }`}
+            >
+              Agendar
+            </a>
+          </nav>
           <button
             aria-label="Abrir menu"
             onClick={() => setMenuOpen(true)}
-            className={`grid h-11 w-11 place-items-center rounded-full border transition-all duration-500 hover:scale-105 ${
+            className={`grid h-11 w-11 place-items-center rounded-full border transition-all duration-500 hover:scale-105 md:hidden ${
               scrolled ? "border-border text-ink hover:bg-bege" : "border-white/40 text-white hover:bg-white/10"
             }`}
           >
@@ -857,11 +882,11 @@ function Landing() {
           ].map((item, i) => (
             <div 
               key={i} 
-              className="reveal rounded-2xl border border-border/50 bg-card/40 p-6 backdrop-blur-sm transition-all hover:border-gold/30 md:p-8"
+              className="reveal group rounded-2xl border border-border/50 bg-card/40 p-6 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-gold/30 hover:bg-card/60 md:p-8"
               style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <h3 className="font-serif text-lg text-ink md:text-xl">{item.q}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+              <h3 className="font-serif text-lg text-ink transition-colors group-hover:text-gold md:text-xl">{item.q}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground transition-colors group-hover:text-ink/80 md:text-base">
                 {item.a}
               </p>
             </div>
@@ -928,11 +953,19 @@ function Landing() {
 
             <div>
               <span className="eyebrow text-[0.62rem]">Contacto</span>
-              <ul className="mt-4 space-y-2.5 text-[12.5px] text-muted-foreground">
-                <li>Largo Fernanda Alves 4A</li>
-                <li>Charneca da Caparica, Portugal</li>
-                <li><a className="hover:text-gold" href={WHATSAPP} target="_blank" rel="noreferrer">+351 920 810 339</a></li>
-                <li><a className="hover:text-gold" href={INSTAGRAM} target="_blank" rel="noreferrer">@michellyhair.pt</a></li>
+              <ul className="mt-4 space-y-3 text-[12.5px] text-muted-foreground">
+                <li className="flex items-start gap-3">
+                  <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold/70" />
+                  <span>Largo Fernanda Alves 4A<br />Charneca da Caparica, Portugal</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <WhatsAppIcon className="h-3.5 w-3.5 shrink-0 text-gold/70" />
+                  <a className="hover:text-gold" href={WHATSAPP} target="_blank" rel="noreferrer">+351 920 810 339</a>
+                </li>
+                <li className="flex items-center gap-3">
+                  <InstagramIcon className="h-3.5 w-3.5 shrink-0 text-gold/70" />
+                  <a className="hover:text-gold" href={INSTAGRAM} target="_blank" rel="noreferrer">@michellyhair.pt</a>
+                </li>
               </ul>
             </div>
 
