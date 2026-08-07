@@ -1,5 +1,5 @@
 import { mkdir, readFile, readdir, rm, copyFile, stat } from "node:fs/promises";
-import { dirname, join, relative } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -35,20 +35,36 @@ async function main() {
   await rm(OUT, { recursive: true, force: true });
   await mkdir(OUT, { recursive: true });
 
-  // 1. Copy all client assets (JS, CSS, Images)
+  // 1. Copy all client assets
   await copyDir(SOURCE, OUT);
 
-  // 2. The project uses TanStack Start which is SSR-first.
-  // To get a pure static HTML, we can fetch the local dev/preview server
-  // But the user wants a simple structure. 
-  // I will check if I can just rename the prerendered files from the netlify-dist
-  const netlifyDist = join(ROOT, "netlify-dist");
+  // 2. The project uses Nitro to generate the final deployment.
+  // When running locally, TanStack Start/Nitro prerenders routes if configured,
+  // but here we are using the cloudflare-module preset.
   
-  if (await stat(netlifyDist).catch(() => null)) {
-     console.log("Using pre-rendered files from netlify-dist...");
-     // The netlify-dist already has index.html and servicos/index.html
-     // We just need to make sure the paths are correct.
-     await copyDir(netlifyDist, OUT);
+  // We need the ACTUAL index.html that would be served.
+  // Let's check where Nitro put the prerendered files.
+  // In many TanStack Start setups, they end up in .output/public or similar,
+  // but here the build command points to dist/client.
+  
+  // If the file index.html is missing from dist/client, it means it's not being prerendered as a static file.
+  const indexExists = await stat(join(SOURCE, "index.html")).catch(() => null);
+  
+  if (!indexExists) {
+    console.log("Warning: index.html not found in dist/client. Trying to locate it...");
+    // Let's check common locations
+    const searchPaths = [
+      join(ROOT, ".output", "public"),
+      join(ROOT, "netlify-dist")
+    ];
+    
+    for (const path of searchPaths) {
+      if (await stat(path).catch(() => null)) {
+        console.log(`Found content in ${path}, copying...`);
+        await copyDir(path, OUT);
+        break;
+      }
+    }
   }
 
   const files = await walk(OUT);
