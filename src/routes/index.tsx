@@ -368,7 +368,7 @@ function Landing() {
               </a>
             ))}
             <a
-              href={WHATSAPP}
+              href={getWA("Olá Michelly! Gostaria de agendar um serviço no salão.")}
               target="_blank"
               rel="noreferrer"
               className={`btn-pill h-10 w-auto px-6 text-[9px] transition-all duration-300 ${
