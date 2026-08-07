@@ -177,7 +177,7 @@ function ComparisonSlider({ before, after }: { before: string; after: string }) 
   return (
     <div 
       ref={containerRef}
-      className="group relative h-[380px] w-full overflow-hidden rounded-[24px] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.15)] md:h-[600px] md:rounded-[32px]"
+      className="group relative h-[320px] w-full overflow-hidden rounded-[20px] shadow-[0_16px_40px_-12px_rgba(0,0,0,0.12)] md:h-[500px] md:rounded-[28px]"
     >
       {/* After Image (Full background) */}
       <img src={after} alt="Depois" className="absolute inset-0 h-full w-full object-cover" draggable={false} />
@@ -190,7 +190,7 @@ function ComparisonSlider({ before, after }: { before: string; after: string }) 
         <img 
           src={before} 
           alt="Antes" 
-          className="absolute inset-0 h-[380px] w-full object-cover md:h-[600px]" 
+          className="absolute inset-0 h-[320px] w-full object-cover md:h-[500px]" 
           style={{ width: containerRef.current?.offsetWidth || "100%" }}
           draggable={false} 
         />
@@ -204,12 +204,9 @@ function ComparisonSlider({ before, after }: { before: string; after: string }) 
         onTouchStart={() => setIsDragging(true)}
       >
         <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-white shadow-[0_0_15px_rgba(0,0,0,0.3)]" />
-        <div className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/20 text-white shadow-xl backdrop-blur-md transition-transform group-hover:scale-110">
-          <div className="flex gap-1">
-            <div className="h-1 w-1 rounded-full bg-white" />
-            <div className="h-1 w-1 rounded-full bg-white" />
-            <div className="h-1 w-1 rounded-full bg-white" />
-          </div>
+        <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white/25 text-white shadow-xl backdrop-blur-md transition-transform group-hover:scale-110">
+          <ChevronLeft className="h-3.5 w-3.5 -mr-0.5" strokeWidth={2.5} />
+          <ChevronRight className="h-3.5 w-3.5 -ml-0.5" strokeWidth={2.5} />
         </div>
       </div>
 
