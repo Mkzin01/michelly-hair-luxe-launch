@@ -494,7 +494,7 @@ function Landing() {
               className="mt-5 flex flex-col items-center gap-2.5 md:mt-8 md:items-start md:gap-3"
             >
               <a
-                href={getWA("Olá Michelly! Vi o seu site e gostaria de agendar um horário para transformar o meu cabelo.")}
+                href={getWA("Olá Michelly! Gostaria de mais informações.")}
                 target="_blank"
                 rel="noreferrer"
                 className="btn-pill btn-premium hero-rise h-11 text-[10px] tracking-[0.24em] md:h-[3.25rem] md:text-[0.72rem] md:tracking-[0.28em] bg-gold text-ink shadow-[0_18px_40px_-18px_rgba(184,144,80,0.7)] hover:bg-gold-soft hover:shadow-[0_22px_50px_-18px_rgba(184,144,80,0.85)]"
