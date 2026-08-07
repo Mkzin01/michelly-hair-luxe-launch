@@ -547,14 +547,14 @@ function Landing() {
                 value: 300, 
                 suffix: "+", 
                 title: "Clientes transformadas", 
-                desc: "Histórias de autoestima renovada e confiança construída ao longo dos anos." 
+                desc: "" 
               },
               { 
                 icon: <Heart className="h-5 w-5 md:h-6 md:w-6 text-gold" strokeWidth={1.2} />, 
                 value: 100, 
                 suffix: "%", 
                 title: "Atendimento personalizado", 
-                desc: "Uma abordagem artesanal onde cada consulta é desenhada para a sua singularidade." 
+                desc: "" 
               },
             ].map((s, i) => (
               <div
@@ -572,7 +572,7 @@ function Landing() {
                     <AnimatedNumber value={s.value} suffix={s.suffix} />
                   </div>
                   <div className="mt-4 h-px w-8 bg-gold/30 transition-all duration-500 group-hover:w-16" />
-                  <p className="mt-5 max-w-[280px] text-xs leading-[1.7] text-muted-foreground transition-colors duration-500 group-hover:text-ink/70 md:mt-7 md:text-sm md:leading-[1.8]">{s.desc}</p>
+                  {s.desc && <p className="mt-5 max-w-[280px] text-xs leading-[1.7] text-muted-foreground transition-colors duration-500 group-hover:text-ink/70 md:mt-7 md:text-sm md:leading-[1.8]">{s.desc}</p>}
                 </div>
                 
                 {/* Decorative element */}
