@@ -351,10 +351,35 @@ function Landing() {
               Michelly Hair
             </span>
           </a>
+          <nav className="hidden items-center gap-8 md:flex">
+            {nav.filter(n => n.label !== "FAQ").map((n) => (
+              <a
+                key={n.href}
+                href={n.href}
+                className={`text-[10px] font-medium uppercase tracking-[0.25em] transition-all duration-300 hover:text-gold ${
+                  scrolled ? "text-ink/70" : "text-white/80"
+                }`}
+              >
+                {n.label}
+              </a>
+            ))}
+            <a
+              href={WHATSAPP}
+              target="_blank"
+              rel="noreferrer"
+              className={`btn-pill h-10 w-auto px-6 text-[9px] transition-all duration-300 ${
+                scrolled 
+                  ? "bg-gold text-ink shadow-lg shadow-gold/20 hover:bg-gold-soft" 
+                  : "border border-white/30 bg-white/10 text-white backdrop-blur-md hover:bg-white hover:text-ink"
+              }`}
+            >
+              Agendar
+            </a>
+          </nav>
           <button
             aria-label="Abrir menu"
             onClick={() => setMenuOpen(true)}
-            className={`grid h-11 w-11 place-items-center rounded-full border transition-all duration-500 hover:scale-105 ${
+            className={`grid h-11 w-11 place-items-center rounded-full border transition-all duration-500 hover:scale-105 md:hidden ${
               scrolled ? "border-border text-ink hover:bg-bege" : "border-white/40 text-white hover:bg-white/10"
             }`}
           >
