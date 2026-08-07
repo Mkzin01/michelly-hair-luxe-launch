@@ -37,9 +37,13 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-const WHATSAPP = "https://wa.me/351920810339";
+const PHONE = "351920810339";
+const WHATSAPP = `https://wa.me/${PHONE}`;
 const INSTAGRAM = "https://www.instagram.com/michellyhair.pt?igsh=cTQ4cnltejVlcGpn";
 const MAPS = "https://google.com/maps/place/Largo+Fernanda+Alves+4A/@38.6292462,-9.1992968,87a,90y,109.31h,75.04t/data=!3m5!1e1!3m3!1s9PjZVUZ07dvUHaTlvbMsVA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fpanoid%3D9PjZVUZ07dvUHaTlvbMsVA%26w%3D900%26h%3D600%26ll%3D38.629246,-9.199297%26yaw%3D109.311424%26pitch%3D14.962830%26thumbfov%3D112%26cb_client%3Dgmm.iv.ios!4m6!3m5!1s0xd1ecaa8e612bf47:0xedbcb24680108752!8m2!3d38.6291158!4d-9.1988223!10e5";
+
+const getWA = (msg: string) => `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
+
 
 const services = [
   { name: "Balayage", img: balayage.url, desc: "Reflexos naturais, luminosidade sob medida." },
