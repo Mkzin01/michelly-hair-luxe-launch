@@ -936,7 +936,7 @@ function Landing() {
             </p>
             <div className="mt-7 flex justify-center">
               <a
-                href={WHATSAPP}
+                href={getWA("Olá Michelly! Estou pronta para a minha transformação. Gostaria de agendar um horário.")}
                 target="_blank"
                 rel="noreferrer"
                 className="btn-pill bg-gold text-ink shadow-[0_18px_50px_-14px_rgba(184,144,80,0.7)] hover:bg-gold-soft"
