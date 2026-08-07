@@ -882,7 +882,7 @@ function Landing() {
           ].map((item, i) => (
             <div 
               key={i} 
-              className="reveal rounded-2xl border border-border/50 bg-card/40 p-6 backdrop-blur-sm transition-all hover:border-gold/30 md:p-8"
+              className="reveal group rounded-2xl border border-border/50 bg-card/40 p-6 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-gold/30 hover:bg-card/60 md:p-8"
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               <h3 className="font-serif text-lg text-ink transition-colors group-hover:text-gold md:text-xl">{item.q}</h3>
