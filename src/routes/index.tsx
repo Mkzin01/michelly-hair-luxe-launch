@@ -37,9 +37,13 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-const WHATSAPP = "https://wa.me/351920810339";
+const PHONE = "351920810339";
+const WHATSAPP = `https://wa.me/${PHONE}`;
 const INSTAGRAM = "https://www.instagram.com/michellyhair.pt?igsh=cTQ4cnltejVlcGpn";
 const MAPS = "https://google.com/maps/place/Largo+Fernanda+Alves+4A/@38.6292462,-9.1992968,87a,90y,109.31h,75.04t/data=!3m5!1e1!3m3!1s9PjZVUZ07dvUHaTlvbMsVA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fpanoid%3D9PjZVUZ07dvUHaTlvbMsVA%26w%3D900%26h%3D600%26ll%3D38.629246,-9.199297%26yaw%3D109.311424%26pitch%3D14.962830%26thumbfov%3D112%26cb_client%3Dgmm.iv.ios!4m6!3m5!1s0xd1ecaa8e612bf47:0xedbcb24680108752!8m2!3d38.6291158!4d-9.1988223!10e5";
+
+const getWA = (msg: string) => `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
+
 
 const services = [
   { name: "Balayage", img: balayage.url, desc: "Reflexos naturais, luminosidade sob medida." },
@@ -364,7 +368,7 @@ function Landing() {
               </a>
             ))}
             <a
-              href={WHATSAPP}
+              href={getWA("Olá Michelly! Gostaria de agendar um serviço no salão.")}
               target="_blank"
               rel="noreferrer"
               className={`btn-pill h-10 w-auto px-6 text-[9px] transition-all duration-300 ${
@@ -490,7 +494,7 @@ function Landing() {
               className="mt-5 flex flex-col items-center gap-2.5 md:mt-8 md:items-start md:gap-3"
             >
               <a
-                href={WHATSAPP}
+                href={getWA("Olá Michelly! Vi o seu site e gostaria de agendar um horário para transformar o meu cabelo.")}
                 target="_blank"
                 rel="noreferrer"
                 className="btn-pill btn-premium hero-rise h-11 text-[10px] tracking-[0.24em] md:h-[3.25rem] md:text-[0.72rem] md:tracking-[0.28em] bg-gold text-ink shadow-[0_18px_40px_-18px_rgba(184,144,80,0.7)] hover:bg-gold-soft hover:shadow-[0_22px_50px_-18px_rgba(184,144,80,0.85)]"
@@ -608,7 +612,7 @@ function Landing() {
               técnica precisa e um cuidado artesanal do diagnóstico ao último toque.
             </p>
             <a
-              href={WHATSAPP}
+              href={getWA("Olá Michelly! Gostaria de agendar uma avaliação para o meu cabelo.")}
               target="_blank"
               rel="noreferrer"
               className="mt-10 inline-flex items-center gap-3 border-b border-gold pb-1 text-xs font-medium uppercase tracking-[0.3em] text-ink transition-opacity hover:opacity-70"
@@ -932,7 +936,7 @@ function Landing() {
             </p>
             <div className="mt-7 flex justify-center">
               <a
-                href={WHATSAPP}
+                href={getWA("Olá Michelly! Estou pronta para a minha transformação. Gostaria de agendar um horário.")}
                 target="_blank"
                 rel="noreferrer"
                 className="btn-pill bg-gold text-ink shadow-[0_18px_50px_-14px_rgba(184,144,80,0.7)] hover:bg-gold-soft"
@@ -1009,7 +1013,7 @@ function Landing() {
       </footer>
       {/* WhatsApp Floating Button */}
       <a
-        href={WHATSAPP}
+        href={getWA("Olá Michelly! Gostaria de tirar uma dúvida sobre os serviços do salão.")}
         target="_blank"
         rel="noreferrer"
         aria-label="Agendar via WhatsApp"
