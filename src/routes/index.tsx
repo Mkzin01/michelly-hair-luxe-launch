@@ -612,7 +612,7 @@ function Landing() {
               técnica precisa e um cuidado artesanal do diagnóstico ao último toque.
             </p>
             <a
-              href={WHATSAPP}
+              href={getWA("Olá Michelly! Gostaria de agendar uma avaliação para o meu cabelo.")}
               target="_blank"
               rel="noreferrer"
               className="mt-10 inline-flex items-center gap-3 border-b border-gold pb-1 text-xs font-medium uppercase tracking-[0.3em] text-ink transition-opacity hover:opacity-70"
