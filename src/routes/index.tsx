@@ -885,8 +885,8 @@ function Landing() {
               className="reveal rounded-2xl border border-border/50 bg-card/40 p-6 backdrop-blur-sm transition-all hover:border-gold/30 md:p-8"
               style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <h3 className="font-serif text-lg text-ink md:text-xl">{item.q}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+              <h3 className="font-serif text-lg text-ink transition-colors group-hover:text-gold md:text-xl">{item.q}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground transition-colors group-hover:text-ink/80 md:text-base">
                 {item.a}
               </p>
             </div>
