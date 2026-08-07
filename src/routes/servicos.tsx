@@ -31,6 +31,9 @@ const services = [
   { name: "Tratamentos Capilares", img: tratamentos.url, desc: "Rituais restauradores de alta performance para reconstruir e nutrir os fios." },
 ];
 
+const PHONE = "351920810339";
+const getWA = (msg: string) => `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
+
 function ServicosPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
