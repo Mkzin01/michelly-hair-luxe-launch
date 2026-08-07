@@ -697,21 +697,57 @@ function Landing() {
         </div>
       </section>
 
-      {/* Seção Antes e Depois Interativa */}
+      {/* Seção Antes e Depois Estática (conforme imagem de referência) */}
       <section className="bg-background py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-10">
           <div className="mb-12 flex flex-col items-center text-center md:mb-16">
-            <span className="eyebrow"><span className="gold-line mr-3" />Transformação Real<span className="gold-line ml-3" /></span>
-            <h2 className="mt-5 font-serif text-4xl leading-tight tracking-tight text-ink md:text-5xl">
-              Toque e arraste para ver a <span className="italic text-gold">mágica</span>
+            <span className="eyebrow flex items-center gap-4">
+              <span className="h-px w-8 bg-gold/40" />
+              PORTFÓLIO
+              <span className="h-px w-8 bg-gold/40" />
+            </span>
+            <h2 className="mt-6 font-serif text-4xl leading-tight tracking-tight text-ink md:text-5xl lg:text-6xl">
+              Antes & Depois
             </h2>
-            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-              Compare o estado inicial e o resultado final de um dos nossos procedimentos exclusivos.
+            <p className="mt-6 max-w-2xl text-[15px] leading-relaxed text-muted-foreground/80 md:text-[17px]">
+              Transformações reais assinadas por Michelly Hair.
             </p>
           </div>
 
           <div className="reveal mx-auto max-w-4xl">
-            <ComparisonSlider before={antes.url} after={depois.url} />
+            <div className="mb-10 flex items-center justify-center gap-4 italic text-muted-foreground/60 text-sm md:text-base">
+              <span className="h-px w-6 bg-border" />
+              Transformação Real
+              <span className="h-px w-6 bg-border" />
+            </div>
+            
+            <div className="grid grid-cols-2 gap-3 md:gap-6">
+              <div className="relative group">
+                <div className="overflow-hidden rounded-[20px] md:rounded-[28px] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.15)]">
+                  <img 
+                    src={antes.url} 
+                    alt="Antes" 
+                    className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                  />
+                </div>
+                <div className="absolute top-4 left-4 rounded-full bg-black/60 px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md">
+                  Antes
+                </div>
+              </div>
+              
+              <div className="relative group">
+                <div className="overflow-hidden rounded-[20px] md:rounded-[28px] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.15)]">
+                  <img 
+                    src={depois.url} 
+                    alt="Depois" 
+                    className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                  />
+                </div>
+                <div className="absolute top-4 left-4 rounded-full bg-gold px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white shadow-lg">
+                  Depois
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
