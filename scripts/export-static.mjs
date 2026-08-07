@@ -1,5 +1,5 @@
-import { mkdir, readFile, readdir, rm, copyFile, stat } from "node:fs/promises";
-import { dirname, join, relative } from "node:path";
+import { mkdir, readFile, writeFile, readdir, rm, copyFile, stat } from "node:fs/promises";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -19,40 +19,62 @@ async function copyDir(from, to) {
   );
 }
 
-async function walk(dir) {
-  const entries = await readdir(dir, { withFileTypes: true });
-  const files = await Promise.all(
-    entries.map(async (entry) => {
-      const full = join(dir, entry.name);
-      return entry.isDirectory() ? walk(full) : full;
-    }),
-  );
-  return files.flat();
-}
+const TEMPLATE = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Michelly Hair — Cabeleireira Charneca da Caparica | Alisamentos e Madeixas</title>
+  <meta name="description" content="Especialista em Alisamentos na Charneca da Caparica e Madeixas. Salão de beleza premium na Margem Sul. Balayage, Morena Iluminada e tratamentos capilares.">
+  <link rel="icon" type="image/png" href="./favicon.png">
+  <link rel="stylesheet" href="./assets/styles-DBwmwjDA.css">
+  <style>
+    body { background: #0c0c0c; color: white; margin: 0; font-family: sans-serif; }
+    .loading-screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #0c0c0c; z-index: 100; }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div class="loading-screen">
+      <div style="text-align: center;">
+        <h1 style="font-family: serif; letter-spacing: 0.2em; font-weight: 300;">MICHELLY HAIR</h1>
+        <p style="font-size: 10px; letter-spacing: 0.3em; color: #b89050; margin-top: 10px;">CARREGANDO EXPERIÊNCIA...</p>
+      </div>
+    </div>
+  </div>
+  
+  <script type="module">
+    // Este script garante que o roteamento do TanStack Start funcione em ambiente estático
+    window.__TSR_MANIFEST__ = {
+      "routes": {
+        "__root": { "id": "__root", "path": "" },
+        "/": { "id": "/", "path": "/" },
+        "/servicos": { "id": "/servicos", "path": "/servicos" }
+      }
+    };
+  </script>
+  <script type="module" src="./assets/index-D9EOVexI.js"></script>
+</body>
+</html>`;
 
 async function main() {
   console.log("Starting static HTML export...");
   await rm(OUT, { recursive: true, force: true });
   await mkdir(OUT, { recursive: true });
 
-  // 1. Copy all client assets (JS, CSS, Images)
   await copyDir(SOURCE, OUT);
 
-  // 2. The project uses TanStack Start which is SSR-first.
-  // To get a pure static HTML, we can fetch the local dev/preview server
-  // But the user wants a simple structure. 
-  // I will check if I can just rename the prerendered files from the netlify-dist
-  const netlifyDist = join(ROOT, "netlify-dist");
-  
-  if (await stat(netlifyDist).catch(() => null)) {
-     console.log("Using pre-rendered files from netlify-dist...");
-     // The netlify-dist already has index.html and servicos/index.html
-     // We just need to make sure the paths are correct.
-     await copyDir(netlifyDist, OUT);
-  }
+  // Garantir que as pastas de rotas existam
+  await mkdir(join(OUT, "servicos"), { recursive: true });
 
-  const files = await walk(OUT);
-  console.log(`Export complete: ${OUT} (${files.length} files)`);
+  // Criar os arquivos index.html
+  await writeFile(join(OUT, "index.html"), TEMPLATE);
+  
+  // Para a página de serviços, ajustamos os caminhos relativos
+  const servicosTemplate = TEMPLATE.replace(/\.\//g, "../");
+  await writeFile(join(OUT, "servicos", "index.html"), servicosTemplate);
+
+  console.log("Export complete: index.html generated manually for static hosting.");
 }
 
 main().catch(console.error);
