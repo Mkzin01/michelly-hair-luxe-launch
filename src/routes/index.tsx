@@ -582,7 +582,6 @@ function Landing() {
           </div>
         </div>
       </section>
-      </section>
 
       {/* Sobre */}
       <section id="sobre" className="mx-auto max-w-7xl px-5 py-12 md:px-10 md:py-20">
