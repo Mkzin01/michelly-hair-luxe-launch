@@ -538,30 +538,48 @@ function Landing() {
       </section>
 
       {/* Stats */}
-      <section id="stats" className="relative bg-gradient-to-b from-bege/30 via-background to-background">
-        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-3 px-5 py-10 sm:gap-5 md:gap-6 md:px-10 md:py-20">
-          {[
-            { icon: <Sparkles className="h-5 w-5 text-gold" strokeWidth={1.3} />, value: 300, suffix: "+", title: "Clientes transformadas", desc: "Confiança construída ao longo dos anos." },
-            { icon: <Heart className="h-5 w-5 text-gold" strokeWidth={1.3} />, value: 100, suffix: "%", title: "Atendimento personalizado", desc: "Cada consulta pensada individualmente." },
-          ].map((s, i) => (
-            <div
-              key={s.title}
-              className="reveal group relative overflow-hidden rounded-2xl border border-border/60 bg-card/70 p-4 backdrop-blur-md shadow-[0_10px_40px_-24px_rgba(0,0,0,0.18)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.24)] sm:p-8 md:rounded-3xl md:p-10 shine-once"
-              style={{ transitionDelay: `${i * 140}ms` }}
-            >
-              <div className="flex items-center gap-2 md:gap-3">
-                <div className="grid h-8 w-8 place-items-center rounded-full border border-gold/30 bg-gold/5 md:h-11 md:w-11">
+      <section id="stats" className="relative bg-background">
+        <div className="mx-auto max-w-5xl px-5 py-16 md:px-10 md:py-28">
+          <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
+            {[
+              { 
+                icon: <Sparkles className="h-5 w-5 md:h-6 md:w-6 text-gold" strokeWidth={1.2} />, 
+                value: 300, 
+                suffix: "+", 
+                title: "Clientes transformadas", 
+                desc: "Histórias de autoestima renovada e confiança construída ao longo dos anos." 
+              },
+              { 
+                icon: <Heart className="h-5 w-5 md:h-6 md:w-6 text-gold" strokeWidth={1.2} />, 
+                value: 100, 
+                suffix: "%", 
+                title: "Atendimento personalizado", 
+                desc: "Uma abordagem artesanal onde cada consulta é desenhada para a sua singularidade." 
+              },
+            ].map((s, i) => (
+              <div
+                key={s.title}
+                className="reveal group relative flex flex-col items-center text-center sm:items-start sm:text-left"
+                style={{ transitionDelay: `${i * 200}ms` }}
+              >
+                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/20 bg-bege/30 shadow-[0_8px_30px_-10px_rgba(184,144,80,0.15)] transition-all duration-500 group-hover:scale-110 group-hover:border-gold/40 group-hover:bg-bege/50 md:h-16 md:w-16 md:rounded-3xl">
                   {s.icon}
                 </div>
-                <div className="eyebrow text-[9px] tracking-[0.22em] md:text-[0.72rem] md:tracking-[0.35em]">{s.title}</div>
+                
+                <div className="flex flex-col items-center sm:items-start">
+                  <div className="eyebrow text-[9px] tracking-[0.25em] text-gold md:text-[0.72rem] md:tracking-[0.35em]">{s.title}</div>
+                  <div className="mt-3 font-serif text-4xl leading-none tracking-tight text-ink sm:text-6xl md:mt-4 md:text-7xl lg:text-8xl">
+                    <AnimatedNumber value={s.value} suffix={s.suffix} />
+                  </div>
+                  <div className="mt-4 h-px w-8 bg-gold/30 transition-all duration-500 group-hover:w-16" />
+                  <p className="mt-5 max-w-[280px] text-xs leading-[1.7] text-muted-foreground transition-colors duration-500 group-hover:text-ink/70 md:mt-7 md:text-sm md:leading-[1.8]">{s.desc}</p>
+                </div>
+                
+                {/* Decorative element */}
+                <div className="pointer-events-none absolute -bottom-4 -right-4 h-24 w-24 rounded-full bg-gold/5 blur-3xl transition-all duration-700 group-hover:bg-gold/10 group-hover:scale-150" />
               </div>
-              <div className="mt-4 font-serif text-3xl leading-none tracking-tight text-ink sm:text-5xl md:mt-6 md:text-6xl">
-                <AnimatedNumber value={s.value} suffix={s.suffix} />
-              </div>
-              <p className="mt-2 hidden max-w-xs text-sm leading-relaxed text-muted-foreground sm:mt-4 sm:block">{s.desc}</p>
-              <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gold/10 blur-3xl transition-opacity duration-700 group-hover:opacity-80" />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
