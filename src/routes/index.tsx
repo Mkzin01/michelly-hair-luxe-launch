@@ -1013,7 +1013,7 @@ function Landing() {
       </footer>
       {/* WhatsApp Floating Button */}
       <a
-        href={WHATSAPP}
+        href={getWA("Olá Michelly! Gostaria de tirar uma dúvida sobre os serviços do salão.")}
         target="_blank"
         rel="noreferrer"
         aria-label="Agendar via WhatsApp"
