@@ -703,7 +703,7 @@ function Landing() {
           <div className="mb-12 flex flex-col items-center text-center md:mb-16">
             <span className="eyebrow flex items-center gap-4">
               <span className="h-px w-8 bg-gold/40" />
-              PORTFÓLIO
+              RESULTADOS
               <span className="h-px w-8 bg-gold/40" />
             </span>
             <h2 className="mt-6 font-serif text-4xl leading-tight tracking-tight text-ink md:text-5xl lg:text-6xl">
@@ -730,7 +730,7 @@ function Landing() {
                     className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-105" 
                   />
                 </div>
-                <div className="absolute top-4 left-4 rounded-full bg-black/60 px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md">
+                <div className="absolute top-3 left-3 rounded-full bg-black/60 px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-white backdrop-blur-md">
                   Antes
                 </div>
               </div>
@@ -743,7 +743,7 @@ function Landing() {
                     className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-105" 
                   />
                 </div>
-                <div className="absolute top-4 left-4 rounded-full bg-gold px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white shadow-lg">
+                <div className="absolute top-3 left-3 rounded-full bg-gold px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-white shadow-lg">
                   Depois
                 </div>
               </div>
