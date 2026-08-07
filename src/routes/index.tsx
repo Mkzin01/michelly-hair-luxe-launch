@@ -547,14 +547,14 @@ function Landing() {
                 value: 300, 
                 suffix: "+", 
                 title: "Clientes transformadas", 
-                desc: "Histórias de autoestima renovada e confiança construída ao longo dos anos." 
+                desc: "" 
               },
               { 
                 icon: <Heart className="h-5 w-5 md:h-6 md:w-6 text-gold" strokeWidth={1.2} />, 
                 value: 100, 
                 suffix: "%", 
                 title: "Atendimento personalizado", 
-                desc: "Uma abordagem artesanal onde cada consulta é desenhada para a sua singularidade." 
+                desc: "" 
               },
             ].map((s, i) => (
               <div
