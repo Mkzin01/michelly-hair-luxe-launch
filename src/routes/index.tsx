@@ -1006,7 +1006,7 @@ function Landing() {
           </div>
 
           <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border pt-5 text-[10.5px] text-muted-foreground md:flex-row">
-            <p>© {new Date().getFullYear()} Michelly Hair. Todos os direitos reservados. (v1.0.1)</p>
+            <p>© {new Date().getFullYear()} Michelly Hair. Todos os direitos reservados. (v1.0.4)</p>
             <p className="eyebrow text-[0.6rem]">Charneca da Caparica</p>
           </div>
         </div>
