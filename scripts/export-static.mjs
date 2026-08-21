@@ -339,6 +339,22 @@ async function main() {
   await copyFile(join(OUT, "index.html"), join(OUT, "404.html"));
   await writeFile(join(OUT, "_redirects"), "/*  /index.html  404\n");
 
+  // As imagens e o JavaScript têm hash no nome, por isso podem ficar em cache
+  // indefinidamente; o HTML tem de ser sempre revalidado, senão as visitas
+  // seguintes continuam a ver a versão antiga depois de uma atualização.
+  // Escrito no pacote para valer também nos envios manuais, em que o
+  // netlify.toml não é lido.
+  await writeFile(
+    join(OUT, "_headers"),
+    [
+      "/assets/*",
+      "  Cache-Control: public, max-age=31536000, immutable",
+      "/*.html",
+      "  Cache-Control: public, max-age=0, must-revalidate",
+      "",
+    ].join("\n"),
+  );
+
   await verifyReferences();
 
   const files = await walk(OUT);
