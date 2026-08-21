@@ -32,4 +32,5 @@ dist-ssr
 *.sw?
 
 # Saída da exportação estática (gerada pelo workflow do GitHub Pages)
+dist-static
 gh-pages-dist

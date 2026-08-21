@@ -1,0 +1,31 @@
+# O build gera um site estático já pré-renderizado, com as imagens incluídas.
+#
+# Atenção: se estiver definido um "Publish directory" nas definições do site no
+# Netlify, apague-o — caso contrário sobrepõe-se ao valor daqui. Era esse o
+# motivo do erro "deploy directory dist/client does not exist": apontava para
+# uma pasta que este projeto já não gera.
+[build]
+  command = "bun run export:netlify"
+  publish = "dist-static"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Caminhos desconhecidos servem a aplicação, que mostra a página de erro.
+# Todas as rotas reais são pré-renderizadas, por isso o estado 404 é correto.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 404
+
+# As imagens e o JavaScript têm hash no nome, por isso podem ser guardados
+# em cache indefinidamente. O HTML tem de ser sempre revalidado.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
