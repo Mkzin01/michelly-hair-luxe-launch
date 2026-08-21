@@ -7,7 +7,8 @@
     "dev": "vite dev",
     "build": "vite build",
     "build:dev": "vite build --mode development",
-    "export:netlify": "bun run build && node scripts/export-netlify.mjs",
+    "export:static": "node scripts/export-static.mjs",
+    "export:netlify": "SITE_URL=${URL:-$DEPLOY_PRIME_URL} node scripts/export-static.mjs",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write ."

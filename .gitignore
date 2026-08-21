@@ -30,3 +30,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Saída da exportação estática (gerada pelo workflow do GitHub Pages)
+dist-static
+gh-pages-dist
+
+# Pacote do site gerado para envio manual (reproduzível com export:static)
+michelly-hair-site.zip
