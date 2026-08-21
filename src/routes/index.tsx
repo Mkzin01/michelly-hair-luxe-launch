@@ -1,8 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import { Menu, X, MapPin, ChevronDown, Star, Quote, Heart, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Menu,
+  X,
+  MapPin,
+  ChevronDown,
+  Star,
+  Quote,
+  Heart,
+  Sparkles,
+  ChevronLeft,
+  ChevronRight,
+  Plus,
+  Clock,
+  Phone,
+  ArrowUpRight,
+} from "lucide-react";
 
-import logoFull from "@/assets/mh/logo-mh-new.png.asset.json";
 import heroNovo from "@/assets/mh/hero-novo.png.asset.json";
 import especialista from "@/assets/mh/especialista.jpg.asset.json";
 import balayage from "@/assets/mh/balayage.jpg.asset.json";
@@ -13,75 +27,211 @@ import coloracao from "@/assets/mh/coloracao.jpg.asset.json";
 import tratamentos from "@/assets/mh/tratamentos.jpg.asset.json";
 import antes from "@/assets/mh/antes.jpg.asset.json";
 import depois from "@/assets/mh/depois.jpg.asset.json";
-import portfolio2 from "@/assets/mh/portfolio-2.jpg.asset.json";
-import portfolio3 from "@/assets/mh/portfolio-3.jpg.asset.json";
-import portfolio4 from "@/assets/mh/portfolio-4.jpg.asset.json";
-import portfolio5 from "@/assets/mh/portfolio-5.jpg.asset.json";
-import portfolio6 from "@/assets/mh/portfolio-6.jpg.asset.json";
 import portfolioBalayage from "@/assets/mh/balayage-portfolio.png.asset.json";
 import portfolioMorena from "@/assets/mh/morena-iluminada-portfolio.png.asset.json";
 import portfolioMadeixas from "@/assets/mh/madeixas-new.png.asset.json";
 import portfolioProgressiva from "@/assets/mh/progressiva-portfolio.png.asset.json";
 
+const PHONE = "351920810339";
+const PHONE_DISPLAY = "+351 920 810 339";
+const WHATSAPP = `https://wa.me/${PHONE}`;
+const INSTAGRAM = "https://www.instagram.com/michellyhair.pt?igsh=cTQ4cnltejVlcGpn";
+const MAPS =
+  "https://google.com/maps/place/Largo+Fernanda+Alves+4A/@38.6292462,-9.1992968,87a,90y,109.31h,75.04t/data=!3m5!1e1!3m3!1s9PjZVUZ07dvUHaTlvbMsVA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fpanoid%3D9PjZVUZ07dvUHaTlvbMsVA%26w%3D900%26h%3D600%26ll%3D38.629246,-9.199297%26yaw%3D109.311424%26pitch%3D14.962830%26thumbfov%3D112%26cb_client%3Dgmm.iv.ios!4m6!3m5!1s0xd1ecaa8e612bf47:0xedbcb24680108752!8m2!3d38.6291158!4d-9.1988223!10e5";
+const ADDRESS = "Largo Fernanda Alves 4A";
+const CITY = "Charneca da Caparica";
+
+const getWA = (msg: string) => `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
+
+/** Dados estruturados para o Google (aparece nas pesquisas e no Google Negócios). */
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "HairSalon",
+  name: "Michelly Hair",
+  description:
+    "Salão de beleza premium na Charneca da Caparica, especialista em alisamentos, madeixas, balayage e morena iluminada.",
+  image: heroNovo.url,
+  telephone: `+${PHONE}`,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: ADDRESS,
+    addressLocality: CITY,
+    addressRegion: "Setúbal",
+    addressCountry: "PT",
+  },
+  geo: { "@type": "GeoCoordinates", latitude: 38.6291158, longitude: -9.1988223 },
+  sameAs: [INSTAGRAM],
+  priceRange: "€€",
+  areaServed: ["Charneca da Caparica", "Costa da Caparica", "Almada", "Margem Sul"],
+};
+
+const services = [
+  {
+    name: "Balayage",
+    img: balayage.url,
+    desc: "Reflexos pintados à mão, luminosidade sob medida.",
+  },
+  {
+    name: "Morena Iluminada",
+    img: morena.url,
+    desc: "Iluminação discreta que valoriza o tom natural.",
+  },
+  { name: "Alisamento", img: alisamento.url, desc: "Fios lisos, saudáveis e com movimento." },
+  { name: "Madeixas", img: madeixas.url, desc: "Nuances precisas para um resultado refinado." },
+  { name: "Coloração", img: coloracao.url, desc: "Cor personalizada com pigmentos premium." },
+  { name: "Tratamentos", img: tratamentos.url, desc: "Rituais restauradores de alta performance." },
+];
+
+type PortfolioItem = { src: string; category: string; title: string; desc: string };
+const portfolio: PortfolioItem[] = [
+  {
+    src: portfolioBalayage.url,
+    category: "Balayage",
+    title: "Balayage",
+    desc: "Luminosidade e naturalidade em cada fio.",
+  },
+  {
+    src: portfolioMorena.url,
+    category: "Morena Iluminada",
+    title: "Morena Iluminada",
+    desc: "Contraste perfeito para realçar o seu tom.",
+  },
+  {
+    src: portfolioMadeixas.url,
+    category: "Madeixas",
+    title: "Madeixas",
+    desc: "Técnica precisa para um resultado sofisticado.",
+  },
+  {
+    src: portfolioProgressiva.url,
+    category: "Alisamento",
+    title: "Alisamento",
+    desc: "Liso impecável com brilho e saúde.",
+  },
+];
+
+const testimonials = [
+  {
+    name: "Ana Ferreira",
+    text: "Um atendimento impecável. Sinto que a Michelly entende exatamente o que quero antes mesmo de eu dizer.",
+  },
+  {
+    name: "Carolina Sousa",
+    text: "Meu cabelo nunca esteve tão saudável. Ambiente sofisticado e um resultado que superou todas as expectativas.",
+  },
+  {
+    name: "Beatriz Almeida",
+    text: "Confio de olhos fechados. Cada visita é uma experiência delicada, precisa e verdadeiramente premium.",
+  },
+  {
+    name: "Mariana Costa",
+    text: "Um verdadeiro ritual. Saio do salão sempre com o cabelo perfeito e a autoestima renovada.",
+  },
+  {
+    name: "Rita Marques",
+    text: "Detalhe, técnica e sensibilidade. A Michelly transformou por completo a minha relação com o meu cabelo.",
+  },
+  {
+    name: "Sofia Pereira",
+    text: "Ambiente acolhedor, atendimento refinado. É o único sítio onde confio o meu cabelo há mais de dois anos.",
+  },
+];
+
+const steps = [
+  {
+    n: "01",
+    title: "Diagnóstico",
+    desc: "Analisamos a saúde do fio, o histórico de químicas e o resultado que deseja.",
+  },
+  {
+    n: "02",
+    title: "Plano à medida",
+    desc: "Definimos técnica, tom e número de sessões — sem surpresas, sem promessas vazias.",
+  },
+  {
+    n: "03",
+    title: "Execução",
+    desc: "Aplicação cuidada com produtos premium e o tempo que cada cabelo realmente precisa.",
+  },
+  {
+    n: "04",
+    title: "Manutenção",
+    desc: "Sai com a rotina certa em casa para o resultado durar muito para além do salão.",
+  },
+];
+
+const faqs = [
+  {
+    q: "Preciso de fazer uma avaliação antes de agendar?",
+    a: "Para Madeixas, Balayage ou Alisamentos recomendamos sempre uma consulta de avaliação, para analisarmos a saúde do fio e definirmos o melhor caminho antes de qualquer química.",
+  },
+  {
+    q: "Quais os métodos de pagamento aceites?",
+    a: "Aceitamos Numerário, MB Way e Transferência Bancária.",
+  },
+  {
+    q: "Onde se localiza o salão?",
+    a: "Estamos na Charneca da Caparica, no Largo Fernanda Alves 4A, com estacionamento fácil na zona. A poucos minutos da Costa da Caparica e de Almada.",
+  },
+  {
+    q: "Quanto tempo demora um serviço de Alisamento?",
+    a: "Consoante o comprimento e a densidade do cabelo, o alisamento pode demorar entre 3 a 5 horas — o tempo necessário para garantir um resultado impecável e seguro para o fio.",
+  },
+  {
+    q: "Como faço a minha marcação?",
+    a: "O agendamento é feito diretamente por WhatsApp. Envie-nos uma mensagem com o serviço pretendido e encontramos juntas o melhor horário.",
+  },
+];
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Michelly Hair — Cabeleireira Charneca da Caparica | Alisamentos e Madeixas" },
-      { name: "description", content: "Especialista em Alisamentos na Charneca da Caparica e Madeixas. Salão de beleza premium na Margem Sul. Balayage, Morena Iluminada e tratamentos capilares." },
-      { property: "og:title", content: "Michelly Hair — Salão Premium" },
-      { property: "og:description", content: "Transformando cabelos, elevando autoestima." },
+      { title: "Michelly Hair — Cabeleireira na Charneca da Caparica | Alisamentos e Madeixas" },
+      {
+        name: "description",
+        content:
+          "Salão de beleza premium na Charneca da Caparica. Especialista em alisamentos, madeixas, balayage e morena iluminada. Marcações por WhatsApp.",
+      },
+      { name: "theme-color", content: "#FBF9F6" },
+      { property: "og:title", content: "Michelly Hair — Salão de Beleza Premium" },
+      {
+        property: "og:description",
+        content: "Transformando cabelos, elevando autoestima. Charneca da Caparica.",
+      },
       { property: "og:image", content: heroNovo.url },
       { name: "twitter:image", content: heroNovo.url },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(localBusinessSchema),
+      },
     ],
   }),
   component: Landing,
 });
 
-const PHONE = "351920810339";
-const WHATSAPP = `https://wa.me/${PHONE}`;
-const INSTAGRAM = "https://www.instagram.com/michellyhair.pt?igsh=cTQ4cnltejVlcGpn";
-const MAPS = "https://google.com/maps/place/Largo+Fernanda+Alves+4A/@38.6292462,-9.1992968,87a,90y,109.31h,75.04t/data=!3m5!1e1!3m3!1s9PjZVUZ07dvUHaTlvbMsVA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fpanoid%3D9PjZVUZ07dvUHaTlvbMsVA%26w%3D900%26h%3D600%26ll%3D38.629246,-9.199297%26yaw%3D109.311424%26pitch%3D14.962830%26thumbfov%3D112%26cb_client%3Dgmm.iv.ios!4m6!3m5!1s0xd1ecaa8e612bf47:0xedbcb24680108752!8m2!3d38.6291158!4d-9.1988223!10e5";
-
-const getWA = (msg: string) => `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
-
-
-const services = [
-  { name: "Balayage", img: balayage.url, desc: "Reflexos naturais, luminosidade sob medida." },
-  { name: "Morena Iluminada", img: morena.url, desc: "Iluminação discreta que valoriza o tom natural." },
-  { name: "Alisamento", img: alisamento.url, desc: "Fios lisos, saudáveis e com movimento." },
-  { name: "Madeixas", img: madeixas.url, desc: "Nuances precisas para um resultado refinado." },
-  { name: "Coloração", img: coloracao.url, desc: "Cor personalizada com pigmentos premium." },
-  { name: "Tratamentos Capilares", img: tratamentos.url, desc: "Rituais restauradores de alta performance." },
-];
-
-type PortfolioItem = { src: string; category: string; title: string; desc: string };
-const portfolio: PortfolioItem[] = [
-  { src: portfolioBalayage.url,   category: "Balayage",         title: "Balayage",         desc: "Luminosidade e naturalidade em cada fio." },
-  { src: portfolioMorena.url,     category: "Morena Iluminada", title: "Morena Iluminada", desc: "Contraste perfeito para realçar o seu tom." },
-  { src: portfolioMadeixas.url,   category: "Madeixas",         title: "Madeixas",         desc: "Técnica precisa para um resultado sofisticado." },
-  { src: portfolioProgressiva.url, category: "Alisamento",       title: "Alisamento",       desc: "Liso impecável com brilho e saúde." },
-];
-
-const testimonials = [
-  { name: "Ana Ferreira", text: "Um atendimento impecável. Sinto que a Michelly entende exatamente o que quero antes mesmo de eu dizer." },
-  { name: "Carolina Sousa", text: "Meu cabelo nunca esteve tão saudável. Ambiente sofisticado e um resultado que superou todas as expectativas." },
-  { name: "Beatriz Almeida", text: "Confio de olhos fechados. Cada visita é uma experiência delicada, precisa e verdadeiramente premium." },
-  { name: "Mariana Costa", text: "Um verdadeiro ritual. Saio do salão sempre com o cabelo perfeito e a autoestima renovada." },
-  { name: "Rita Marques", text: "Detalhe, técnica e sensibilidade. A Michelly transformou por completo a minha relação com o meu cabelo." },
-  { name: "Sofia Pereira", text: "Ambiente acolhedor, atendimento refinado. É o único sítio onde confio o meu cabelo há mais de dois anos." },
-];
-
+/* ============================================================
+   ÍCONES
+   ============================================================ */
 function WhatsAppIcon({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
-      <path d="M20.52 3.48A11.9 11.9 0 0 0 12.05 0C5.5 0 .2 5.3.2 11.85c0 2.09.55 4.13 1.6 5.93L0 24l6.4-1.68a11.86 11.86 0 0 0 5.65 1.44h.01c6.55 0 11.86-5.3 11.86-11.85 0-3.17-1.24-6.15-3.4-8.43ZM12.06 21.6h-.01a9.72 9.72 0 0 1-4.96-1.36l-.36-.21-3.8 1 1.02-3.7-.24-.38a9.7 9.7 0 0 1-1.49-5.1c0-5.37 4.38-9.74 9.76-9.74 2.6 0 5.05 1.02 6.9 2.86a9.7 9.7 0 0 1 2.85 6.89c0 5.37-4.38 9.74-9.67 9.74Zm5.6-7.29c-.31-.15-1.82-.9-2.1-1-.28-.1-.49-.15-.7.15-.2.31-.79 1-.97 1.2-.18.2-.36.23-.67.08-.31-.15-1.3-.48-2.47-1.53-.91-.81-1.53-1.81-1.71-2.12-.18-.31-.02-.48.13-.63.14-.14.31-.36.46-.54.15-.18.2-.31.31-.51.1-.2.05-.39-.03-.54-.08-.15-.7-1.68-.96-2.3-.25-.6-.51-.52-.7-.53l-.6-.01c-.2 0-.54.08-.83.39-.28.31-1.09 1.06-1.09 2.59s1.12 3 1.28 3.21c.15.2 2.2 3.36 5.33 4.71.75.32 1.33.52 1.78.66.75.24 1.43.2 1.97.12.6-.09 1.82-.74 2.08-1.46.26-.72.26-1.34.18-1.46-.08-.13-.28-.2-.6-.36Z"/>
+      <path d="M20.52 3.48A11.9 11.9 0 0 0 12.05 0C5.5 0 .2 5.3.2 11.85c0 2.09.55 4.13 1.6 5.93L0 24l6.4-1.68a11.86 11.86 0 0 0 5.65 1.44h.01c6.55 0 11.86-5.3 11.86-11.85 0-3.17-1.24-6.15-3.4-8.43ZM12.06 21.6h-.01a9.72 9.72 0 0 1-4.96-1.36l-.36-.21-3.8 1 1.02-3.7-.24-.38a9.7 9.7 0 0 1-1.49-5.1c0-5.37 4.38-9.74 9.76-9.74 2.6 0 5.05 1.02 6.9 2.86a9.7 9.7 0 0 1 2.85 6.89c0 5.37-4.38 9.74-9.67 9.74Zm5.6-7.29c-.31-.15-1.82-.9-2.1-1-.28-.1-.49-.15-.7.15-.2.31-.79 1-.97 1.2-.18.2-.36.23-.67.08-.31-.15-1.3-.48-2.47-1.53-.91-.81-1.53-1.81-1.71-2.12-.18-.31-.02-.48.13-.63.14-.14.31-.36.46-.54.15-.18.2-.31.31-.51.1-.2.05-.39-.03-.54-.08-.15-.7-1.68-.96-2.3-.25-.6-.51-.52-.7-.53l-.6-.01c-.2 0-.54.08-.83.39-.28.31-1.09 1.06-1.09 2.59s1.12 3 1.28 3.21c.15.2 2.2 3.36 5.33 4.71.75.32 1.33.52 1.78.66.75.24 1.43.2 1.97.12.6-.09 1.82-.74 2.08-1.46.26-.72.26-1.34.18-1.46-.08-.13-.28-.2-.6-.36Z" />
     </svg>
   );
 }
 
 function InstagramIcon({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={1.6} aria-hidden>
+    <svg
+      viewBox="0 0 24 24"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      aria-hidden
+    >
       <rect x="3" y="3" width="18" height="18" rx="5" />
       <circle cx="12" cy="12" r="4" />
       <circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none" />
@@ -89,9 +239,74 @@ function InstagramIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function useReveal(dependency?: any) {
+/** Monograma MH desenhado em SVG — usado no cabeçalho e no rodapé. */
+function Monogram({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} aria-hidden>
+      <circle
+        cx="24"
+        cy="24"
+        r="22.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+        opacity="0.45"
+      />
+      <text
+        x="24"
+        y="30.5"
+        textAnchor="middle"
+        fontFamily="Cormorant Garamond, serif"
+        fontSize="18"
+        letterSpacing="1"
+        fill="currentColor"
+      >
+        MH
+      </text>
+    </svg>
+  );
+}
+
+/* ============================================================
+   PRIMITIVAS DE SECÇÃO
+   ============================================================ */
+function SectionHeading({
+  eyebrow,
+  title,
+  subtitle,
+  align = "center",
+}: {
+  eyebrow: string;
+  title: React.ReactNode;
+  subtitle?: string;
+  align?: "center" | "left";
+}) {
+  const centered = align === "center";
+  return (
+    <div className={`reveal ${centered ? "mx-auto max-w-2xl text-center" : "max-w-xl text-left"}`}>
+      <span className="eyebrow text-gold-deep">
+        {centered && <span className="gold-line mr-3" />}
+        {eyebrow}
+        {centered && <span className="gold-line ml-3" />}
+      </span>
+      <h2 className="display-lg mt-5 text-balance text-ink">{title}</h2>
+      {subtitle && (
+        <p
+          className={`mt-5 text-pretty text-[15px] leading-[1.8] text-muted-foreground ${centered ? "mx-auto max-w-lg" : ""}`}
+        >
+          {subtitle}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/* ============================================================
+   HOOKS
+   ============================================================ */
+function useReveal(dependency?: unknown) {
   useEffect(() => {
-    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    const els = document.querySelectorAll<HTMLElement>(".reveal, .reveal-scale");
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -101,130 +316,178 @@ function useReveal(dependency?: any) {
           }
         });
       },
-      { threshold: 0.12 }
+      { threshold: 0.1, rootMargin: "0px 0px -8% 0px" },
     );
-    els.forEach((el) => {
-      // Se já tiver a classe reveal-in (devido a uma renderização anterior),
-      // garantimos que ela permaneça visível se o Observer for reiniciado
-      if (el.classList.contains("reveal-in")) {
-        // O elemento já está visível
-      }
-      io.observe(el);
-    });
+    els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, [dependency]);
 }
 
-function AnimatedNumber({ value, suffix = "", duration = 1600 }: { value: number; suffix?: string; duration?: number }) {
+/** Progresso de leitura da página (barra fina no topo). */
+function useScrollProgress() {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.min(1, window.scrollY / max) : 0);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return progress;
+}
+
+function AnimatedNumber({
+  value,
+  suffix = "",
+  duration = 1600,
+}: {
+  value: number;
+  suffix?: string;
+  duration?: number;
+}) {
   const ref = useRef<HTMLSpanElement>(null);
   const [display, setDisplay] = useState(0);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     let started = false;
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting && !started) {
-          started = true;
-          const start = performance.now();
-          const tick = (now: number) => {
-            const p = Math.min(1, (now - start) / duration);
-            const eased = 1 - Math.pow(1 - p, 3);
-            setDisplay(Math.round(value * eased));
-            if (p < 1) requestAnimationFrame(tick);
-          };
-          requestAnimationFrame(tick);
-          io.disconnect();
-        }
-      });
-    }, { threshold: 0.4 });
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting && !started) {
+            started = true;
+            const start = performance.now();
+            const tick = (now: number) => {
+              const p = Math.min(1, (now - start) / duration);
+              const eased = 1 - Math.pow(1 - p, 3);
+              setDisplay(Math.round(value * eased));
+              if (p < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+            io.disconnect();
+          }
+        });
+      },
+      { threshold: 0.4 },
+    );
     io.observe(el);
     return () => io.disconnect();
   }, [value, duration]);
-  return <span ref={ref}>{display}{suffix}</span>;
+  return (
+    <span ref={ref}>
+      {display}
+      {suffix}
+    </span>
+  );
 }
 
+/* ============================================================
+   ANTES / DEPOIS — cortina arrastável
+   ============================================================ */
 function ComparisonSlider({ before, after }: { before: string; after: string }) {
-  const [sliderPos, setSliderPos] = useState(50);
+  const [pos, setPos] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
+  const draggingRef = useRef(false);
 
-  const handleMove = (clientX: number) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
+  const moveTo = useCallback((clientX: number) => {
+    const el = containerRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
     const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
-    setSliderPos((x / rect.width) * 100);
-  };
+    setPos((x / rect.width) * 100);
+  }, []);
 
   useEffect(() => {
     const onMove = (e: MouseEvent | TouchEvent) => {
-      if (!isDragging) return;
-      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-      handleMove(clientX);
+      if (!draggingRef.current) return;
+      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+      moveTo(clientX);
     };
-    const onEnd = () => setIsDragging(false);
-
-    if (isDragging) {
-      window.addEventListener('mousemove', onMove);
-      window.addEventListener('mouseup', onEnd);
-      window.addEventListener('touchmove', onMove, { passive: false });
-      window.addEventListener('touchend', onEnd);
-    }
+    const onEnd = () => {
+      draggingRef.current = false;
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onEnd);
+    window.addEventListener("touchmove", onMove, { passive: true });
+    window.addEventListener("touchend", onEnd);
     return () => {
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('mouseup', onEnd);
-      window.removeEventListener('touchmove', onMove);
-      window.removeEventListener('touchend', onEnd);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onEnd);
+      window.removeEventListener("touchmove", onMove);
+      window.removeEventListener("touchend", onEnd);
     };
-  }, [isDragging]);
+  }, [moveTo]);
+
+  const startDrag = () => {
+    draggingRef.current = true;
+  };
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className="group relative h-[320px] w-full overflow-hidden rounded-[20px] shadow-[0_16px_40px_-12px_rgba(0,0,0,0.12)] md:h-[500px] md:rounded-[28px]"
+      onClick={(e) => moveTo(e.clientX)}
+      className="group relative aspect-[4/5] w-full cursor-col-resize overflow-hidden rounded-[24px] shadow-[var(--shadow-lift)] sm:aspect-[16/10] md:rounded-[32px]"
     >
-      {/* After Image (Full background) */}
-      <img src={after} alt="Depois" className="absolute inset-0 h-full w-full object-cover" draggable={false} />
-      
-      {/* Before Image (Clipped) */}
-      <div 
-        className="absolute inset-0 h-full overflow-hidden border-r border-white/40" 
-        style={{ width: `${sliderPos}%` }}
-      >
-        <img 
-          src={before} 
-          alt="Antes" 
-          className="absolute inset-0 h-[320px] w-full object-cover md:h-[500px]" 
-          style={{ width: containerRef.current?.offsetWidth || "100%" }}
-          draggable={false} 
+      {/* Depois — camada de fundo */}
+      <img
+        src={after}
+        alt="Depois da transformação"
+        className="absolute inset-0 h-full w-full object-cover"
+        draggable={false}
+      />
+
+      {/* Antes — recortado pela cortina */}
+      <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
+        <img
+          src={before}
+          alt="Antes da transformação"
+          className="absolute inset-0 h-full w-full object-cover"
+          draggable={false}
         />
       </div>
 
-      {/* Slider Divider Handle (Clickable Area) */}
-      <div 
-        className="absolute bottom-0 top-0 z-30 cursor-col-resize"
-        style={{ left: `calc(${sliderPos}% - 20px)`, width: '40px' }}
-        onMouseDown={() => setIsDragging(true)}
-        onTouchStart={() => setIsDragging(true)}
+      {/* Pega */}
+      <div
+        role="slider"
+        aria-label="Comparar antes e depois"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(pos)}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowLeft") setPos((p) => Math.max(0, p - 4));
+          if (e.key === "ArrowRight") setPos((p) => Math.min(100, p + 4));
+        }}
+        onMouseDown={startDrag}
+        onTouchStart={startDrag}
+        className="absolute inset-y-0 z-30 w-11 -translate-x-1/2 cursor-col-resize"
+        style={{ left: `${pos}%` }}
       >
-        <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-white shadow-[0_0_15px_rgba(0,0,0,0.3)]" />
-        <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white/25 text-white shadow-xl backdrop-blur-md transition-transform group-hover:scale-110">
-          <ChevronLeft className="h-3.5 w-3.5 -mr-0.5" strokeWidth={2.5} />
-          <ChevronRight className="h-3.5 w-3.5 -ml-0.5" strokeWidth={2.5} />
+        <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-white/90 shadow-[0_0_18px_rgba(0,0,0,0.35)]" />
+        <div className="absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white/20 text-white shadow-xl backdrop-blur-md transition-transform duration-500 group-hover:scale-110">
+          <ChevronLeft className="-mr-1 h-4 w-4" strokeWidth={2.5} />
+          <ChevronRight className="-ml-1 h-4 w-4" strokeWidth={2.5} />
         </div>
       </div>
 
-      {/* Labels */}
-      <div className="pointer-events-none absolute top-4 left-4 z-20 rounded-lg bg-black/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md">
+      <span className="pointer-events-none absolute left-4 top-4 z-20 rounded-full bg-black/35 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md">
         Antes
-      </div>
-      <div className="pointer-events-none absolute top-4 right-4 z-20 rounded-lg bg-gold/60 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md">
+      </span>
+      <span className="pointer-events-none absolute right-4 top-4 z-20 rounded-full bg-gold px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-ink shadow-lg">
         Depois
-      </div>
+      </span>
+      <span className="pointer-events-none absolute inset-x-0 bottom-0 z-20 pb-4 text-center text-[10px] uppercase tracking-[0.28em] text-white/80 opacity-90 transition-opacity duration-500 group-hover:opacity-0">
+        Arraste para comparar
+      </span>
     </div>
   );
 }
 
+/* ============================================================
+   LIGHTBOX
+   ============================================================ */
 function Lightbox({
   items,
   index,
@@ -257,27 +520,38 @@ function Lightbox({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-md animate-[fadeIn_.25s_ease-out]"
-      style={{ animation: "fadeIn .25s ease-out" }}
+      role="dialog"
+      aria-modal="true"
+      aria-label={current.title}
+      className="fade-in fixed inset-0 z-[100] flex items-center justify-center bg-[oklch(0.12_0.01_55)]/96 backdrop-blur-lg"
       onClick={onClose}
     >
       <button
         aria-label="Fechar"
-        onClick={(e) => { e.stopPropagation(); onClose(); }}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
         className="absolute right-4 top-4 z-10 grid h-11 w-11 place-items-center rounded-full border border-white/25 bg-white/5 text-white backdrop-blur-md transition-all hover:bg-white/15 md:right-8 md:top-8"
       >
         <X className="h-4 w-4" />
       </button>
       <button
         aria-label="Anterior"
-        onClick={(e) => { e.stopPropagation(); go(-1); }}
+        onClick={(e) => {
+          e.stopPropagation();
+          go(-1);
+        }}
         className="absolute left-3 z-10 hidden h-12 w-12 place-items-center rounded-full border border-white/25 bg-white/5 text-white backdrop-blur-md transition-all hover:bg-white/15 md:grid md:left-8"
       >
         <ChevronLeft className="h-5 w-5" />
       </button>
       <button
         aria-label="Próximo"
-        onClick={(e) => { e.stopPropagation(); go(1); }}
+        onClick={(e) => {
+          e.stopPropagation();
+          go(1);
+        }}
         className="absolute right-3 z-10 hidden h-12 w-12 place-items-center rounded-full border border-white/25 bg-white/5 text-white backdrop-blur-md transition-all hover:bg-white/15 md:grid md:right-8"
       >
         <ChevronRight className="h-5 w-5" />
@@ -286,7 +560,9 @@ function Lightbox({
       <figure
         className="relative flex h-full w-full max-w-6xl flex-col items-center justify-center px-4 md:px-16"
         onClick={(e) => e.stopPropagation()}
-        onTouchStart={(e) => { touchStart.current = e.touches[0].clientX; }}
+        onTouchStart={(e) => {
+          touchStart.current = e.touches[0].clientX;
+        }}
         onTouchEnd={(e) => {
           if (touchStart.current == null) return;
           const dx = e.changedTouches[0].clientX - touchStart.current;
@@ -298,11 +574,13 @@ function Lightbox({
           key={current.src}
           src={current.src}
           alt={current.title}
-          className="max-h-[82vh] w-auto max-w-full rounded-2xl object-contain shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)] animate-[fadeIn_.35s_ease-out]"
+          className="zoom-in max-h-[78vh] w-auto max-w-full rounded-2xl object-contain shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)]"
           draggable={false}
         />
         <figcaption className="mt-5 text-center">
-          <div className="text-[10px] font-medium uppercase tracking-[0.32em] text-gold">{current.category}</div>
+          <div className="text-[10px] font-medium uppercase tracking-[0.32em] text-gold">
+            {current.category}
+          </div>
           <div className="mt-2 font-serif text-2xl text-white md:text-3xl">{current.title}</div>
           <div className="mt-1 text-[13px] text-white/70">{current.desc}</div>
           <div className="mt-3 text-[10px] uppercase tracking-[0.28em] text-white/40">
@@ -314,19 +592,96 @@ function Lightbox({
   );
 }
 
+/* ============================================================
+   FAQ — acordeão
+   ============================================================ */
+function FaqItem({
+  q,
+  a,
+  open,
+  onToggle,
+}: {
+  q: string;
+  a: string;
+  open: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <div
+      className={`reveal overflow-hidden rounded-2xl border transition-colors duration-500 ${
+        open
+          ? "border-gold/45 bg-card shadow-[var(--shadow-soft)]"
+          : "border-border bg-card/50 hover:border-gold/30"
+      }`}
+    >
+      <button
+        onClick={onToggle}
+        aria-expanded={open}
+        className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left md:px-7 md:py-6"
+      >
+        <h3 className="font-serif text-[1.1rem] leading-snug text-ink md:text-[1.3rem]">{q}</h3>
+        <span
+          className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border transition-all duration-500 ${
+            open ? "rotate-45 border-gold bg-gold text-ink" : "border-border text-gold-deep"
+          }`}
+        >
+          <Plus className="h-3.5 w-3.5" strokeWidth={1.8} />
+        </span>
+      </button>
+      <div
+        className="grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+        style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
+      >
+        <div className="overflow-hidden">
+          <p className="px-5 pb-6 text-[14px] leading-[1.8] text-muted-foreground md:px-7 md:pb-7 md:text-[15px]">
+            {a}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   PÁGINA
+   ============================================================ */
 function Landing() {
   const [activeCategory, setActiveCategory] = useState<string>("Todos");
-  useReveal(activeCategory);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const heroRef = useRef<HTMLElement>(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
   const testimonialsRef = useRef<HTMLDivElement>(null);
+
+  useReveal(activeCategory);
+  const progress = useScrollProgress();
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  const filtered = useMemo(
+    () =>
+      activeCategory === "Todos"
+        ? portfolio
+        : portfolio.filter((p) => p.category === activeCategory),
+    [activeCategory],
+  );
+
+  const categories = useMemo(
+    () => ["Todos", ...Array.from(new Set(portfolio.map((p) => p.category)))],
+    [],
+  );
 
   const nav = [
     { label: "Sobre", href: "#sobre" },
@@ -339,485 +694,568 @@ function Landing() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Header */}
+      {/* ---------- Cabeçalho ---------- */}
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-          scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border/50" : "bg-transparent"
+          scrolled
+            ? "border-b border-border/60 bg-background/92 backdrop-blur-xl"
+            : "bg-transparent"
         }`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 md:px-10 md:py-4">
-          <a href="#top" className="group flex items-center transition-all duration-300">
-            <span 
-              className={`font-serif text-[22px] tracking-[-0.02em] transition-all duration-500 md:text-2xl ${
+          <a
+            href="#top"
+            className="group flex items-center gap-2.5"
+            aria-label="Michelly Hair — início"
+          >
+            <Monogram
+              className={`h-9 w-9 transition-colors duration-500 md:h-10 md:w-10 ${scrolled ? "text-gold-deep" : "text-white/90"}`}
+            />
+            <span
+              className={`font-serif text-[21px] leading-none tracking-[-0.02em] transition-colors duration-500 md:text-[23px] ${
                 scrolled ? "text-ink" : "text-white"
               }`}
             >
-              Michelly Hair
+              Michelly <span className={scrolled ? "text-gold-deep" : "text-gold"}>Hair</span>
             </span>
           </a>
+
           <nav className="hidden items-center gap-8 md:flex">
-            {nav.filter(n => n.label !== "FAQ").map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                className={`text-[10px] font-medium uppercase tracking-[0.25em] transition-all duration-300 hover:text-gold ${
-                  scrolled ? "text-ink/70" : "text-white/80"
-                }`}
-              >
-                {n.label}
-              </a>
-            ))}
+            {nav
+              .filter((n) => n.label !== "FAQ")
+              .map((n) => (
+                <a
+                  key={n.href}
+                  href={n.href}
+                  className={`text-[10px] font-medium uppercase tracking-[0.25em] transition-colors duration-300 hover:text-gold ${
+                    scrolled ? "text-ink/70" : "text-white/85"
+                  }`}
+                >
+                  {n.label}
+                </a>
+              ))}
             <a
               href={getWA("Olá Michelly! Gostaria de agendar um serviço no salão.")}
               target="_blank"
               rel="noreferrer"
-              className={`btn-pill h-10 w-auto px-6 text-[9px] transition-all duration-300 ${
-                scrolled 
-                  ? "bg-gold text-ink shadow-lg shadow-gold/20 hover:bg-gold-soft" 
-                  : "border border-white/30 bg-white/10 text-white backdrop-blur-md hover:bg-white hover:text-ink"
+              className={`btn-pill btn-premium h-10 w-auto px-6 text-[9px] ${
+                scrolled
+                  ? "btn-gold"
+                  : "border border-white/35 bg-white/10 text-white backdrop-blur-md hover:bg-white hover:text-ink"
               }`}
             >
               Agendar
             </a>
           </nav>
+
           <button
             aria-label="Abrir menu"
             onClick={() => setMenuOpen(true)}
-            className={`grid h-11 w-11 place-items-center rounded-full border transition-all duration-500 hover:scale-105 md:hidden ${
-              scrolled ? "border-border text-ink hover:bg-bege" : "border-white/40 text-white hover:bg-white/10"
+            className={`tap-safe grid h-11 w-11 place-items-center rounded-full border transition-all duration-500 hover:scale-105 md:hidden ${
+              scrolled
+                ? "border-border text-ink hover:bg-bege"
+                : "border-white/40 text-white hover:bg-white/10"
             }`}
           >
             <Menu className="h-4 w-4" />
           </button>
         </div>
+
+        {/* Barra de progresso de leitura */}
+        <div
+          className={`h-px origin-left bg-gradient-to-r from-gold-deep via-gold to-gold-soft transition-opacity duration-500 ${
+            scrolled ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ transform: `scaleX(${progress})` }}
+        />
       </header>
 
-      {/* Menu overlay */}
+      {/* ---------- Menu mobile ---------- */}
       <div
-        className={`fixed inset-0 z-[60] transition-all duration-700 ${
-          menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
+        className={`fixed inset-0 z-[60] transition-all duration-700 ${menuOpen ? "opacity-100" : "pointer-events-none opacity-0"}`}
         style={{
-          background: "color-mix(in oklab, oklch(0.14 0.008 60) 92%, transparent)",
+          background: "color-mix(in oklab, oklch(0.15 0.012 52) 94%, transparent)",
           backdropFilter: "blur(28px) saturate(140%)",
         }}
       >
         <div className="flex items-center justify-between px-5 py-3 md:px-10 md:py-4">
-          <span className="font-serif text-[22px] tracking-[-0.02em] text-white md:text-2xl">Michelly Hair</span>
+          <span className="flex items-center gap-2.5 font-serif text-[21px] tracking-[-0.02em] text-white">
+            <Monogram className="h-9 w-9 text-gold" />
+            Michelly <span className="text-gold">Hair</span>
+          </span>
           <button
             aria-label="Fechar menu"
             onClick={() => setMenuOpen(false)}
-            className="grid h-11 w-11 place-items-center rounded-full border border-white/30 text-white transition-all hover:scale-105 hover:bg-white/10"
+            className="tap-safe grid h-11 w-11 place-items-center rounded-full border border-white/30 text-white transition-all hover:scale-105 hover:bg-white/10"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
-        <nav className="mx-auto flex max-w-md flex-col items-center gap-7 px-6 pt-20 text-center">
+        <nav className="mx-auto flex max-w-md flex-col items-center gap-6 px-6 pt-14 text-center">
           {nav.map((n, i) => (
             <a
               key={n.href}
               href={n.href}
               onClick={() => setMenuOpen(false)}
-              className={`font-serif text-4xl tracking-tight text-white/90 transition-all duration-500 hover:text-gold hover:tracking-wider ${
+              className={`font-serif text-[2.1rem] leading-none tracking-tight text-white/90 transition-all duration-500 hover:text-gold ${
                 menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
-              style={{ transitionDelay: menuOpen ? `${120 + i * 80}ms` : "0ms" }}
+              style={{ transitionDelay: menuOpen ? `${120 + i * 70}ms` : "0ms" }}
             >
               {n.label}
             </a>
           ))}
-          <div className="mt-6 h-px w-16 bg-gold/60" />
-          <a href={WHATSAPP} target="_blank" rel="noreferrer" className="eyebrow text-white/70 hover:text-gold">
-            +351 920 810 339
+          <div className="mt-4 h-px w-16 bg-gold/60" />
+          <a
+            href={getWA("Olá Michelly! Gostaria de agendar um serviço no salão.")}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => setMenuOpen(false)}
+            className="btn-pill btn-premium btn-gold mt-2 h-12"
+          >
+            <WhatsAppIcon className="h-4 w-4" /> Agendar
+          </a>
+          <a
+            href={WHATSAPP}
+            target="_blank"
+            rel="noreferrer"
+            className="eyebrow text-white/60 hover:text-gold"
+          >
+            {PHONE_DISPLAY}
           </a>
         </nav>
       </div>
 
-      {/* Hero */}
-      <section id="top" ref={heroRef} className="relative min-h-[100svh] w-full overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <img
-            src={heroNovo.url}
-            alt="Michelly Hair salão premium"
-            fetchPriority="high"
-            loading="eager"
-            className="ken-burns absolute inset-0 h-full w-full object-cover object-[30%_center] md:object-[70%_center]"
-            draggable={false}
-          />
-        </div>
-        {/* Premium layered overlay — dark top/bottom, transparent center, subtle side wash on desktop */}
+      {/* ---------- Hero ---------- */}
+      <section id="top" className="relative min-h-[100svh] w-full overflow-hidden bg-ink">
+        <img
+          src={heroNovo.url}
+          alt="Salão Michelly Hair na Charneca da Caparica"
+          fetchPriority="high"
+          loading="eager"
+          className="ken-burns absolute inset-0 h-full w-full object-cover object-[32%_center] md:object-[70%_center]"
+          draggable={false}
+        />
+
+        {/* Camadas de contraste */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.18) 62%, rgba(0,0,0,0.55) 100%)",
+              "linear-gradient(to bottom, rgba(20,14,8,0.62) 0%, rgba(20,14,8,0.14) 40%, rgba(20,14,8,0.30) 68%, rgba(20,14,8,0.80) 100%)",
           }}
         />
-        <div className="pointer-events-none absolute inset-0 hidden md:block bg-gradient-to-r from-black/45 via-transparent to-transparent" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,0.35)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-[rgba(20,14,8,0.72)] via-[rgba(20,14,8,0.18)] to-transparent md:block" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(20,14,8,0.42)_100%)]" />
 
-        <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-7xl flex-col justify-end px-5 pt-28 pb-24 md:grid md:grid-cols-12 md:items-center md:px-10 md:pt-32 md:pb-20">
-          <div className="w-full md:col-span-6 lg:col-span-5">
-            <div className="hero-rise inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 backdrop-blur-xl md:gap-3 md:px-4 md:py-2" style={{ animationDelay: "80ms" }}>
-              <div className="flex items-center gap-1.5 border-r border-white/20 pr-2.5 md:gap-2 md:pr-3">
+        <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-7xl flex-col justify-end px-5 pb-28 pt-28 md:grid md:grid-cols-12 md:items-center md:px-10 md:pb-24 md:pt-32">
+          <div className="w-full md:col-span-7 lg:col-span-6">
+            {/* Selo de confiança */}
+            <div
+              className="hero-rise inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 backdrop-blur-xl md:gap-3 md:px-4 md:py-2"
+              style={{ animationDelay: "80ms" }}
+            >
+              <span className="flex items-center gap-1.5 border-r border-white/25 pr-2.5 md:pr-3">
                 <Star className="h-3 w-3 fill-gold text-gold md:h-3.5 md:w-3.5" strokeWidth={0} />
-                <span className="text-[9px] font-bold text-white md:text-[0.72rem]">5.0</span>
-              </div>
+                <span className="text-[10px] font-semibold text-white md:text-[0.72rem]">5.0</span>
+              </span>
               <MapPin className="h-3 w-3 text-gold md:h-3.5 md:w-3.5" />
-              <span className="whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.28em] text-white/95 md:text-[0.72rem] md:tracking-[0.35em]">
-                Charneca da Caparica · Margem Sul
+              <span className="whitespace-nowrap text-[8.5px] font-medium uppercase tracking-[0.16em] text-white/95 sm:tracking-[0.24em] md:text-[0.7rem] md:tracking-[0.3em]">
+                {CITY}
+                <span className="hidden sm:inline"> · Margem Sul</span>
               </span>
             </div>
 
-            {/* Glassmorphism panel — soft, bounded to text only */}
-            <div
-              className="hero-rise relative mt-5 w-full rounded-[24px] px-5 py-6 md:mt-6 md:rounded-[28px] md:px-9 md:py-10"
-              style={{
-                animationDelay: "220ms",
-                background: "linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03))",
-                backdropFilter: "blur(18px) saturate(150%)",
-                border: "1px solid rgba(255,255,255,0.14)",
-                boxShadow: "0 40px 90px -50px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08)",
-              }}
+            <h1
+              className="hero-rise mt-6 text-balance text-white md:mt-8"
+              style={{ animationDelay: "240ms" }}
             >
-              <h1 className="hero-rise font-serif text-[1.9rem] leading-[1.05] tracking-[-0.015em] text-white sm:text-5xl md:text-[3.4rem] lg:text-[3.75rem]" style={{ animationDelay: "320ms" }}>
-                Michelly Hair: Salão de Beleza<br />
-                <span className="italic font-light text-gold text-[1.4rem] sm:text-4xl md:text-[2.8rem] lg:text-[3.2rem]">na Charneca da Caparica</span>
-              </h1>
-              <p className="hero-rise mt-4 max-w-md text-[12.5px] leading-[1.7] text-white/85 md:mt-6 md:text-[15px] md:leading-[1.8]" style={{ animationDelay: "520ms" }}>
-                Balayage, Morena Iluminada, alisamentos e tratamentos personalizados
-                para realçar a beleza natural de cada cliente.
-              </p>
-            </div>
+              <span className="display-xl block drop-shadow-[0_2px_24px_rgba(0,0,0,0.45)]">
+                Michelly Hair
+              </span>
+              <span className="mt-2 block font-serif text-[1.35rem] font-light italic leading-tight text-gold-soft drop-shadow-[0_2px_18px_rgba(0,0,0,0.5)] sm:text-[1.8rem] md:mt-3 md:text-[2.2rem]">
+                Alisamentos & Madeixas na {CITY}
+              </span>
+            </h1>
 
-            <div
-              className="mt-5 flex flex-col items-center gap-2.5 md:mt-8 md:items-start md:gap-3"
+            <p
+              className="hero-rise mt-5 max-w-md text-pretty text-[13.5px] leading-[1.85] text-white/85 md:mt-7 md:text-[15.5px]"
+              style={{ animationDelay: "440ms" }}
             >
+              Balayage, morena iluminada, alisamentos e tratamentos personalizados — técnica precisa
+              para realçar a beleza natural de cada cliente.
+            </p>
+
+            {/* Ações */}
+            <div className="mt-7 md:mt-9">
               <a
                 href={getWA("Olá Michelly! Gostaria de mais informações.")}
                 target="_blank"
                 rel="noreferrer"
-                className="btn-pill btn-premium hero-rise h-11 text-[10px] tracking-[0.24em] md:h-[3.25rem] md:text-[0.72rem] md:tracking-[0.28em] bg-gold text-ink shadow-[0_18px_40px_-18px_rgba(184,144,80,0.7)] hover:bg-gold-soft hover:shadow-[0_22px_50px_-18px_rgba(184,144,80,0.85)]"
-                style={{ animationDelay: "700ms" }}
+                className="btn-pill btn-premium btn-gold hero-rise h-[3.25rem] max-w-none sm:max-w-[22rem]"
+                style={{ animationDelay: "620ms" }}
               >
                 <WhatsAppIcon className="h-4 w-4" /> Agendar no WhatsApp
               </a>
-              <a
-                href={INSTAGRAM}
-                target="_blank"
-                rel="noreferrer"
-                className="btn-pill btn-premium hero-rise h-11 text-[10px] tracking-[0.24em] md:h-[3.25rem] md:text-[0.72rem] md:tracking-[0.28em] border border-white/70 bg-white/5 text-white backdrop-blur-md hover:bg-white hover:text-ink"
-                style={{ animationDelay: "820ms" }}
-              >
-                <InstagramIcon className="h-[16px] w-[16px]" /> Ver Instagram
-              </a>
-              <a
-                href={MAPS}
-                target="_blank"
-                rel="noreferrer"
-                className="btn-pill btn-premium hero-rise h-11 text-[10px] tracking-[0.24em] md:h-[3.25rem] md:text-[0.72rem] md:tracking-[0.28em] border border-white/40 bg-white/5 text-white/95 backdrop-blur-md hover:border-white hover:bg-white/15"
-                style={{ animationDelay: "940ms" }}
-              >
-                <MapPin className="h-[16px] w-[16px]" /> Como Chegar
-              </a>
 
-              <a
-                href="#stats"
-                onClick={(e) => {
-                  e.preventDefault();
-                  const target = document.getElementById("stats");
-                  if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-                }}
-                aria-label="Ver mais"
-                className="hero-rise mt-3 inline-flex flex-col items-center gap-1 text-white/80 transition-colors hover:text-gold md:mt-4"
-                style={{ animationDelay: "1120ms" }}
+              <div
+                className="hero-rise mt-3 flex gap-3 sm:max-w-[22rem]"
+                style={{ animationDelay: "740ms" }}
               >
-                <span className="text-[9px] font-medium uppercase tracking-[0.32em] md:text-[10px]">Ver mais</span>
-                <ChevronDown className="arrow-float h-4 w-4 text-gold" strokeWidth={1.4} />
-              </a>
+                <a
+                  href={INSTAGRAM}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-pill btn-premium h-12 flex-1 border border-white/40 bg-white/8 text-[9px] tracking-[0.2em] text-white backdrop-blur-md hover:bg-white hover:text-ink"
+                >
+                  <InstagramIcon className="h-4 w-4" /> Instagram
+                </a>
+                <a
+                  href={MAPS}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-pill btn-premium h-12 flex-1 border border-white/40 bg-white/8 text-[9px] tracking-[0.2em] text-white backdrop-blur-md hover:bg-white hover:text-ink"
+                >
+                  <MapPin className="h-4 w-4" /> Direções
+                </a>
+              </div>
             </div>
+
+            <a
+              href="#sobre"
+              aria-label="Ver mais"
+              className="hero-rise mt-8 inline-flex flex-col items-center gap-1 text-white/75 transition-colors hover:text-gold md:mt-10"
+              style={{ animationDelay: "900ms" }}
+            >
+              <span className="text-[9px] font-medium uppercase tracking-[0.32em]">Descobrir</span>
+              <ChevronDown className="arrow-float h-4 w-4 text-gold" strokeWidth={1.4} />
+            </a>
           </div>
         </div>
-
       </section>
 
-      {/* Stats */}
-      <section id="stats" className="relative bg-background">
-        <div className="mx-auto max-w-5xl px-5 py-16 md:px-10 md:py-28">
-          <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
-            {[
-              { 
-                icon: <Sparkles className="h-5 w-5 md:h-6 md:w-6 text-gold" strokeWidth={1.2} />, 
-                value: 300, 
-                suffix: "+", 
-                title: "Clientes transformadas", 
-                desc: "" 
-              },
-              { 
-                icon: <Heart className="h-5 w-5 md:h-6 md:w-6 text-gold" strokeWidth={1.2} />, 
-                value: 100, 
-                suffix: "%", 
-                title: "Atendimento personalizado", 
-                desc: "" 
-              },
-            ].map((s, i) => (
-              <div
-                key={s.title}
-                className="reveal group relative flex flex-col items-center text-center sm:items-start sm:text-left"
-                style={{ transitionDelay: `${i * 200}ms` }}
-              >
-                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/20 bg-bege/30 shadow-[0_8px_30px_-10px_rgba(184,144,80,0.15)] transition-all duration-500 group-hover:scale-110 group-hover:border-gold/40 group-hover:bg-bege/50 md:h-16 md:w-16 md:rounded-3xl">
-                  {s.icon}
-                </div>
-                
-                <div className="flex flex-col items-center sm:items-start">
-                  <div className="eyebrow text-[9px] tracking-[0.25em] text-gold md:text-[0.72rem] md:tracking-[0.35em]">{s.title}</div>
-                  <div className="mt-3 font-serif text-4xl leading-none tracking-tight text-ink sm:text-6xl md:mt-4 md:text-7xl lg:text-8xl">
-                    <AnimatedNumber value={s.value} suffix={s.suffix} />
-                  </div>
-                  <div className="mt-4 h-px w-8 bg-gold/30 transition-all duration-500 group-hover:w-16" />
-                  {s.desc && <p className="mt-5 max-w-[280px] text-xs leading-[1.7] text-muted-foreground transition-colors duration-500 group-hover:text-ink/70 md:mt-7 md:text-sm md:leading-[1.8]">{s.desc}</p>}
-                </div>
-                
-                {/* Decorative element */}
-                <div className="pointer-events-none absolute -bottom-4 -right-4 h-24 w-24 rounded-full bg-gold/5 blur-3xl transition-all duration-700 group-hover:bg-gold/10 group-hover:scale-150" />
-              </div>
+      {/* ---------- Faixa de especialidades ---------- */}
+      <section
+        aria-label="Especialidades"
+        className="grain relative overflow-hidden border-y border-gold/15 bg-ink py-4 md:py-5"
+      >
+        <div className="marquee-mask">
+          <div className="marquee-track items-center gap-10 md:gap-14">
+            {[...services, ...services].map((s, i) => (
+              <span key={`${s.name}-${i}`} className="flex shrink-0 items-center gap-10 md:gap-14">
+                <span className="whitespace-nowrap font-serif text-[1.05rem] italic text-white/80 md:text-[1.3rem]">
+                  {s.name}
+                </span>
+                <Sparkles className="h-3 w-3 shrink-0 text-gold" strokeWidth={1.2} />
+              </span>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Sobre */}
-      <section id="sobre" className="mx-auto max-w-7xl px-5 py-12 md:px-10 md:py-20">
-        <div className="grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-20 md:items-center">
-          <div className="reveal order-2 md:order-1">
-            <div className="group relative overflow-hidden rounded-[24px] md:rounded-[32px] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)]">
-              <img
-                src={especialista.url}
-                alt="Michelly atendendo uma cliente"
-                className="w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
-                style={{ height: "clamp(260px, 46vw, 520px)" }}
-              />
-              <div className="pointer-events-none absolute inset-0 rounded-[24px] md:rounded-[32px] ring-1 ring-inset ring-white/20" />
+      {/* ---------- Sobre ---------- */}
+      <section id="sobre" className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-28">
+        <div className="grid items-center gap-12 md:grid-cols-[0.95fr_1.05fr] md:gap-20">
+          <div className="reveal-scale order-2 md:order-1">
+            <div className="group relative">
+              {/* Moldura dourada deslocada */}
+              <div className="pointer-events-none absolute -bottom-4 -left-4 h-full w-full rounded-[24px] border border-gold/35 md:-bottom-6 md:-left-6 md:rounded-[32px]" />
+              <div className="relative overflow-hidden rounded-[24px] shadow-[var(--shadow-lift)] md:rounded-[32px]">
+                <img
+                  src={especialista.url}
+                  alt="Michelly a atender uma cliente no salão"
+                  loading="lazy"
+                  className="img-zoom w-full object-cover"
+                  style={{ height: "clamp(300px, 48vw, 540px)" }}
+                />
+                <div className="pointer-events-none absolute inset-0 rounded-[24px] ring-1 ring-inset ring-white/20 md:rounded-[32px]" />
+              </div>
             </div>
           </div>
-          <div className="reveal order-1 md:order-2" style={{ transitionDelay: "120ms" }}>
-            <span className="eyebrow"><span className="gold-line mr-3" />Sobre o salão</span>
-            <h2 className="mt-5 font-serif text-4xl leading-[1.05] tracking-[-0.015em] text-ink md:text-[3.25rem]">
-              Um cuidado pensado<br />
-              <span className="italic text-gold">para cada mulher.</span>
-            </h2>
-            <p className="mt-8 max-w-md text-[16px] leading-[1.85] text-muted-foreground">
-              Cada visita ao Michelly Hair é uma experiência exclusiva — escuta atenta,
-              técnica precisa e um cuidado artesanal do diagnóstico ao último toque.
-            </p>
+
+          <div className="order-1 md:order-2">
+            <SectionHeading
+              align="left"
+              eyebrow="Sobre o salão"
+              title={
+                <>
+                  Um cuidado pensado
+                  <br />
+                  <span className="italic text-gold-deep">para cada mulher.</span>
+                </>
+              }
+              subtitle="Cada visita ao Michelly Hair é uma experiência exclusiva — escuta atenta, técnica precisa e um cuidado artesanal do diagnóstico ao último toque."
+            />
+
+            {/* Números */}
+            <div className="reveal mt-10 grid grid-cols-2 gap-6 border-t border-border pt-8 md:mt-12 md:gap-10">
+              {[
+                {
+                  icon: <Sparkles className="h-4 w-4 text-gold" strokeWidth={1.3} />,
+                  value: 300,
+                  suffix: "+",
+                  label: "Clientes transformadas",
+                },
+                {
+                  icon: <Heart className="h-4 w-4 text-gold" strokeWidth={1.3} />,
+                  value: 100,
+                  suffix: "%",
+                  label: "Atendimento personalizado",
+                },
+              ].map((s) => (
+                <div key={s.label} className="group">
+                  <div className="flex items-center gap-2">
+                    {s.icon}
+                    <span className="h-px w-6 bg-gold/40 transition-all duration-500 group-hover:w-10" />
+                  </div>
+                  <div className="mt-3 font-serif text-[2.6rem] leading-none tracking-tight text-ink md:text-[3.4rem]">
+                    <AnimatedNumber value={s.value} suffix={s.suffix} />
+                  </div>
+                  <div className="mt-2 text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                    {s.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+
             <a
               href={getWA("Olá Michelly! Gostaria de agendar uma avaliação para o meu cabelo.")}
               target="_blank"
               rel="noreferrer"
-              className="mt-10 inline-flex items-center gap-3 border-b border-gold pb-1 text-xs font-medium uppercase tracking-[0.3em] text-ink transition-opacity hover:opacity-70"
+              className="link-underline reveal mt-10 text-[11px] font-medium uppercase tracking-[0.28em] text-ink"
             >
-              Agende a sua avaliação
+              Agende a sua avaliação <ArrowUpRight className="h-3.5 w-3.5 text-gold" />
             </a>
           </div>
         </div>
       </section>
 
-      {/* Serviços */}
-      <section id="servicos" className="bg-bege/30 py-12 md:py-20">
+      {/* ---------- Serviços ---------- */}
+      <section id="servicos" className="grain relative bg-bege/40 py-16 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-10">
-          <div className="reveal mx-auto max-w-2xl text-center">
-            <span className="eyebrow"><span className="gold-line mr-3" />Serviços<span className="gold-line ml-3" /></span>
-            <h2 className="mt-5 font-serif text-4xl leading-tight tracking-[-0.015em] text-ink md:text-[3rem]">
-              Especialista em Alisamentos e Madeixas.
-            </h2>
-            <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
-              Técnicas premium de Balayage e Morena Iluminada na Margem Sul.
-            </p>
+          <SectionHeading
+            eyebrow="Serviços"
+            title={
+              <>
+                Especialista em <span className="italic text-gold-deep">alisamentos</span> e
+                madeixas
+              </>
+            }
+            subtitle="Técnicas premium de balayage e morena iluminada, com produtos de alta performance e acompanhamento personalizado."
+          />
+
+          <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-5 md:mt-16 lg:grid-cols-3 lg:gap-6">
+            {services.map((s, i) => (
+              <article
+                key={s.name}
+                className="reveal-scale group relative overflow-hidden rounded-[18px] bg-ink shadow-[var(--shadow-soft)] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)] md:rounded-[24px]"
+                style={{ transitionDelay: `${(i % 3) * 90}ms`, aspectRatio: "4 / 5" }}
+              >
+                <img
+                  src={s.img}
+                  alt={s.name}
+                  loading="lazy"
+                  className="img-zoom absolute inset-0 h-full w-full object-cover opacity-95"
+                  draggable={false}
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[rgba(20,14,8,0.88)] via-[rgba(20,14,8,0.25)] to-transparent" />
+                <div className="pointer-events-none absolute inset-0 rounded-[18px] ring-1 ring-inset ring-white/10 md:rounded-[24px]" />
+
+                <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
+                  <h3 className="font-serif text-[1.05rem] leading-tight text-white md:text-[1.45rem]">
+                    {s.name}
+                  </h3>
+                  <p className="mt-1.5 hidden text-[12.5px] leading-snug text-white/75 sm:block">
+                    {s.desc}
+                  </p>
+                  <div className="mt-2.5 h-px w-8 bg-gold transition-all duration-700 group-hover:w-16" />
+                </div>
+              </article>
+            ))}
           </div>
 
-          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-            {services.map((s, i) => {
-              const hideOnMobile = i >= 4;
-              return (
-                <article
-                  key={s.name}
-                  className={`reveal group flex flex-col items-center justify-center rounded-2xl border border-gold/20 bg-card p-6 text-center shadow-[0_10px_30px_-22px_rgba(0,0,0,0.1)] transition-all duration-500 hover:-translate-y-1 hover:border-gold/40 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.15)] sm:rounded-3xl ${hideOnMobile ? "hidden sm:flex" : "flex"}`}
-                  style={{ transitionDelay: `${i * 80}ms` }}
-                >
-                  <h3 className="font-serif text-[1rem] leading-tight tracking-tight text-ink sm:text-[1.3rem]">{s.name}</h3>
-                  <p className="mt-2 hidden text-[11.5px] leading-snug text-muted-foreground sm:block sm:text-[13.5px]">{s.desc}</p>
-                  <div className="mx-auto mt-3 h-px w-8 bg-gold/60 transition-all duration-500 group-hover:w-16" />
-                </article>
-              );
-            })}
-          </div>
-
-          <div className="mt-6 flex justify-center sm:hidden">
+          <div className="reveal mt-10 flex justify-center md:mt-14">
             <Link
               to="/servicos"
-              className="inline-flex items-center gap-2 border-b border-gold pb-1 text-[11px] font-medium uppercase tracking-[0.3em] text-ink transition-opacity hover:opacity-70"
+              className="link-underline text-[11px] font-medium uppercase tracking-[0.28em] text-ink"
             >
-              Ver todos os serviços <span aria-hidden>→</span>
+              Ver todos os serviços <ArrowUpRight className="h-3.5 w-3.5 text-gold" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Portfolio Antes e Depois */}
-      <section id="portfolio" className="py-16 md:py-24">
-        <div className="mx-auto max-w-[1600px] px-3 md:px-6">
+      {/* ---------- A experiência ---------- */}
+      <section className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-28">
+        <SectionHeading
+          eyebrow="A experiência"
+          title={
+            <>
+              Do diagnóstico ao <span className="italic text-gold-deep">último toque</span>
+            </>
+          }
+          subtitle="Um método claro, pensado para proteger a saúde do fio e garantir que o resultado é exatamente o que imaginou."
+        />
+
+        <div className="mt-12 grid gap-px overflow-hidden rounded-[20px] border border-border bg-border sm:grid-cols-2 md:mt-16 lg:grid-cols-4 lg:rounded-[28px]">
+          {steps.map((s, i) => (
+            <div
+              key={s.n}
+              className="reveal group bg-background p-6 transition-colors duration-500 hover:bg-bege/50 md:p-8"
+              style={{ transitionDelay: `${i * 100}ms` }}
+            >
+              <span className="font-serif text-[2.4rem] leading-none text-gold/35 transition-colors duration-500 group-hover:text-gold/70 md:text-[3rem]">
+                {s.n}
+              </span>
+              <h3 className="mt-4 font-serif text-[1.25rem] text-ink md:text-[1.4rem]">
+                {s.title}
+              </h3>
+              <p className="mt-2.5 text-[13.5px] leading-[1.75] text-muted-foreground">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ---------- Antes & Depois ---------- */}
+      <section className="grain relative overflow-hidden bg-ink py-16 text-white md:py-28">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-40"
+          style={{
+            background:
+              "radial-gradient(ellipse at 15% 20%, rgba(197,160,101,0.28), transparent 55%), radial-gradient(ellipse at 85% 80%, rgba(197,160,101,0.16), transparent 55%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-5xl px-5 md:px-10">
           <div className="reveal mx-auto max-w-2xl text-center">
-            <span className="eyebrow"><span className="gold-line mr-3" />Portfólio<span className="gold-line ml-3" /></span>
-            <h2 className="mt-5 font-serif text-4xl leading-tight tracking-[-0.015em] text-ink md:text-[3rem]">
-              Alguns dos trabalhos assinados por <span className="italic text-gold whitespace-nowrap">Michelly Hair</span>
-            </h2>
-            <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
-              Uma seleção editorial de transformações reais.
-            </p>
-          </div>
-
-          {/* Categorias */}
-          {(() => {
-            const categories = ["Todos", ...Array.from(new Set(portfolio.map((p) => p.category)))];
-            return (
-              <div className="reveal mt-10 flex flex-wrap items-center justify-center gap-2 md:mt-14 md:gap-3">
-                {categories.map((c) => {
-                  const active = activeCategory === c;
-                  return (
-                    <button
-                      key={c}
-                      onClick={() => setActiveCategory(c)}
-                      className={`rounded-full border px-3.5 py-1.5 text-[10px] font-medium uppercase tracking-[0.24em] transition-all duration-500 md:px-5 md:py-2 md:text-[11px] md:tracking-[0.28em] ${
-                        active
-                          ? "border-ink bg-ink text-white shadow-[0_10px_30px_-14px_rgba(0,0,0,0.5)]"
-                          : "border-border bg-transparent text-muted-foreground hover:border-gold hover:text-ink"
-                      }`}
-                    >
-                      {c}
-                    </button>
-                  );
-                })}
-              </div>
-            );
-          })()}
-
-          {/* Galeria */}
-          <div className="mt-8 grid grid-cols-2 gap-2 sm:gap-3 md:mt-12 md:grid-cols-3 md:gap-4">
-            {portfolio
-              .map((item, i) => ({ item, i }))
-              .filter(({ item }) => activeCategory === "Todos" || item.category === activeCategory)
-              .map(({ item, i }) => (
-                <button
-                  key={`${item.src}-${i}`}
-                  onClick={() => setLightboxIndex(i)}
-                  aria-label={`Abrir ${item.title}`}
-                  className="reveal group relative block w-full overflow-hidden rounded-[16px] bg-bege/40 shadow-[0_10px_30px_-22px_rgba(0,0,0,0.25)] transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_24px_60px_-24px_rgba(0,0,0,0.35)] md:rounded-[20px]"
-                  style={{ aspectRatio: "3 / 4", transitionDelay: `${(i % 6) * 60}ms` }}
-                >
-                  <img
-                    src={item.src}
-                    alt={item.title}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.06]"
-                    draggable={false}
-                  />
-                  {/* Degradê inferior discreto */}
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[42%] bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
-                  {/* Ring interno sutil */}
-                  <div className="pointer-events-none absolute inset-0 rounded-[16px] ring-1 ring-inset ring-white/10 md:rounded-[20px]" />
-                  {/* Legenda sobre a foto */}
-                  <figcaption className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-0.5 p-3 text-left md:p-5">
-                    <span className="text-[8px] font-medium uppercase tracking-[0.28em] text-gold/95 md:text-[10px] md:tracking-[0.32em]">
-                      {item.category}
-                    </span>
-                    <span className="font-serif text-[15px] leading-tight text-white md:text-[22px]">
-                      {item.title}
-                    </span>
-                    <span className="hidden text-[12px] leading-snug text-white/80 md:block">
-                      {item.desc}
-                    </span>
-                  </figcaption>
-                </button>
-              ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Seção Antes e Depois Estática (conforme imagem de referência) */}
-      <section className="bg-background py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-5 md:px-10">
-          <div className="mb-12 flex flex-col items-center text-center md:mb-16">
-            <span className="eyebrow flex items-center gap-4">
-              <span className="h-px w-8 bg-gold/40" />
-              RESULTADOS
-              <span className="h-px w-8 bg-gold/40" />
+            <span className="eyebrow text-gold">
+              <span className="gold-line mr-3" />
+              Resultados
+              <span className="gold-line ml-3" />
             </span>
-            <h2 className="mt-6 font-serif text-4xl leading-tight tracking-tight text-ink md:text-5xl lg:text-6xl">
-              Antes & Depois
-            </h2>
-            <p className="mt-6 max-w-2xl text-[15px] leading-relaxed text-muted-foreground/80 md:text-[17px]">
-              Transformações reais assinadas por Michelly Hair.
+            <h2 className="display-lg mt-5 text-white">Antes & Depois</h2>
+            <p className="mx-auto mt-5 max-w-md text-[15px] leading-[1.8] text-white/70">
+              Transformações reais assinadas por Michelly Hair. Arraste a barra para ver a
+              diferença.
             </p>
           </div>
 
-          <div className="reveal mx-auto max-w-4xl">
-            <div className="mb-10 flex items-center justify-center gap-4 italic text-muted-foreground/60 text-sm md:text-base">
-              <span className="h-px w-6 bg-border" />
-              Transformação Real
-              <span className="h-px w-6 bg-border" />
-            </div>
-            
-            <div className="grid grid-cols-2 gap-3 md:gap-6">
-              <div className="relative group">
-                <div className="overflow-hidden rounded-[20px] md:rounded-[28px] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.15)]">
-                  <img 
-                    src={antes.url} 
-                    alt="Antes" 
-                    className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                  />
-                </div>
-                <div className="absolute top-3 left-3 rounded-full bg-black/60 px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-white backdrop-blur-md">
-                  Antes
-                </div>
-              </div>
-              
-              <div className="relative group">
-                <div className="overflow-hidden rounded-[20px] md:rounded-[28px] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.15)]">
-                  <img 
-                    src={depois.url} 
-                    alt="Depois" 
-                    className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                  />
-                </div>
-                <div className="absolute top-3 left-3 rounded-full bg-gold px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-white shadow-lg">
-                  Depois
-                </div>
-              </div>
-            </div>
+          <div className="reveal-scale mt-12 md:mt-16">
+            <ComparisonSlider before={antes.url} after={depois.url} />
           </div>
         </div>
       </section>
 
-      {lightboxIndex !== null && (
+      {/* ---------- Portfólio ---------- */}
+      <section id="portfolio" className="py-16 md:py-28">
+        <div className="mx-auto max-w-7xl px-5 md:px-10">
+          <SectionHeading
+            eyebrow="Portfólio"
+            title={
+              <>
+                Trabalhos assinados por{" "}
+                <span className="whitespace-nowrap italic text-gold-deep">Michelly Hair</span>
+              </>
+            }
+            subtitle="Uma seleção editorial de transformações reais feitas no salão."
+          />
+
+          <div className="reveal mt-10 flex flex-wrap items-center justify-center gap-2 md:mt-14 md:gap-3">
+            {categories.map((c) => {
+              const active = activeCategory === c;
+              return (
+                <button
+                  key={c}
+                  onClick={() => setActiveCategory(c)}
+                  className={`rounded-full border px-4 py-2 text-[10px] font-medium uppercase tracking-[0.22em] transition-all duration-500 md:px-5 md:text-[11px] md:tracking-[0.26em] ${
+                    active
+                      ? "border-ink bg-ink text-white shadow-[0_10px_30px_-14px_rgba(0,0,0,0.5)]"
+                      : "border-border bg-transparent text-muted-foreground hover:border-gold hover:text-ink"
+                  }`}
+                >
+                  {c}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="mt-8 grid grid-cols-2 gap-3 md:mt-12 md:grid-cols-4 md:gap-4">
+            {filtered.map((item, i) => (
+              <button
+                key={item.src}
+                onClick={() => setLightboxIndex(i)}
+                aria-label={`Abrir ${item.title}`}
+                className="reveal-scale group relative block w-full overflow-hidden rounded-[16px] bg-bege/40 shadow-[var(--shadow-soft)] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)] md:rounded-[22px]"
+                style={{ aspectRatio: "3 / 4", transitionDelay: `${(i % 4) * 80}ms` }}
+              >
+                <img
+                  src={item.src}
+                  alt={item.title}
+                  loading="lazy"
+                  className="img-zoom absolute inset-0 h-full w-full object-cover"
+                  draggable={false}
+                />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-[rgba(20,14,8,0.85)] via-[rgba(20,14,8,0.25)] to-transparent" />
+                <div className="pointer-events-none absolute inset-0 rounded-[16px] ring-1 ring-inset ring-white/10 md:rounded-[22px]" />
+
+                <span className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full border border-white/40 bg-white/10 text-white opacity-0 backdrop-blur-md transition-all duration-500 group-hover:opacity-100 md:h-9 md:w-9">
+                  <Plus className="h-3.5 w-3.5" />
+                </span>
+
+                <figcaption className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-0.5 p-3 text-left md:p-5">
+                  <span className="text-[8px] font-medium uppercase tracking-[0.26em] text-gold md:text-[9.5px] md:tracking-[0.3em]">
+                    {item.category}
+                  </span>
+                  <span className="font-serif text-[15px] leading-tight text-white md:text-[21px]">
+                    {item.title}
+                  </span>
+                  <span className="hidden text-[12px] leading-snug text-white/75 md:block">
+                    {item.desc}
+                  </span>
+                </figcaption>
+              </button>
+            ))}
+          </div>
+
+          <div className="reveal mt-10 flex justify-center">
+            <a
+              href={INSTAGRAM}
+              target="_blank"
+              rel="noreferrer"
+              className="link-underline text-[11px] font-medium uppercase tracking-[0.28em] text-ink"
+            >
+              Ver mais no Instagram <ArrowUpRight className="h-3.5 w-3.5 text-gold" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {lightboxIndex !== null && filtered[lightboxIndex] && (
         <Lightbox
-          items={portfolio}
+          items={filtered}
           index={lightboxIndex}
           onClose={() => setLightboxIndex(null)}
           onIndex={setLightboxIndex}
         />
       )}
 
-      {/* Avaliações */}
-      <section id="avaliacoes" className="bg-bege/30 py-20 md:py-28">
+      {/* ---------- Avaliações ---------- */}
+      <section id="avaliacoes" className="grain relative bg-bege/40 py-16 md:py-28">
         <div className="mx-auto max-w-7xl">
-          <div className="reveal text-center">
-            <span className="eyebrow"><span className="gold-line mr-3" />Avaliações<span className="gold-line ml-3" /></span>
+          <div className="reveal px-5 text-center md:px-10">
+            <span className="eyebrow text-gold-deep">
+              <span className="gold-line mr-3" />
+              Avaliações
+              <span className="gold-line ml-3" />
+            </span>
             <div className="mt-5 flex items-center justify-center gap-1.5 text-gold">
-              {[0,1,2,3,4].map((i) => <Star key={i} className="h-5 w-5 fill-current md:h-6 md:w-6" strokeWidth={0} />)}
+              {[0, 1, 2, 3, 4].map((i) => (
+                <Star key={i} className="h-5 w-5 fill-current md:h-6 md:w-6" strokeWidth={0} />
+              ))}
             </div>
             <div className="mt-4 flex items-baseline justify-center gap-3">
-              <span className="font-serif text-5xl leading-none tracking-tight text-ink md:text-6xl">5.0</span>
+              <span className="font-serif text-[3rem] leading-none tracking-tight text-ink md:text-[4rem]">
+                5.0
+              </span>
               <span className="eyebrow text-ink/70">Google Reviews</span>
             </div>
             <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground md:text-[15px]">
@@ -825,7 +1263,7 @@ function Landing() {
             </p>
           </div>
 
-          <div className="reveal relative mt-14">
+          <div className="reveal relative mt-12 md:mt-16">
             <div
               ref={testimonialsRef}
               className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-6 md:gap-6 md:px-10"
@@ -834,35 +1272,40 @@ function Landing() {
               {testimonials.map((t) => (
                 <article
                   key={t.name}
-                  className="snap-center shrink-0 rounded-3xl border border-border/50 bg-card/80 p-7 backdrop-blur-md shadow-[0_10px_36px_-22px_rgba(0,0,0,0.2)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_18px_50px_-24px_rgba(0,0,0,0.28)] md:p-9"
-                  style={{ width: "min(88vw, 380px)" }}
+                  className="lux-card shrink-0 snap-center rounded-3xl p-7 md:p-9"
+                  style={{ width: "min(86vw, 380px)" }}
                 >
-                  <Quote className="h-7 w-7 text-gold/60" strokeWidth={1.1} />
-                  <p className="mt-4 font-serif text-[17px] italic leading-[1.7] text-foreground/85 md:text-[18px]">
-                    "{t.text}"
+                  <Quote className="h-7 w-7 text-gold/55" strokeWidth={1.1} />
+                  <p className="mt-4 font-serif text-[17px] italic leading-[1.7] text-foreground/85 md:text-[18.5px]">
+                    “{t.text}”
                   </p>
                   <div className="mt-6 flex items-center gap-3">
                     <div className="h-px w-8 bg-gold/60" />
                     <span className="eyebrow text-ink">{t.name}</span>
                   </div>
                   <div className="mt-3 flex gap-0.5 text-gold">
-                    {[0,1,2,3,4].map((i) => <Star key={i} className="h-3 w-3 fill-current" strokeWidth={0} />)}
+                    {[0, 1, 2, 3, 4].map((i) => (
+                      <Star key={i} className="h-3 w-3 fill-current" strokeWidth={0} />
+                    ))}
                   </div>
                 </article>
               ))}
             </div>
+
             <div className="mt-4 flex items-center justify-center gap-3">
               <button
-                aria-label="Anterior"
-                onClick={() => testimonialsRef.current?.scrollBy({ left: -360, behavior: "smooth" })}
-                className="grid h-11 w-11 place-items-center rounded-full border border-border bg-card text-ink transition-all hover:-translate-y-0.5 hover:border-gold hover:text-gold"
+                aria-label="Avaliação anterior"
+                onClick={() =>
+                  testimonialsRef.current?.scrollBy({ left: -360, behavior: "smooth" })
+                }
+                className="tap-safe grid h-11 w-11 place-items-center rounded-full border border-border bg-card text-ink transition-all hover:-translate-y-0.5 hover:border-gold hover:text-gold"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
               <button
-                aria-label="Próximo"
+                aria-label="Próxima avaliação"
                 onClick={() => testimonialsRef.current?.scrollBy({ left: 360, behavior: "smooth" })}
-                className="grid h-11 w-11 place-items-center rounded-full border border-border bg-card text-ink transition-all hover:-translate-y-0.5 hover:border-gold hover:text-gold"
+                className="tap-safe grid h-11 w-11 place-items-center rounded-full border border-border bg-card text-ink transition-all hover:-translate-y-0.5 hover:border-gold hover:text-gold"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
@@ -870,77 +1313,136 @@ function Landing() {
           </div>
         </div>
       </section>
-      
-      {/* FAQ */}
-      <section id="faq" className="mx-auto max-w-4xl px-5 py-20 md:px-10 md:py-28">
-        <div className="reveal text-center">
-          <span className="eyebrow"><span className="gold-line mr-3" />FAQ<span className="gold-line ml-3" /></span>
-          <h2 className="mt-5 font-serif text-4xl leading-tight tracking-[-0.015em] text-ink md:text-[3rem]">
-            Dúvidas Frequentes
-          </h2>
-          <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
-            Tudo o que precisa de saber para a sua próxima visita.
-          </p>
-        </div>
 
-        <div className="mt-12 space-y-4">
-          {[
-            { 
-              q: "Preciso de fazer uma avaliação antes de agendar?", 
-              a: "Para serviços de Madeixas, Balayage ou Alisamentos, recomendamos sempre uma consulta de avaliação para analisarmos a saúde do fio e definirmos o melhor caminho." 
-            },
-            { 
-              q: "Quais os métodos de pagamento aceites?", 
-              a: "Aceitamos pagamentos em Numerário, MB Way e Transferência Bancária." 
-            },
-            { 
-              q: "Onde se localiza o salão?", 
-              a: "Estamos localizados na Charneca da Caparica, no Largo Fernanda Alves 4A. Temos estacionamento fácil na zona." 
-            },
-            { 
-              q: "Quanto tempo demora um serviço de Alisamento?", 
-              a: "Dependendo do comprimento e densidade do cabelo, o serviço de Alisamento pode demorar entre 3 a 5 horas para garantir um resultado impecável." 
-            }
-          ].map((item, i) => (
-            <div 
-              key={i} 
-              className="reveal group rounded-2xl border border-border/50 bg-card/40 p-6 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-gold/30 hover:bg-card/60 md:p-8"
-              style={{ transitionDelay: `${i * 100}ms` }}
-            >
-              <h3 className="font-serif text-lg text-ink transition-colors group-hover:text-gold md:text-xl">{item.q}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground transition-colors group-hover:text-ink/80 md:text-base">
-                {item.a}
-              </p>
-            </div>
+      {/* ---------- FAQ ---------- */}
+      <section id="faq" className="mx-auto max-w-3xl px-5 py-16 md:px-10 md:py-28">
+        <SectionHeading
+          eyebrow="FAQ"
+          title="Dúvidas frequentes"
+          subtitle="Tudo o que precisa de saber para a sua próxima visita."
+        />
+        <div className="mt-10 space-y-3 md:mt-14">
+          {faqs.map((item, i) => (
+            <FaqItem
+              key={item.q}
+              q={item.q}
+              a={item.a}
+              open={openFaq === i}
+              onToggle={() => setOpenFaq(openFaq === i ? null : i)}
+            />
           ))}
         </div>
       </section>
 
+      {/* ---------- Visite-nos ---------- */}
+      <section id="contacto" className="mx-auto max-w-7xl px-5 pb-16 md:px-10 md:pb-28">
+        <div className="reveal-scale overflow-hidden rounded-[24px] border border-border bg-card shadow-[var(--shadow-soft)] md:rounded-[32px]">
+          <div className="grid md:grid-cols-2">
+            <div className="p-7 md:p-12">
+              <span className="eyebrow text-gold-deep">Visite-nos</span>
+              <h2 className="display-md mt-4 text-ink">
+                Estamos à sua espera na <span className="italic text-gold-deep">{CITY}</span>
+              </h2>
 
-      {/* CTA Final */}
-      <section className="relative overflow-hidden bg-ink text-white">
+              <ul className="mt-8 space-y-5 text-[14px] text-muted-foreground">
+                <li className="flex items-start gap-3.5">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" strokeWidth={1.5} />
+                  <span>
+                    <span className="block text-ink">{ADDRESS}</span>
+                    {CITY}, Portugal
+                  </span>
+                </li>
+                <li className="flex items-start gap-3.5">
+                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-gold" strokeWidth={1.5} />
+                  <a className="transition-colors hover:text-gold-deep" href={`tel:+${PHONE}`}>
+                    {PHONE_DISPLAY}
+                  </a>
+                </li>
+                <li className="flex items-start gap-3.5">
+                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-gold" strokeWidth={1.5} />
+                  <span>
+                    <span className="block text-ink">Atendimento por marcação</span>
+                    Reserve o seu horário por WhatsApp.
+                  </span>
+                </li>
+                <li className="flex items-start gap-3.5">
+                  <InstagramIcon className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
+                  <a
+                    className="transition-colors hover:text-gold-deep"
+                    href={INSTAGRAM}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    @michellyhair.pt
+                  </a>
+                </li>
+              </ul>
+
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href={getWA(
+                    "Olá Michelly! Estou pronta para a minha transformação. Gostaria de agendar um horário.",
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-pill btn-premium btn-gold h-12 sm:max-w-[15rem]"
+                >
+                  <WhatsAppIcon className="h-4 w-4" /> Agendar
+                </a>
+                <a
+                  href={MAPS}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-pill btn-premium h-12 border border-ink/15 text-ink hover:border-gold hover:bg-bege/60 sm:max-w-[13rem]"
+                >
+                  <MapPin className="h-4 w-4" /> Direções
+                </a>
+              </div>
+            </div>
+
+            <div className="relative min-h-[280px] border-t border-border md:min-h-full md:border-l md:border-t-0">
+              <iframe
+                title="Mapa — Michelly Hair, Charneca da Caparica"
+                src="https://www.google.com/maps?q=Largo+Fernanda+Alves+4A,+Charneca+da+Caparica&output=embed"
+                className="absolute inset-0 h-full w-full"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- CTA final ---------- */}
+      <section className="grain relative overflow-hidden bg-ink text-white">
         <div
-          className="pointer-events-none absolute inset-0 opacity-30"
+          className="pointer-events-none absolute inset-0 opacity-45"
           style={{
-            background: "radial-gradient(ellipse at 20% 30%, rgba(184,144,80,0.35), transparent 55%), radial-gradient(ellipse at 80% 70%, rgba(184,144,80,0.2), transparent 55%)",
+            background:
+              "radial-gradient(ellipse at 20% 25%, rgba(197,160,101,0.34), transparent 55%), radial-gradient(ellipse at 80% 75%, rgba(197,160,101,0.2), transparent 55%)",
           }}
         />
-        <div className="relative mx-auto max-w-4xl px-5 py-16 text-center md:px-10 md:py-20">
+        <div className="relative mx-auto max-w-3xl px-5 py-16 text-center md:px-10 md:py-24">
           <div className="reveal">
-            <span className="eyebrow text-white/60"><span className="gold-line mr-3" />Agende agora<span className="gold-line ml-3" /></span>
-            <h2 className="mt-5 font-serif text-4xl leading-[1.02] tracking-[-0.02em] text-white md:text-[3.4rem]">
-              A sua próxima<br /><span className="italic text-gold">transformação</span> começa aqui.
+            <span className="eyebrow text-white/55">
+              <span className="gold-line mr-3" />
+              Agende agora
+              <span className="gold-line ml-3" />
+            </span>
+            <h2 className="display-lg mt-5 text-balance text-white">
+              A sua próxima <span className="italic text-gold">transformação</span> começa aqui.
             </h2>
-            <p className="mx-auto mt-4 max-w-lg text-[14px] leading-relaxed text-white/70">
+            <p className="mx-auto mt-5 max-w-md text-[14.5px] leading-[1.8] text-white/70">
               Reserve o seu horário e descubra o cuidado exclusivo do Michelly Hair.
             </p>
-            <div className="mt-7 flex justify-center">
+            <div className="mt-8 flex justify-center">
               <a
-                href={getWA("Olá Michelly! Estou pronta para a minha transformação. Gostaria de agendar um horário.")}
+                href={getWA(
+                  "Olá Michelly! Estou pronta para a minha transformação. Gostaria de agendar um horário.",
+                )}
                 target="_blank"
                 rel="noreferrer"
-                className="btn-pill bg-gold text-ink shadow-[0_18px_50px_-14px_rgba(184,144,80,0.7)] hover:bg-gold-soft"
-                style={{ maxWidth: "22rem" }}
+                className="btn-pill btn-premium btn-gold"
               >
                 <WhatsAppIcon className="h-4 w-4" /> Agendar pelo WhatsApp
               </a>
@@ -949,81 +1451,147 @@ function Landing() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer id="contacto" className="bg-background">
-        <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-20">
-          <div className="grid gap-10 md:grid-cols-[1.1fr_1fr_1fr]">
+      {/* ---------- Rodapé ---------- */}
+      <footer className="bg-background">
+        <div className="mx-auto max-w-7xl px-5 py-14 md:px-10 md:py-16">
+          <div className="grid gap-10 md:grid-cols-[1.3fr_1fr_1fr]">
             <div>
-              <div className="font-serif text-xl text-ink">
-                Michelly<span className="text-gold"> Hair</span>
+              <div className="flex items-center gap-2.5">
+                <Monogram className="h-10 w-10 text-gold-deep" />
+                <span className="font-serif text-[21px] text-ink">
+                  Michelly <span className="text-gold-deep">Hair</span>
+                </span>
               </div>
-              <p className="mt-3 max-w-xs text-[12.5px] leading-relaxed text-muted-foreground">
-                Salão premium especializado em coloração, iluminados, alisamentos e tratamentos exclusivos.
+              <p className="mt-4 max-w-xs text-[13px] leading-[1.75] text-muted-foreground">
+                Salão premium especializado em coloração, iluminados, alisamentos e tratamentos
+                exclusivos na {CITY}.
               </p>
-              <div className="mt-5 flex gap-2.5">
-                <a href={WHATSAPP} target="_blank" rel="noreferrer" aria-label="WhatsApp" className="grid h-9 w-9 place-items-center rounded-full border border-border text-ink transition-all hover:-translate-y-0.5 hover:border-gold hover:text-gold">
-                  <WhatsAppIcon className="h-4 w-4" />
-                </a>
-                <a href={INSTAGRAM} target="_blank" rel="noreferrer" aria-label="Instagram" className="grid h-9 w-9 place-items-center rounded-full border border-border text-ink transition-all hover:-translate-y-0.5 hover:border-gold hover:text-gold">
-                  <InstagramIcon className="h-4 w-4" />
-                </a>
-                <a href={MAPS} target="_blank" rel="noreferrer" aria-label="Localização" className="grid h-9 w-9 place-items-center rounded-full border border-border text-ink transition-all hover:-translate-y-0.5 hover:border-gold hover:text-gold">
-                  <MapPin className="h-[14px] w-[14px]" />
-                </a>
+              <div className="mt-6 flex gap-2.5">
+                {[
+                  { href: WHATSAPP, label: "WhatsApp", icon: <WhatsAppIcon className="h-4 w-4" /> },
+                  {
+                    href: INSTAGRAM,
+                    label: "Instagram",
+                    icon: <InstagramIcon className="h-4 w-4" />,
+                  },
+                  {
+                    href: MAPS,
+                    label: "Localização",
+                    icon: <MapPin className="h-[15px] w-[15px]" />,
+                  },
+                ].map((l) => (
+                  <a
+                    key={l.label}
+                    href={l.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={l.label}
+                    className="grid h-10 w-10 place-items-center rounded-full border border-border text-ink transition-all duration-500 hover:-translate-y-0.5 hover:border-gold hover:bg-bege/50 hover:text-gold-deep"
+                  >
+                    {l.icon}
+                  </a>
+                ))}
               </div>
             </div>
 
             <div>
-              <span className="eyebrow text-[0.62rem]">Contacto</span>
-              <ul className="mt-4 space-y-3 text-[12.5px] text-muted-foreground">
-                <li className="flex items-start gap-3">
-                  <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold/70" />
-                  <span>Largo Fernanda Alves 4A<br />Charneca da Caparica, Portugal</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <WhatsAppIcon className="h-3.5 w-3.5 shrink-0 text-gold/70" />
-                  <a className="hover:text-gold" href={WHATSAPP} target="_blank" rel="noreferrer">+351 920 810 339</a>
-                </li>
-                <li className="flex items-center gap-3">
-                  <InstagramIcon className="h-3.5 w-3.5 shrink-0 text-gold/70" />
-                  <a className="hover:text-gold" href={INSTAGRAM} target="_blank" rel="noreferrer">@michellyhair.pt</a>
+              <span className="eyebrow text-[0.6rem]">Navegação</span>
+              <ul className="mt-4 space-y-2.5 text-[13px] text-muted-foreground">
+                {nav.map((n) => (
+                  <li key={n.href}>
+                    <a href={n.href} className="transition-colors hover:text-gold-deep">
+                      {n.label}
+                    </a>
+                  </li>
+                ))}
+                <li>
+                  <Link to="/servicos" className="transition-colors hover:text-gold-deep">
+                    Todos os serviços
+                  </Link>
                 </li>
               </ul>
             </div>
 
             <div>
-              <span className="eyebrow text-[0.62rem]">Localização</span>
-              <div className="mt-4 overflow-hidden rounded-2xl border border-border shadow-[0_10px_30px_-20px_rgba(0,0,0,0.2)]">
-                <iframe
-                  title="Mapa Michelly Hair"
-                  src="https://www.google.com/maps?q=Largo+Fernanda+Alves+4A,+Charneca+da+Caparica&output=embed"
-                  className="h-48 w-full"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
+              <span className="eyebrow text-[0.6rem]">Contacto</span>
+              <ul className="mt-4 space-y-3 text-[13px] text-muted-foreground">
+                <li className="flex items-start gap-3">
+                  <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold/80" />
+                  <span>
+                    {ADDRESS}
+                    <br />
+                    {CITY}, Portugal
+                  </span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <WhatsAppIcon className="h-3.5 w-3.5 shrink-0 text-gold/80" />
+                  <a
+                    className="transition-colors hover:text-gold-deep"
+                    href={WHATSAPP}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {PHONE_DISPLAY}
+                  </a>
+                </li>
+                <li className="flex items-center gap-3">
+                  <InstagramIcon className="h-3.5 w-3.5 shrink-0 text-gold/80" />
+                  <a
+                    className="transition-colors hover:text-gold-deep"
+                    href={INSTAGRAM}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    @michellyhair.pt
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
 
-          <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border pt-5 text-[10.5px] text-muted-foreground md:flex-row">
-            <p>© {new Date().getFullYear()} Michelly Hair. Todos os direitos reservados. (v1.0.4)</p>
-            <p className="eyebrow text-[0.6rem]">Charneca da Caparica</p>
+          <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-[10.5px] text-muted-foreground md:flex-row">
+            <p>© {new Date().getFullYear()} Michelly Hair. Todos os direitos reservados.</p>
+            <p className="eyebrow text-[0.58rem]">{CITY} · Margem Sul</p>
           </div>
         </div>
       </footer>
-      {/* WhatsApp Floating Button */}
+
+      {/* Espaço para a barra fixa em telemóvel */}
+      <div className="h-[72px] md:hidden" />
+
+      {/* ---------- Barra de ação fixa (telemóvel) ---------- */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border/70 bg-background/92 px-4 pb-[max(0.6rem,env(safe-area-inset-bottom))] pt-2.5 backdrop-blur-xl md:hidden">
+        <div className="flex gap-2.5">
+          <a
+            href={getWA("Olá Michelly! Gostaria de agendar um serviço no salão.")}
+            target="_blank"
+            rel="noreferrer"
+            className="btn-pill btn-premium btn-gold h-12 flex-[1.6] text-[9.5px] tracking-[0.2em]"
+          >
+            <WhatsAppIcon className="h-4 w-4" /> Agendar
+          </a>
+          <a
+            href={MAPS}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Como chegar"
+            className="btn-pill btn-premium h-12 flex-1 border border-ink/15 text-[9.5px] tracking-[0.2em] text-ink"
+          >
+            <MapPin className="h-4 w-4" /> Direções
+          </a>
+        </div>
+      </div>
+
+      {/* ---------- WhatsApp flutuante (desktop) ---------- */}
       <a
         href={getWA("Olá Michelly! Gostaria de tirar uma dúvida sobre os serviços do salão.")}
         target="_blank"
         rel="noreferrer"
-        aria-label="Agendar via WhatsApp"
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_10px_30px_-5px_rgba(37,211,102,0.4)] transition-all duration-300 hover:scale-110 hover:shadow-[0_15px_40px_-5px_rgba(37,211,102,0.55)] md:bottom-8 md:right-8"
+        aria-label="Falar no WhatsApp"
+        className="fixed bottom-8 right-8 z-40 hidden h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_12px_34px_-6px_rgba(37,211,102,0.45)] transition-all duration-500 hover:scale-110 md:flex"
       >
-        <WhatsAppIcon className="h-7 w-7" />
-        <span className="absolute -top-1 -right-1 flex h-4 w-4">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"></span>
-          <span className="relative inline-flex h-4 w-4 rounded-full bg-white text-[8px] font-bold text-[#25D366] items-center justify-center">1</span>
-        </span>
+        <span className="pulse-ring absolute inset-0 rounded-full bg-[#25D366]" />
+        <WhatsAppIcon className="relative h-7 w-7" />
       </a>
     </div>
   );
